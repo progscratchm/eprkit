@@ -1,0 +1,48 @@
+level,attribute,ca,co,or,notes
+product,Product Code,required,required,required
+product,Sales Identifying Code,required,required,required,"e.g. UPC, SKU"
+product,Product Description,recommended,recommended,recommended
+product,Product Family / Category,required,required,required,Multilevel
+product,Brand Name,recommended,recommended,recommended
+product,Brand Owner?,required,required,required,Flag
+product,First Importer into US?,required,required,required,Flag
+product,Use Region / Where Product is Sold,recommended,recommended,recommended
+product,Contains Hazardous Material,required,required,required,Flag
+component,Component Code,required,required,required
+component,Packaging Component Type,required,required,required
+component,Component Description,recommended,recommended,recommended
+component,Component Quantity,required,required,required,Per product unit
+component,Packaging Level,required,required,required,"Primary, Secondary or Tertiary"
+component,Separability,required,required,required,Standalone; attached and removable; attached and non-removable
+component,Parent Component,required,required,required,Parent component code
+component,Rigidity / Plastic Form,required,required,required,"Rigid, flexible or expanded foam"
+component,Contains Beverage?,required,required,required,Flag
+component,Printed Paper?,required,required,required,Flag
+component,Recyclability Substantiation,recommended,recommended,recommended
+component,Compostability Certification,required,required,not_needed
+component,Recyclability Detractors,required,required,required
+component,Reusable / Refillable Design,required,recommended,not_needed,Four options
+component,Intended Number of Uses,required,recommended,not_needed
+component,Component Length,required,required,required,"3D components only, not films or sheets"
+component,Component Width,required,required,required,3D components only
+component,Component Height,required,required,required,3D components only
+component,Dimension Unit of Measure,required,required,required
+component,Weight,required,required,required
+component,Weight Unit of Measure,required,required,required
+component,Majority Material Class,required,required,required
+component,Other Material Classes Present,required,recommended,recommended
+component,Majority Material,required,required,required
+component,Count of Plastic Features,required,not_needed,not_needed,Feeds CA plastic component count
+component,Plastic Material Weight,required,not_needed,not_needed,Feeds CA plastic component weight
+component,Post Consumer Recycled (PCR) Content,recommended,recommended,recommended,Percent
+component,Resin Identification Code (RIC),recommended,required,required,#1 to #7
+component,Paper Coating(s),required,recommended,recommended
+component,Paper Coating Side(s),required,recommended,recommended
+component,Opacity,required,required,required,Translucent/transparent or opaque
+component,Color,required,required,required
+sales,Product or Sales Identifying Code,required,required,required
+sales,Quantity of Sale,required,required,required
+sales,Date of Sale,required,required,required,Date or month
+sales,Country of Sale,required,required,required
+sales,Province/State of Sale,required,required,required
+sales,Customer Type,recommended,recommended,recommended,Business or consumer

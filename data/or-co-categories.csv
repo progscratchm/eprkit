@@ -1,0 +1,61 @@
+id,material_class,category
+1,Printing and Writing Paper,Newspapers
+2,Printing and Writing Paper,Newsprint (inserts and circulars)
+3,Printing and Writing Paper,Magazines and Catalogues & Directories
+4,Printing and Writing Paper,Paper for General Use
+5,Printing and Writing Paper,Other Printed Materials
+6,Glass and Ceramics,Glass Bottles and Jars & Other Containers
+7,Glass and Ceramics,Ceramic - All Forms
+8,Metal,Aluminum Containers
+9,Metal,Aluminum Foil and Molded Containers
+10,Metal,Aluminum Aerosol Containers
+11,Metal,Aluminum Other Forms
+12,Metal,Steel Containers
+13,Metal,Steel Aerosol Containers
+14,Metal,Steel - Other Forms
+15,Metal,Metal - Small Format
+16,Metal,Pressurized cylinders
+17,Paper/Fiber,Aseptic and Gable-top Cartons
+18,Paper/Fiber,Kraft Paper
+19,Paper/Fiber,Corrugated Cardboard
+20,Paper/Fiber,Corrugated Cardboard (Tertiary/transport) nonconsumer
+21,Paper/Fiber,Paperboard
+22,Paper/Fiber,Polycoated Paperboard
+23,Paper/Fiber,Other Paper Laminates
+24,Paper/Fiber,Other Paper Packaging
+25,Paper/Fiber,Paper - Small Format
+26,Plastic - Rigid,"PET (#1) - Bottles, Jugs, and Jars (Clear/Natural)"
+27,Plastic - Rigid,"PET (#1) - Bottles, Jugs, and Jars (Pigmented/Color)"
+28,Plastic - Rigid,"PET (#1) - Thermoformed Containers, Cups, Plates, Trays"
+29,Plastic - Rigid,PET (#1) - Tubs
+30,Plastic - Rigid,PET (#1) - Other Rigid Items
+31,Plastic - Rigid,PET (#1) - Lids
+32,Plastic - Rigid,"HDPE (#2) - Bottles, Jugs and Jars (Clear/Natural)"
+33,Plastic - Rigid,"HDPE (#2) - Bottles, Jugs and Jars (Pigmented/Color)"
+34,Plastic - Rigid,HDPE (#2) - Pails & Buckets
+35,Plastic - Rigid,"HDPE (#2) - Tubs, Nursery (plant) pots & trays"
+36,Plastic - Rigid,"HDPE (#2) - Package Handles, Lids"
+37,Plastic - Rigid,HDPE (#2) - Other Rigid Items
+38,Plastic - Rigid,PVC (#3) - Rigid Items
+39,Plastic - Rigid,"LDPE (#4) - Bottles, Jugs and Jars"
+40,Plastic - Rigid,LDPE (#4) - Lids
+41,Plastic - Rigid,LDPE (#4) - Other Rigid Items
+42,Plastic - Rigid,"PP (#5) - Bottles, Jugs and Jars"
+43,Plastic - Rigid,"PP (#5) - Other Rigid Containers, Cups, Plates, Trays (non-nursery (plant))"
+44,Plastic - Rigid,PP (#5) - Lids
+45,Plastic - Rigid,"PP (#5) - Tubs, Pails and Buckets, Nursery (plant) pots & trays"
+46,Plastic - Rigid,PP (#5) - Other Rigid Items
+47,Plastic - Rigid,"PS (#6) Expanded/Foamed Hinged Containers, Plates, Cups, Tubs, Trays, and Other Foamed Containers"
+48,Plastic - Rigid,PS (#6) White Expanded/Foamed Cushioning and Void Fill
+49,Plastic - Rigid,PS (#6) Colored Expanded/Foamed Cushioning and Void Fill
+50,Plastic - Rigid,PS (#6) Rigid NonExpanded
+51,Plastic - Rigid,"PLA, PHA, PHB - Rigid Items"
+52,Plastic - Rigid,Other/Mixed Rigid Plastic
+53,Plastic - Flexible,HDPE (#2)/LDPE (#4) Flexible and Film Items
+54,Plastic - Flexible,HDPE (#2)/LDPE (#4) (Pallet Wrap) nonconsumer
+55,Plastic - Flexible,PP (#5) Flexible and Film Items
+56,Plastic - Flexible,"PLA, PHA, PHB - Flexible and Film Items"
+57,Plastic - Flexible,Plastic Laminates and Other Flexible Plastic Packaging
+58,Plastic - Other,Plastic - Small Format
+59,Plastic - Other,"Plastic containers for motor oil, antifreeze, or other automotive fluids, pesticides or herbicides, or other hazardous materials"
+60,Wood and Other Organic Materials,Wood and Other Organic Materials

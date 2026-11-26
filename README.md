@@ -1,0 +1,26 @@
+# EPR Kit
+
+Ready-to-file packaging EPR reports for DTC brands. eprkit.com
+
+## What's here
+
+| Path | What it is |
+| --- | --- |
+| `site/` | Static landing page for eprkit.com, deployed on Cloudflare Pages (build output directory: `site`, no build command) |
+| `data/ca-cmc-2026.csv` | California SB 54 covered material categories (95), from CAA's 2026 Annual Supply Report Preparation Workbook |
+| `data/or-co-categories.csv` | Oregon/Colorado reporting categories (60), from CAA's Oregon program plan fee schedule (April 2025 draft; confirm against the current list in the CAA portal) |
+| `data/spdc-attributes.csv` | Sustainable Packaging Data Council v2 data attributes (47) with CA/CO/OR requirement levels |
+| `data/packaging-library.csv` | Library of common stock packaging components with weights and material mappings |
+| `docs/research-summary.md` | Where the venture stands and what's next |
+
+## Sources
+
+- CAA, 2026 CA Annual Supply Report Preparation Workbook: https://circularactionalliance.org/s/2026-CA-Annual-Supply-Report-Preparation-Workbook.xlsx
+- CAA Oregon program plan, base fee schedule (pp. 196 to 203): https://schwabe.com/wp-content/uploads/2025/04/Circular-Action-Alliance-pg-196-203.pdf
+- SPDC US EPR Data Requirements Report v2: https://trayak.com/wp-content/uploads/2026/04/SPDC-US-EPR-Data-Requirements-Report-v2-2026-1-6.pdf
+
+## Reporting rules worth encoding (California)
+
+- Per category: total weight (lbs, max 2 decimals), plastic component weight (lbs, max 2 decimals), number of plastic components (integer).
+- Plastic component weight and count are required for every "w/ plastic component" category that has weight.
+- Plastic component weight cannot exceed total weight, and cannot exceed 50% of total weight in non-plastic material classes.

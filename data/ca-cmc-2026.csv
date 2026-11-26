@@ -1,0 +1,96 @@
+caa_material_id,calrecycle_id,material_class,reporting_category,recyclable,compostable,plastic_cmc
+MAT-US-CA-0001,25_G1N,Glass,Glass - Bottles and Jars w/o plastic component,Y,N,Nonplastic
+MAT-US-CA-0002,25_G1P,Glass,Glass - Bottles and Jars w/ plastic component,Y,N,Plastic
+MAT-US-CA-0003,25_G2N,Glass,Glass - Other Forms w/o plastic component,N,N,Nonplastic
+MAT-US-CA-0004,25_G2P,Glass,Glass - Other Forms w/ plastic component,N,N,Plastic
+MAT-US-CA-0005,25_G3N,Glass,Glass - Small - Two or more sides measuring 2in or less w/o plastic component,Y,N,Nonplastic
+MAT-US-CA-0006,25_G3P,Glass,Glass - Small - Two or more sides measuring 2in or less w/ plastic component,Y,N,Plastic
+MAT-US-CA-0007,25_C1N,Ceramic,Ceramic - All Forms w/o plastic component,N,N,Nonplastic
+MAT-US-CA-0008,25_C1P,Ceramic,Ceramic - All Forms w/ plastic component,N,N,Plastic
+MAT-US-CA-0009,25_C2N,Ceramic,Ceramic - Small - Two or more sides measuring 2in or less w/o plastic component,N,N,Nonplastic
+MAT-US-CA-0010,25_C2P,Ceramic,Ceramic - Small - Two or more sides measuring 2in or less w/ plastic component,N,N,Plastic
+MAT-US-CA-0011,25_M1N,Metal,Aluminum - Non-aerosol Container w/o plastic component,Y,N,Nonplastic
+MAT-US-CA-0012,25_M1P,Metal,Aluminum - Non-aerosol Container w/ plastic component,Y,N,Plastic
+MAT-US-CA-0013,25_M2N,Metal,Aluminum - Foil sheets w/o plastic component,Y,N,Nonplastic
+MAT-US-CA-0014,25_M2P,Metal,Aluminum - Foil sheets w/ plastic component,Y,N,Plastic
+MAT-US-CA-0015,25_M3N,Metal,Aluminum - Foil Molded Containers w/o plastic component,Y,N,Nonplastic
+MAT-US-CA-0016,25_M3P,Metal,Aluminum - Foil Molded Containers w/ plastic component,Y,N,Plastic
+MAT-US-CA-0017,25_M4P,Metal,Aluminum - Aerosol Can w/ plastic component,Y,N,Plastic
+MAT-US-CA-0018,25_M5N,Metal,Aluminum - Other Forms w/o plastic component,Y,N,Nonplastic
+MAT-US-CA-0019,25_M5P,Metal,Aluminum - Other Forms w/ plastic component,Y,N,Plastic
+MAT-US-CA-0020,25_M6N,Metal,Tin/Steel/Bimetal - Non-aerosol Container w/o plastic component,Y,N,Nonplastic
+MAT-US-CA-0021,25_M6P,Metal,Tin/Steel/Bimetal - Non-aerosol Container w/ plastic component,Y,N,Plastic
+MAT-US-CA-0022,25_M7P,Metal,Tin/Steel/Bimetal - Aerosol Can w/ plastic component,Y,N,Plastic
+MAT-US-CA-0023,25_M8N,Metal,Tin/Steel/Bimetal - Other Forms w/o plastic component,Y,N,Nonplastic
+MAT-US-CA-0024,25_M8P,Metal,Tin/Steel/Bimetal - Other Forms w/ plastic component,Y,N,Plastic
+MAT-US-CA-0025,25_M9N,Metal,Other Nonferrous - All Forms w/o plastic component,Y,N,Nonplastic
+MAT-US-CA-0026,25_M9P,Metal,Other Nonferrous - All Forms w/ plastic component,Y,N,Plastic
+MAT-US-CA-0027,25_M10N,Metal,Other Ferrous - All Forms w/o plastic component,Y,N,Nonplastic
+MAT-US-CA-0028,25_M10P,Metal,Other Ferrous - All Forms w/ plastic component,Y,N,Plastic
+MAT-US-CA-0029,25_M12N,Metal,Metal - Small - Two or more sides measuring 2in or less w/o plastic component,Y,N,Nonplastic
+MAT-US-CA-0030,25_M12P,Metal,Metal - Small - Two or more sides measuring 2in or less w/ plastic component,N,N,Plastic
+MAT-US-CA-0031,25_PF1N,Paper/Fiber,Paper/Fiber - Kraft Paper - All Forms w/o plastic component,Y,Y,Nonplastic
+MAT-US-CA-0032,25_PF1P,Paper/Fiber,Paper/Fiber - Kraft Paper - All Forms w/ plastic component,Y,Y*,Plastic
+MAT-US-CA-0033,25_PF14N,Paper/Fiber,Paper/Fiber - Molded Fiber - All Forms w/o plastic component,Y,Y,Nonplastic
+MAT-US-CA-0034,25_PF14P,Paper/Fiber,Paper/Fiber - Molded Fiber - All Forms w/ plastic component,N,Y*,Plastic
+MAT-US-CA-0035,25_PF15P,Paper/Fiber,Paper/Fiber - Aseptic Cartons,N,N,Plastic
+MAT-US-CA-0036,25_PF5P,Paper/Fiber,Paper/Fiber - Gable-top Cartons,N,N,Plastic
+MAT-US-CA-0037,25_PF7P,Paper/Fiber,Paper/Fiber - Multi-Material Laminate - Other Forms w/ plastic component,N,Y*,Plastic
+MAT-US-CA-0038,25_PF8N,Paper/Fiber,Paper/Fiber - Waxed Cardboard w/o plastic component,N,Y,Nonplastic
+MAT-US-CA-0039,25_PF8P,Paper/Fiber,Paper/Fiber - Waxed Cardboard w/ plastic component,N,N,Plastic
+MAT-US-CA-0040,25_PF9N,Paper/Fiber,Paper/Fiber - Cardboard w/o plastic component,Y,Y,Nonplastic
+MAT-US-CA-0041,25_PF9P,Paper/Fiber,Paper/Fiber - Cardboard w/ plastic component,Y,N,Plastic
+MAT-US-CA-0042,25_PF10N,Paper/Fiber,Paper/Fiber - Paperboard - All Forms w/o plastic component,Y,Y,Nonplastic
+MAT-US-CA-0043,25_PF10P,Paper/Fiber,Paper/Fiber - Paperboard - All Forms w/ plastic component,Y,Y*,Plastic
+MAT-US-CA-0044,25_PF17P,Paper/Fiber,Paper/Fiber - Multi-Material Laminate - Paperboard with a Plastic Coating/Lining,N,Y*,Plastic
+MAT-US-CA-0045,25_PF11N,Paper/Fiber,Paper/Fiber - White Paper - All Forms w/o plastic component,Y,Y,Nonplastic
+MAT-US-CA-0046,25_PF11P,Paper/Fiber,Paper/Fiber - White Paper - All Forms w/ plastic component,Y,Y*,Plastic
+MAT-US-CA-0047,25_PF12N,Paper/Fiber,Paper/Fiber - Other/Mixed Paper - All Forms w/o plastic component,Y,Y,Nonplastic
+MAT-US-CA-0048,25_PF12P,Paper/Fiber,Paper/Fiber - Other/Mixed Paper - All Forms w/ plastic component,Y,Y*,Plastic
+MAT-US-CA-0050,25_PF16N,Paper/Fiber,Paper/Fiber - Small - Two or more sides measuring 2in or less w/o plastic component,N,Y,Nonplastic
+MAT-US-CA-0051,25_PF16P,Paper/Fiber,Paper/Fiber - Small - Two or more sides measuring 2in or less w/ plastic component,N,Y*,Plastic
+MAT-US-CA-0052,25_P1P,Plastic - Rigid,"PET (#1) - Bottles, Jugs, and Jars (Clear/Natural)",Y,N,Plastic
+MAT-US-CA-0053,25_P2P,Plastic - Rigid,"PET (#1) - Bottles, Jugs, and Jars (Pigmented/Color)",Y,N,Plastic
+MAT-US-CA-0054,25_P38P,Plastic - Rigid,"PET (#1) - Other Rigid Containers, Cups, Lids, Plates, Trays, Tubs",Y,N,Plastic
+MAT-US-CA-0055,25_P39P,Plastic - Rigid,PET (#1) - Other Rigid Items,Y,N,Plastic
+MAT-US-CA-0056,25_P6P,Plastic - Rigid,"HDPE (#2) - Bottles, Jugs and Jars (Clear/Natural)",Y,N,Plastic
+MAT-US-CA-0057,25_P7P,Plastic - Rigid,"HDPE (#2) - Bottles, Jugs and Jars (Pigmented/Color)",Y,N,Plastic
+MAT-US-CA-0058,25_P8P,Plastic - Rigid,HDPE (#2) - Pails & Buckets,Y,N,Plastic
+MAT-US-CA-0059,25_P40P,Plastic - Rigid,HDPE (#2) - Other Rigid Items,Y,N,Plastic
+MAT-US-CA-0060,25_P11P,Plastic - Rigid,PVC (#3) - Rigid Items,N,N,Plastic
+MAT-US-CA-0061,25_P13P,Plastic - Rigid,"LDPE (#4) - Bottles, Jugs and Jars",N,N,Plastic
+MAT-US-CA-0062,25_P14P,Plastic - Rigid,LDPE (#4) - Other Rigid Items,N,N,Plastic
+MAT-US-CA-0063,25_P17P,Plastic - Rigid,"PP (#5) - Bottles, Jugs and Jars",Y,N,Plastic
+MAT-US-CA-0064,25_P41P,Plastic - Rigid,"PP (#5) - Other Rigid Containers, Cups, Lids, Plates, Trays, Tubs",Y,N,Plastic
+MAT-US-CA-0065,25_P19P,Plastic - Rigid,PP (#5) - Utensils,N,N,Plastic
+MAT-US-CA-0066,25_P20P,Plastic - Rigid,PP (#5) - Other Rigid Items,Y,N,Plastic
+MAT-US-CA-0067,25_P23P,Plastic - Rigid,"PS (#6) - Expanded/Foamed Hinged Containers, Plates, Cups, Tubs, Trays, and Other Foamed Containers",N,N,Plastic
+MAT-US-CA-0068,25_P42P,Plastic - Rigid,PS (#6) - Other Expanded/Foamed Forms,N,N,Plastic
+MAT-US-CA-0069,25_P27P,Plastic - Rigid,PS (#6) - Utensils,N,N,Plastic
+MAT-US-CA-0070,25_P43P,Plastic - Rigid,"PS (#6) - Solid Hinged Containers, Plates, Cups, Tubs, Trays, and Other Solid Containers",N,N,Plastic
+MAT-US-CA-0071,25_P44P,Plastic - Rigid,Plastics and Polymers Designed for Compostability - Rigid Items,N,Y*,Plastic
+MAT-US-CA-0072,25_P35P,Plastic - Rigid,Other/Mixed Plastics - Rigid Items,N,N,Plastic
+MAT-US-CA-0073,25_P5P,Plastic - Flexible,PET (#1) - Flexible and Film Items,N,N,Plastic
+MAT-US-CA-0074,25_P10P,Plastic - Flexible,HDPE (#2) - Flexible and Film Items,N,N,Plastic
+MAT-US-CA-0075,25_P12P,Plastic - Flexible,PVC (#3) - Flexible and Film Items,N,N,Plastic
+MAT-US-CA-0076,25_P15P,Plastic - Flexible,LDPE (#4) - Clear Non-Bag Film,N,N,Plastic
+MAT-US-CA-0077,25_P16P,Plastic - Flexible,LDPE (#4) - Other Flexible and Film Items,N,N,Plastic
+MAT-US-CA-0078,25_P21P,Plastic - Flexible,PP (#5) - Clear Non-Bag Film,N,N,Plastic
+MAT-US-CA-0079,25_P22P,Plastic - Flexible,PP (#5) - Other Flexible and Film Items,N,N,Plastic
+MAT-US-CA-0080,25_P29P,Plastic - Flexible,PS (#6) - Flexible and Film Items,N,N,Plastic
+MAT-US-CA-0081,25_P45P,Plastic - Flexible,Plastics and Polymers Designed for Compostability - Flexible and Film Items,N,Y*,Plastic
+MAT-US-CA-0082,25_P46P,Plastic - Flexible,Multi-Material Laminate - Pouches and Envelopes,N,N,Plastic
+MAT-US-CA-0083,25_P33P,Plastic - Flexible,Multi-Material Laminate - Other Forms,N,N,Plastic
+MAT-US-CA-0084,25_P34P,Plastic - Flexible,Other/Mixed Plastics - Textiles,N,N,Plastic
+MAT-US-CA-0085,25_P36P,Plastic - Flexible,Other/Mixed Plastics - Flexible and Film Items,N,N,Plastic
+MAT-US-CA-0086,25_P47P,Plastic - Other,Plastic - Small - Two or more sides measuring 2in or less,N,N,Plastic
+MAT-US-CA-0087,25_WO1N,Wood and Other Organic Materials,Wood/Organics - All Untreated Forms w/o plastic component,N,Y,Nonplastic
+MAT-US-CA-0088,25_WO1P,Wood and Other Organic Materials,Wood/Organics - All Untreated Forms w/ plastic component,N,N,Plastic
+MAT-US-CA-0089,25_WO2N,Wood and Other Organic Materials,Wood/Organics - All Treated or Painted Forms w/o plastic component,N,N,Nonplastic
+MAT-US-CA-0090,25_WO2P,Wood and Other Organic Materials,Wood/Organics - All Treated or Painted Forms w/ plastic component,N,N,Plastic
+MAT-US-CA-0091,25_WO3N,Wood and Other Organic Materials,Wood/Organics - Textiles w/o plastic component,N,N,Nonplastic
+MAT-US-CA-0092,25_WO3P,Wood and Other Organic Materials,Wood/Organics - Textiles w/ plastic component,N,N,Plastic
+MAT-US-CA-0093,25_WO4N,Wood and Other Organic Materials,Wood/Organics - Other Forms w/o plastic component,N,Y,Nonplastic
+MAT-US-CA-0094,25_WO4P,Wood and Other Organic Materials,Wood/Organics - Other Forms w/ plastic component,N,N,Plastic
+MAT-US-CA-0095,25_WO6N,Wood and Other Organic Materials,Wood/Organics - Small - Two or more sides measuring 2in or less w/o plastic component,N,Y,Nonplastic
+MAT-US-CA-0096,25_WO6P,Wood and Other Organic Materials,Wood/Organics - Small - Two or more sides measuring 2in or less w/ plastic component,N,N,Plastic
