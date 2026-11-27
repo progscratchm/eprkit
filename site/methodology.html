@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methodology | EPR Kit</title>
+<meta name="description" content="How EPR Kit calculates packaging weights, maps them to state categories, and checks reports before you file.">
+<meta property="og:title" content="Methodology | EPR Kit">
+<meta property="og:description" content="How EPR Kit calculates packaging weights, maps them to state categories, and checks reports before you file.">
+<meta property="og:image" content="https://eprkit.com/og.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="logo" href="/">EPR<span>Kit</span></a>
+  <nav>
+    <a href="/guides/">Guides</a>
+    <a href="/lookup.html">Category lookup</a>
+    <a href="/methodology.html">Methodology</a>
+    <a href="/sample-report.html">Sample report</a>
+    <a class="btn small" href="/#pricing">Reserve a spot</a>
+  </nav>
+</div></header>
+<main class="page"><div class="wrap narrow">
+
+<div class="kicker">Methodology</div>
+<h1>How we get to the numbers.</h1>
+<p class="lead">Every figure in an EPR Kit report can be traced back to a product, a packaging item, a weight source and a count of units shipped. This page explains each step.</p>
+
+<h2>1. Units shipped per state</h2>
+<p>We count units from your order exports (Shopify, Amazon, 3PL) for the full calendar year, by the state in the shipping address. Returns and cancelled orders are excluded, and wholesale shipments are flagged separately because some states treat business-to-business packaging differently.</p>
+
+<h2>2. Packaging per product</h2>
+<p>Each product is mapped to every packaging component it ships with: primary packaging (bottle, pouch, carton), shipping packaging (mailer or box), fill, tape, labels and inserts. Items used once per order, such as a shipping label, are counted per order rather than per unit.</p>
+
+<h2>3. Weights</h2>
+<p>Stock packaging comes from our library of 100 common items. Weights are calculated from dimensions and material specifications, then checked against weights suppliers publish:</p>
+<table>
+  <tr><th>Check</th><th class="num">Calculated</th><th class="num">Published</th></tr>
+  <tr><td>Poly mailer 10 x 13 in, 2.5 mil</td><td class="num">10.4 g</td><td class="num">about 11.8 g each, including carton share</td></tr>
+  <tr><td>Reference C-flute box 575 x 385 x 225 mm</td><td class="num">658 g</td><td class="num">650 g</td></tr>
+</table>
+<p>Main assumptions: LDPE film at 0.92 g/cm&sup3;; 32 ECT C-flute board at 110 lb per 1,000 sq ft; kraft paper by basis weight (30 lb = 48.8 g/m&sup2;). Items whose blank size is estimated, such as mailer boxes and folding cartons, are marked approximate (around &plusmn;20%). Custom packaging is weighed by you or taken from your supplier's specification, and every weight in your report says which.</p>
+
+<h2>4. Categories</h2>
+<p>California reports use CalRecycle's 2026 list of 95 covered material categories. Oregon and Colorado use CAA's list of about 60 categories. Our data follows the Sustainable Packaging Data Council's attribute standard, so it can be reused for other programs. You can <a href="/lookup.html">look up any category</a>.</p>
+
+<h2>5. Checks before delivery</h2>
+<ul class="check">
+  <li>Plastic component weight and count present wherever California requires them</li>
+  <li>Plastic weight within total weight, and within 50% of total in non-plastic categories</li>
+  <li>Decimal rules the California portal enforces</li>
+  <li>Every shipped product mapped; anything unmapped listed for you to confirm</li>
+  <li>A person reviews the full report before it reaches you</li>
+</ul>
+
+<h2>Open questions we flag rather than guess</h2>
+<p>Some treatments aren't settled in public guidance, for example whether plastic tape on a cardboard box makes the box a "with plastic component" category in California. Where that's the case, your report says which treatment we used and why, so you can confirm it with the producer responsibility organization.</p>
+
+</div></main>
+<footer><div class="wrap">
+  <b>EPR Kit</b> &middot; <a href="mailto:support@eprkit.com">support@eprkit.com</a><br>
+  <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/changes.html">Rule changes log</a> &middot; Regulatory information last checked November 26, 2026.<br>
+  EPR Kit prepares packaging report data and is not a law firm. Each brand submits its own report under its own account.
+</div></footer>
+</body>
+</html>

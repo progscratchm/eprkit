@@ -1,0 +1,16 @@
+SKU,Product,Component,Library ID,Weight (g),Weight source,CA category,OR/CO category #
+TEE-01,Organic cotton tee,"Self-seal poly bag 9x12 in, 1.5 mil",PKG-029,5.2,calculated,25_P16P,53
+TEE-01,Organic cotton tee,"Poly mailer 10x13 in, 2.5 mil",PKG-011,10.4,calculated,25_P16P,53
+TEE-01,Organic cotton tee,"Shipping label 4x6 in, direct thermal",PKG-084,1.5,calculated (approximate),25_PF12N,24
+TEE-01,Organic cotton tee,"Packing slip 8.5x11 in, 20 lb bond",PKG-085,4.5,calculated,25_PF11N,4
+HOOD-01,Fleece hoodie,"Self-seal poly bag 12x15 in, 2.0 mil",PKG-034,11.4,calculated,25_P16P,53
+HOOD-01,Fleece hoodie,"Poly mailer 14.5x19 in, 2.5 mil",PKG-017,21.6,calculated,25_P16P,53
+HOOD-01,Fleece hoodie,"Shipping label 4x6 in, direct thermal",PKG-084,1.5,calculated (approximate),25_PF12N,24
+HOOD-01,Fleece hoodie,"Packing slip 8.5x11 in, 20 lb bond",PKG-085,4.5,calculated,25_PF11N,4
+GIFT-01,Gift box set,"Folding carton 6x4x2 in, 18 pt SBS",PKG-096,44.3,"calculated (approximate, +/-20%)",25_PF10N,21
+GIFT-01,Gift box set,"Shipping box RSC 10x8x6 in, 32 ECT",PKG-041,181.9,calculated,25_PF9N,19
+GIFT-01,Gift box set,"Kraft paper void fill, 15 in roll x 3 ft",PKG-065,17.0,calculated,25_PF1N,18
+GIFT-01,Gift box set,"Packing tape 2 in, 2.0 mil, 3 ft",PKG-078,2.2,calculated,25_P22P,55
+GIFT-01,Gift box set,"Tissue paper 20x30 in, 1 sheet",PKG-081,6.6,calculated,25_PF12N,24
+GIFT-01,Gift box set,"Shipping label 4x6 in, direct thermal",PKG-084,1.5,calculated (approximate),25_PF12N,24
+GIFT-01,Gift box set,"Packing slip 8.5x11 in, 20 lb bond",PKG-085,4.5,calculated,25_PF11N,4
