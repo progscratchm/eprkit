@@ -50,7 +50,7 @@ HEAD = """<!DOCTYPE html>
 FOOT = """
 </div></main>
 <footer><div class="wrap">
-  <b>EPR Kit</b> &middot; <a href="mailto:support@eprkit.com">support@eprkit.com</a><br>
+  <b>EPR Kit</b> &middot; 418 Broadway, Ste N, Albany, NY 12207 &middot; <a href="mailto:support@eprkit.com">support@eprkit.com</a><br>
   <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/changes.html">Rule changes log</a> &middot; Regulatory information last checked {checked}.<br>
   EPR Kit prepares packaging report data and is not a law firm. Each brand submits its own report under its own account.
 </div></footer>
@@ -387,7 +387,7 @@ page("privacy.html", "Privacy policy",
 <div class="kicker">Privacy policy</div>
 <h1>Privacy policy</h1>
 <p class="note">Effective {CHECKED}.</p>
-<p>This policy explains how EPR Kit ("we") handles information. Questions: <a href="mailto:support@eprkit.com">support@eprkit.com</a>.</p>
+<p>This policy explains how EPR Kit ("we") handles information. Questions: <a href="mailto:support@eprkit.com">support@eprkit.com</a> or by post to EPR Kit, 418 Broadway, Ste N, Albany, NY 12207.</p>
 <h2>What we collect</h2>
 <ul>
   <li><b>Contact details</b> you send us by email or form: name, company, email, phone.</li>
@@ -428,7 +428,7 @@ page("terms.html", "Terms of service",
 <h2>Liability</h2>
 <p>To the extent the law allows, our total liability for any claim relating to the service is limited to the fees you paid us for that filing season, and we aren't liable for indirect or consequential losses, or for fees, fines or penalties assessed by regulators or producer responsibility organizations.</p>
 <h2>Changes and contact</h2>
-<p>We may update these terms; the version in effect when you engage us applies to that engagement. Questions: <a href="mailto:support@eprkit.com">support@eprkit.com</a>.</p>
+<p>We may update these terms; the version in effect when you engage us applies to that engagement. Questions: <a href="mailto:support@eprkit.com">support@eprkit.com</a> or by post to EPR Kit, 418 Broadway, Ste N, Albany, NY 12207.</p>
 """)
 
 # ---------------------------------------------------------------- sitemap
