@@ -8,7 +8,7 @@ Input folder  clients/<client>/input/
                   Column names are matched against ALIASES below.
   packaging.csv   One row per packaging component per SKU. Columns:
                     sku, level (unit|order), component, library_id, qty, max_units,
-                    weight_g, ca_id, or_co_id, plastic_components, plastic_weight_g, weight_source
+                    weight_g, ca_id, or_co_id, plastic_components, plastic_weight_g, weight_source, compostable
                   level=unit  : used once per unit sold (poly bag, carton, bottle).
                   level=order : the SKU's shipping set (box, mailer, fill, label). An order uses ONE set:
                                 the heaviest set among the SKUs in it, repeated ceil(units / max_units)
@@ -17,17 +17,28 @@ Input folder  clients/<client>/input/
                   column given on the row overrides the library value.
 Output folder clients/<client>/output/
   ca-supply-report.csv, oregon-supply-report.csv, colorado-supply-report.csv
+  minnesota/maryland/washington-simplified-report.csv   8 CAA simplified categories
   working.csv       every state x SKU x component line behind the totals
   exceptions.csv    rows we excluded or could not place, with the reason and units
   checks.txt        the portal validation rules, pass or fail
-  summary.md        what went in, what came out, what needs a human
+  summary.md        what went in, what came out, what needs a human (internal)
+  methodology.md    client-facing: data used, exclusions, packaging per product, calculations, totals
 """
 import csv, glob, math, os, re, sys, collections
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 G_PER_LB = 453.59237
 REPORT_STATES = ["CA", "OR", "CO"]          # states with full category reports built here
-FLAG_STATES = ["MN", "MD", "WA"]            # simplified 8-category states: totals by material class for now
+FLAG_STATES = ["MN", "MD", "WA"]            # simplified supply report, 8 broad categories
+SIMPLE_NAMES = {"MN": "minnesota", "MD": "maryland", "WA": "washington"}
+# CAA simplified categories, mapped from the Oregon/Colorado material class of each item.
+# Items marked compostable=Y in packaging.csv go to Compostable Materials instead.
+SIMPLE_MAP = {"Printing and Writing Paper": "Printing and Writing Paper", "Glass and Ceramics": "Glass and Ceramics",
+              "Metal": "Metal", "Paper/Fiber": "Paper/Fiber", "Plastic - Rigid": "Rigid Plastic",
+              "Plastic - Flexible": "Flexible Plastic",
+              "Wood and Other Organic Materials": "Wood and Other Organic Materials"}
+SIMPLE_ORDER = ["Printing and Writing Paper", "Glass and Ceramics", "Metal", "Paper/Fiber", "Rigid Plastic",
+                "Flexible Plastic", "Wood and Other Organic Materials", "Compostable Materials"]
 
 ALIASES = {
     "order_id": ["order_id", "name", "order id", "amazon-order-id", "order number", "order", "order #"],
@@ -117,6 +128,7 @@ def load_packaging(path, lib, ca, orco, problems):
             "plastic_weight_g": num(r.get("plastic_weight_g") or base.get("ca_plastic_weight_g") or 0),
             "weight_source": r.get("weight_source") or (f"library {base['id']}: {base['weight_method']}" if base else ""),
             "material_class": base.get("majority_material_class", ""),
+            "compostable": (r.get("compostable") or "").strip().upper() in ("Y", "YES", "TRUE", "1"),
         }
         if c["weight_g"] <= 0:
             problems.append(f"packaging.csv line {i}: {sku} / {c['component']} has no weight")
@@ -193,7 +205,7 @@ def build(client_dir):
             units_by_state[st] += q
             for c in unit.get(s, []):
                 n = q * c["qty"]
-                w = work[(st, s, c["component"], c["ca_id"], c["or_co_id"], c["weight_source"])]
+                w = work[(st, s, c["component"], c["ca_id"], c["or_co_id"], c["weight_source"], c["compostable"])]
                 w[0] += n; w[1] += n * c["weight_g"]; w[2] += n * c["plastic_weight_g"]; w[3] += n * c["plastic_components"]
         cands = [s for s in known if order_sets.get(s)]
         if not cands:
@@ -204,21 +216,21 @@ def build(client_dir):
         packages = math.ceil(total_units / min(caps)) if caps else 1
         for c in order_sets[ship_sku]:
             n = packages * c["qty"]
-            w = work[(st, f"order set: {ship_sku}", c["component"], c["ca_id"], c["or_co_id"], c["weight_source"])]
+            w = work[(st, f"order set: {ship_sku}", c["component"], c["ca_id"], c["or_co_id"], c["weight_source"], c["compostable"])]
             w[0] += n; w[1] += n * c["weight_g"]; w[2] += n * c["plastic_weight_g"]; w[3] += n * c["plastic_components"]
 
     with open(os.path.join(outdir, "working.csv"), "w", newline="") as f:
         wr = csv.writer(f)
-        wr.writerow(["State", "SKU", "Component", "CA category", "OR/CO category", "Weight source", "Components counted",
+        wr.writerow(["State", "SKU", "Component", "CA category", "OR/CO category", "Weight source", "Compostable", "Components counted",
                      "Weight (g)", "Plastic weight (g)", "Plastic components"])
         for k, v in sorted(work.items()):
-            wr.writerow(list(k) + [round(v[0], 2), round(v[1], 2), round(v[2], 2), round(v[3])])
+            wr.writerow(list(k[:6]) + ["Y" if k[6] else ""] + [round(v[0], 2), round(v[1], 2), round(v[2], 2), round(v[3])])
 
     checks = []
 
     # California
     agg = collections.defaultdict(lambda: [0.0, 0.0, 0.0])
-    for (st, _, _, cid, _, _), v in work.items():
+    for (st, _, _, cid, _, _, _), v in work.items():
         if st == "CA":
             a = agg[cid]; a[0] += v[1]; a[1] += v[2]; a[2] += v[3]
     ca_rows = []
@@ -253,7 +265,7 @@ def build(client_dir):
     orco_totals = {}
     for st, name in (("OR", "oregon"), ("CO", "colorado")):
         agg = collections.Counter()
-        for (s, _, _, _, oid, _), v in work.items():
+        for (s, _, _, _, oid, _, _), v in work.items():
             if s == st:
                 agg[oid] += v[1]
         rows = []
@@ -268,11 +280,32 @@ def build(client_dir):
             wr.writerow(["Category #", "Material class", "Category", "Total Weight (lbs)"])
             wr.writerows(rows)
 
-    # Simplified states: material-class totals as a working aid until the 8-category map is added
+    # Minnesota, Maryland, Washington: simplified supply report, 8 categories
     simple = collections.defaultdict(collections.Counter)
-    for (st, _, _, cid, _, _), v in work.items():
-        if st in FLAG_STATES:
-            simple[st][ca[cid]["material_class"] if cid in ca else "Unmapped"] += v[1] / G_PER_LB
+    for (st, sku, comp, _, oid, _, comp_flag), v in work.items():
+        if st not in FLAG_STATES:
+            continue
+        if comp_flag:
+            cat = "Compostable Materials"
+        else:
+            cat = SIMPLE_MAP.get(orco[oid]["material_class"]) if oid in orco else None
+            if oid in ("51", "56"):
+                checks.append(("REVIEW", f"{st}: {comp} is PLA/PHA. Mark compostable=Y if certified compostable"))
+        if not cat:
+            checks.append(("FAIL", f"{st}: {comp} ({sku}) has no simplified category (OR/CO #{oid or 'none'})"))
+            continue
+        simple[st][cat] += v[1]
+    for st in FLAG_STATES:
+        if not simple[st]:
+            continue
+        placed = sum(v[1] for k, v in work.items() if k[0] == st)
+        if abs(placed - sum(simple[st].values())) > 1:
+            checks.append(("FAIL", f"{st}: simplified total does not match the working lines"))
+        with open(os.path.join(outdir, f"{SIMPLE_NAMES[st]}-simplified-report.csv"), "w", newline="") as f:
+            wr = csv.writer(f)
+            wr.writerow(["Simplified Category", "Total Weight (lbs)"])
+            for cat in SIMPLE_ORDER:
+                wr.writerow([cat, f"{simple[st][cat] / G_PER_LB:.2f}"])
 
     with open(os.path.join(outdir, "exceptions.csv"), "w", newline="") as f:
         wr = csv.writer(f)
@@ -303,8 +336,8 @@ def build(client_dir):
               f"- Oregon: {orco_totals['OR']:,.2f} lbs", f"- Colorado: {orco_totals['CO']:,.2f} lbs"]
     for st in FLAG_STATES:
         if simple[st]:
-            lines.append(f"- {st} (by material class, map to the state's 8 categories by hand): " +
-                         ", ".join(f"{k} {v:,.2f} lbs" for k, v in sorted(simple[st].items())))
+            lines.append(f"- {st} (simplified): {sum(simple[st].values()) / G_PER_LB:,.2f} lbs, " +
+                         ", ".join(f"{k} {v / G_PER_LB:,.2f}" for k, v in simple[st].items() if v))
     lines += ["", "## Exceptions", ""] + [f"- {k}: {v} rows" for k, v in reasons.most_common()]
     if unknown:
         lines += ["", "SKUs missing from the packaging list (units, all states): " +
@@ -315,10 +348,64 @@ def build(client_dir):
     share = review_units / (total_units + review_units) if total_units + review_units else 0
     lines.append(f"- {int(review_units):,} units need review ({share:.1%} of units). Resolve or explain them in the methodology."
                  if review_units else "- No units need review.")
+    write_methodology(outdir, client_dir, files, unit, order_sets, exceptions, units_by_state, ca_total, orco_totals,
+                      simple)
     with open(os.path.join(outdir, "summary.md"), "w") as f:
         f.write("\n".join(lines) + "\n")
     print("\n".join(lines))
     return not fails
+
+
+def write_methodology(outdir, client_dir, files, unit, order_sets, exceptions, units_by_state, ca_total, orco_totals,
+                      simple):
+    """Client-facing methodology: how every number in the delivered files was produced."""
+    name = os.path.basename(os.path.abspath(client_dir))
+    excl = collections.Counter()
+    for e in exceptions:
+        excl[e[4].split(" (")[0]] += abs(num(e[3]))
+    L = [f"# Packaging EPR methodology: {name}", "",
+         "Prepared by EPR Kit for the 2027 filing season (calendar year 2026 supply). Every figure in the attached "
+         "reports can be traced in working.csv to a product, a packaging item, a weight source and a count of units.", "",
+         "## 1. Data we used", ""]
+    L += [f"- `{os.path.basename(p)}`" for p in files]
+    L += ["", "Units are counted by the state in the shipping address. We excluded or set aside:", ""]
+    L += [f"- {k.split(': ', 1)[1].capitalize()}: {int(v):,} units"
+          + (" (set aside for review)" if k.startswith("needs review") else "") for k, v in excl.most_common()] or ["- nothing"]
+    L += ["", "Units marked \"needs review\" were resolved with you before delivery, or are explained in section 6.", "",
+          "## 2. Units by state", "", "| State | Units |", "| --- | ---: |"]
+    L += [f"| {s} | {int(units_by_state[s]):,} |" for s in REPORT_STATES + FLAG_STATES if units_by_state[s]]
+    L += ["", "## 3. Packaging per product", "",
+          "Per-unit items are counted once for each unit sold. Each order uses one shipping set: the heaviest set "
+          "among the products in it. When an order holds more units than fit in one package, the whole set repeats "
+          "for each package.", "",
+          "| SKU | Level | Component | Qty | Units per package | Weight (g) | CA category | OR/CO # | Weight source |",
+          "| --- | --- | --- | ---: | ---: | ---: | --- | --- | --- |"]
+    for lvl, book in (("unit", unit), ("order", order_sets)):
+        for sku in sorted(book):
+            for c in book[sku]:
+                L.append(f"| {sku} | {lvl} | {c['component']} | {c['qty']:g} | {c['max_units'] or ''} | "
+                         f"{c['weight_g']:g} | {c['ca_id']} | {c['or_co_id']} | {c['weight_source']} |")
+    L += ["", "## 4. Calculations and checks", "",
+          "- Weights are summed in grams per category and state, converted at 453.59237 g per lb and rounded to two "
+          "decimals once, at the end.",
+          "- California: plastic component weight and count are reported for every category that requires them. Each "
+          "separate plastic piece counts as one component.",
+          "- Oregon and Colorado: weights by the 60 Oregon/Colorado categories.",
+          "- Minnesota, Maryland and Washington: CAA's 8 simplified categories, from each item's Oregon/Colorado "
+          "material class.",
+          "- Before delivery we check the California rules the portal enforces: plastic weight and count present where "
+          "required, plastic weight never above total, plastic at or under 50% in non-plastic categories, two decimals "
+          "for weights and whole numbers for counts. Results are in checks.txt.", "",
+          "## 5. Totals delivered", "",
+          f"- California: {ca_total:,.2f} lbs", f"- Oregon: {orco_totals['OR']:,.2f} lbs",
+          f"- Colorado: {orco_totals['CO']:,.2f} lbs"]
+    L += [f"- {s}: {sum(simple[s].values()) / G_PER_LB:,.2f} lbs" for s in FLAG_STATES if simple[s]]
+    L += ["", "## 6. Judgment calls and open items", "", "[Fill in before delivery: anything estimated, any SKU "
+          "resolved by phone, and anything you should raise with counsel, such as whether you are the producer "
+          "for a product.]", "",
+          "This methodology explains our calculations. It is not legal advice on what you are obliged to report."]
+    with open(os.path.join(outdir, "methodology.md"), "w") as f:
+        f.write("\n".join(L) + "\n")
 
 
 if __name__ == "__main__":

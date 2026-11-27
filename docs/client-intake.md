@@ -44,7 +44,8 @@ Run `python3 scripts/build_reports.py clients/<client>`. Before delivery:
 1. `checks.txt` shows all PASS.
 2. Every "needs review" line in `exceptions.csv` is resolved or explained in the methodology.
 3. Spot-check three SKUs by hand from `working.csv`.
-4. Minnesota, Maryland and Washington: the summary gives totals by material class. Map them to the state's 8
-   categories by hand until that mapping is built into the script.
+4. Minnesota, Maryland and Washington files use CAA's 8 simplified categories, mapped from each item's
+   Oregon/Colorado material class. Mark certified compostable items `compostable=Y` in packaging.csv. Check each
+   state's covered-material scope before filing: the states don't treat every packaging type the same way.
 
 Client folders under `clients/` are ignored by git. Only `clients/_dryrun` (fake data) is committed.

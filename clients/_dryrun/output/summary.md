@@ -17,9 +17,9 @@ Orders placed in a state: 7,219  ·  units counted: 8,927
 - California: 426.22 lbs across 7 categories
 - Oregon: 45.57 lbs
 - Colorado: 55.00 lbs
-- MN (by material class, map to the state's 8 categories by hand): Paper/Fiber 19.42 lbs, Plastic - Flexible 10.95 lbs
-- MD (by material class, map to the state's 8 categories by hand): Paper/Fiber 18.90 lbs, Plastic - Flexible 11.65 lbs
-- WA (by material class, map to the state's 8 categories by hand): Paper/Fiber 38.83 lbs, Plastic - Flexible 22.36 lbs
+- MN (simplified): 30.37 lbs, Flexible Plastic 10.95, Paper/Fiber 19.10, Printing and Writing Paper 0.32
+- MD (simplified): 30.55 lbs, Flexible Plastic 11.65, Paper/Fiber 18.59, Printing and Writing Paper 0.31
+- WA (simplified): 61.19 lbs, Flexible Plastic 22.36, Paper/Fiber 38.20, Printing and Writing Paper 0.63
 
 ## Exceptions
 
