@@ -1,0 +1,137 @@
+State,SKU,Component,CA category,OR/CO category,Weight source,Components counted,Weight (g),Plastic weight (g),Plastic components
+CA,BUNDLE-TEE3,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,564.0,2932.8,2932.8,564
+CA,GIFT-01,Branded hang tag with cotton string,25_PF12N,24,client weighed 10 tags on 2027-01-08: 32 g,512.0,1638.4,0.0,0
+CA,GIFT-01,"Folding carton 6x4x2 in, 18 pt SBS",25_PF10N,21,"library PKG-096: calculated (approximate, +/-20%)",512.0,22681.6,0.0,0
+CA,GIFT-01,"Tissue paper 20x30 in, 1 sheet",25_PF12N,24,library PKG-081: calculated,512.0,3379.2,0.0,0
+CA,HOOD-01,"Self-seal poly bag 12x15 in, 2.0 mil",25_P16P,53,library PKG-034: calculated,1090.0,12426.0,12426.0,1090
+CA,TEE-01,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,2216.0,11523.2,11523.2,2216
+CA,order set: BUNDLE-TEE3,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,142.0,3067.2,3067.2,142
+CA,order set: BUNDLE-TEE3,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),142.0,213.0,0.0,0
+CA,order set: GIFT-01,"Kraft paper void fill, 15 in roll x 3 ft",25_PF1N,18,library PKG-065: calculated,454.0,7718.0,0.0,0
+CA,order set: GIFT-01,"Packing slip 8.5x11 in, 20 lb bond",25_PF11N,4,library PKG-085: calculated,454.0,2043.0,0.0,0
+CA,order set: GIFT-01,"Packing tape 2 in, 2.0 mil, 3 ft",25_P22P,55,library PKG-078: calculated,454.0,998.8,998.8,454
+CA,order set: GIFT-01,"Shipping box RSC 10x8x6 in, 32 ECT",25_PF9N,19,library PKG-041: calculated,454.0,82582.6,0.0,0
+CA,order set: GIFT-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),454.0,681.0,0.0,0
+CA,order set: HOOD-01,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,901.0,19461.6,19461.6,901
+CA,order set: HOOD-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),901.0,1351.5,0.0,0
+CA,order set: TEE-01,"Poly mailer 10x13 in, 2.5 mil",25_P16P,53,library PKG-011: calculated,1734.0,18033.6,18033.6,1734
+CA,order set: TEE-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),1734.0,2601.0,0.0,0
+CO,BUNDLE-TEE3,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,72.0,374.4,374.4,72
+CO,GIFT-01,Branded hang tag with cotton string,25_PF12N,24,client weighed 10 tags on 2027-01-08: 32 g,60.0,192.0,0.0,0
+CO,GIFT-01,"Folding carton 6x4x2 in, 18 pt SBS",25_PF10N,21,"library PKG-096: calculated (approximate, +/-20%)",60.0,2658.0,0.0,0
+CO,GIFT-01,"Tissue paper 20x30 in, 1 sheet",25_PF12N,24,library PKG-081: calculated,60.0,396.0,0.0,0
+CO,HOOD-01,"Self-seal poly bag 12x15 in, 2.0 mil",25_P16P,53,library PKG-034: calculated,145.0,1653.0,1653.0,145
+CO,TEE-01,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,323.0,1679.6,1679.6,323
+CO,order set: BUNDLE-TEE3,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,17.0,367.2,367.2,17
+CO,order set: BUNDLE-TEE3,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),17.0,25.5,0.0,0
+CO,order set: GIFT-01,"Kraft paper void fill, 15 in roll x 3 ft",25_PF1N,18,library PKG-065: calculated,57.0,969.0,0.0,0
+CO,order set: GIFT-01,"Packing slip 8.5x11 in, 20 lb bond",25_PF11N,4,library PKG-085: calculated,57.0,256.5,0.0,0
+CO,order set: GIFT-01,"Packing tape 2 in, 2.0 mil, 3 ft",25_P22P,55,library PKG-078: calculated,57.0,125.4,125.4,57
+CO,order set: GIFT-01,"Shipping box RSC 10x8x6 in, 32 ECT",25_PF9N,19,library PKG-041: calculated,57.0,10368.3,0.0,0
+CO,order set: GIFT-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),57.0,85.5,0.0,0
+CO,order set: HOOD-01,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,121.0,2613.6,2613.6,121
+CO,order set: HOOD-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),121.0,181.5,0.0,0
+CO,order set: TEE-01,"Poly mailer 10x13 in, 2.5 mil",25_P16P,53,library PKG-011: calculated,252.0,2620.8,2620.8,252
+CO,order set: TEE-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),252.0,378.0,0.0,0
+MD,BUNDLE-TEE3,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,42.0,218.4,218.4,42
+MD,GIFT-01,Branded hang tag with cotton string,25_PF12N,24,client weighed 10 tags on 2027-01-08: 32 g,35.0,112.0,0.0,0
+MD,GIFT-01,"Folding carton 6x4x2 in, 18 pt SBS",25_PF10N,21,"library PKG-096: calculated (approximate, +/-20%)",35.0,1550.5,0.0,0
+MD,GIFT-01,"Tissue paper 20x30 in, 1 sheet",25_PF12N,24,library PKG-081: calculated,35.0,231.0,0.0,0
+MD,HOOD-01,"Self-seal poly bag 12x15 in, 2.0 mil",25_P16P,53,library PKG-034: calculated,78.0,889.2,889.2,78
+MD,TEE-01,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,182.0,946.4,946.4,182
+MD,order set: BUNDLE-TEE3,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,12.0,259.2,259.2,12
+MD,order set: BUNDLE-TEE3,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),12.0,18.0,0.0,0
+MD,order set: GIFT-01,"Kraft paper void fill, 15 in roll x 3 ft",25_PF1N,18,library PKG-065: calculated,31.0,527.0,0.0,0
+MD,order set: GIFT-01,"Packing slip 8.5x11 in, 20 lb bond",25_PF11N,4,library PKG-085: calculated,31.0,139.5,0.0,0
+MD,order set: GIFT-01,"Packing tape 2 in, 2.0 mil, 3 ft",25_P22P,55,library PKG-078: calculated,31.0,68.2,68.2,31
+MD,order set: GIFT-01,"Shipping box RSC 10x8x6 in, 32 ECT",25_PF9N,19,library PKG-041: calculated,31.0,5638.9,0.0,0
+MD,order set: GIFT-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),31.0,46.5,0.0,0
+MD,order set: HOOD-01,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,68.0,1468.8,1468.8,68
+MD,order set: HOOD-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),68.0,102.0,0.0,0
+MD,order set: TEE-01,"Poly mailer 10x13 in, 2.5 mil",25_P16P,53,library PKG-011: calculated,138.0,1435.2,1435.2,138
+MD,order set: TEE-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),138.0,207.0,0.0,0
+MN,BUNDLE-TEE3,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,51.0,265.2,265.2,51
+MN,GIFT-01,Branded hang tag with cotton string,25_PF12N,24,client weighed 10 tags on 2027-01-08: 32 g,36.0,115.2,0.0,0
+MN,GIFT-01,"Folding carton 6x4x2 in, 18 pt SBS",25_PF10N,21,"library PKG-096: calculated (approximate, +/-20%)",36.0,1594.8,0.0,0
+MN,GIFT-01,"Tissue paper 20x30 in, 1 sheet",25_PF12N,24,library PKG-081: calculated,36.0,237.6,0.0,0
+MN,HOOD-01,"Self-seal poly bag 12x15 in, 2.0 mil",25_P16P,53,library PKG-034: calculated,71.0,809.4,809.4,71
+MN,TEE-01,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,178.0,925.6,925.6,178
+MN,order set: BUNDLE-TEE3,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,12.0,259.2,259.2,12
+MN,order set: BUNDLE-TEE3,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),12.0,18.0,0.0,0
+MN,order set: GIFT-01,"Kraft paper void fill, 15 in roll x 3 ft",25_PF1N,18,library PKG-065: calculated,32.0,544.0,0.0,0
+MN,order set: GIFT-01,"Packing slip 8.5x11 in, 20 lb bond",25_PF11N,4,library PKG-085: calculated,32.0,144.0,0.0,0
+MN,order set: GIFT-01,"Packing tape 2 in, 2.0 mil, 3 ft",25_P22P,55,library PKG-078: calculated,32.0,70.4,70.4,32
+MN,order set: GIFT-01,"Shipping box RSC 10x8x6 in, 32 ECT",25_PF9N,19,library PKG-041: calculated,32.0,5820.8,0.0,0
+MN,order set: GIFT-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),32.0,48.0,0.0,0
+MN,order set: HOOD-01,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,59.0,1274.4,1274.4,59
+MN,order set: HOOD-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),59.0,88.5,0.0,0
+MN,order set: TEE-01,"Poly mailer 10x13 in, 2.5 mil",25_P16P,53,library PKG-011: calculated,131.0,1362.4,1362.4,131
+MN,order set: TEE-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),131.0,196.5,0.0,0
+NY,BUNDLE-TEE3,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,192.0,998.4,998.4,192
+NY,GIFT-01,Branded hang tag with cotton string,25_PF12N,24,client weighed 10 tags on 2027-01-08: 32 g,201.0,643.2,0.0,0
+NY,GIFT-01,"Folding carton 6x4x2 in, 18 pt SBS",25_PF10N,21,"library PKG-096: calculated (approximate, +/-20%)",201.0,8904.3,0.0,0
+NY,GIFT-01,"Tissue paper 20x30 in, 1 sheet",25_PF12N,24,library PKG-081: calculated,201.0,1326.6,0.0,0
+NY,HOOD-01,"Self-seal poly bag 12x15 in, 2.0 mil",25_P16P,53,library PKG-034: calculated,418.0,4765.2,4765.2,418
+NY,TEE-01,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,870.0,4524.0,4524.0,870
+NY,order set: BUNDLE-TEE3,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,49.0,1058.4,1058.4,49
+NY,order set: BUNDLE-TEE3,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),49.0,73.5,0.0,0
+NY,order set: GIFT-01,"Kraft paper void fill, 15 in roll x 3 ft",25_PF1N,18,library PKG-065: calculated,182.0,3094.0,0.0,0
+NY,order set: GIFT-01,"Packing slip 8.5x11 in, 20 lb bond",25_PF11N,4,library PKG-085: calculated,182.0,819.0,0.0,0
+NY,order set: GIFT-01,"Packing tape 2 in, 2.0 mil, 3 ft",25_P22P,55,library PKG-078: calculated,182.0,400.4,400.4,182
+NY,order set: GIFT-01,"Shipping box RSC 10x8x6 in, 32 ECT",25_PF9N,19,library PKG-041: calculated,182.0,33105.8,0.0,0
+NY,order set: GIFT-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),182.0,273.0,0.0,0
+NY,order set: HOOD-01,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,341.0,7365.6,7365.6,341
+NY,order set: HOOD-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),341.0,511.5,0.0,0
+NY,order set: TEE-01,"Poly mailer 10x13 in, 2.5 mil",25_P16P,53,library PKG-011: calculated,655.0,6812.0,6812.0,655
+NY,order set: TEE-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),655.0,982.5,0.0,0
+OR,BUNDLE-TEE3,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,102.0,530.4,530.4,102
+OR,GIFT-01,Branded hang tag with cotton string,25_PF12N,24,client weighed 10 tags on 2027-01-08: 32 g,49.0,156.8,0.0,0
+OR,GIFT-01,"Folding carton 6x4x2 in, 18 pt SBS",25_PF10N,21,"library PKG-096: calculated (approximate, +/-20%)",49.0,2170.7,0.0,0
+OR,GIFT-01,"Tissue paper 20x30 in, 1 sheet",25_PF12N,24,library PKG-081: calculated,49.0,323.4,0.0,0
+OR,HOOD-01,"Self-seal poly bag 12x15 in, 2.0 mil",25_P16P,53,library PKG-034: calculated,112.0,1276.8,1276.8,112
+OR,TEE-01,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,259.0,1346.8,1346.8,259
+OR,order set: BUNDLE-TEE3,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,26.0,561.6,561.6,26
+OR,order set: BUNDLE-TEE3,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),26.0,39.0,0.0,0
+OR,order set: GIFT-01,"Kraft paper void fill, 15 in roll x 3 ft",25_PF1N,18,library PKG-065: calculated,46.0,782.0,0.0,0
+OR,order set: GIFT-01,"Packing slip 8.5x11 in, 20 lb bond",25_PF11N,4,library PKG-085: calculated,46.0,207.0,0.0,0
+OR,order set: GIFT-01,"Packing tape 2 in, 2.0 mil, 3 ft",25_P22P,55,library PKG-078: calculated,46.0,101.2,101.2,46
+OR,order set: GIFT-01,"Shipping box RSC 10x8x6 in, 32 ECT",25_PF9N,19,library PKG-041: calculated,46.0,8367.4,0.0,0
+OR,order set: GIFT-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),46.0,69.0,0.0,0
+OR,order set: HOOD-01,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,100.0,2160.0,2160.0,100
+OR,order set: HOOD-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),100.0,150.0,0.0,0
+OR,order set: TEE-01,"Poly mailer 10x13 in, 2.5 mil",25_P16P,53,library PKG-011: calculated,204.0,2121.6,2121.6,204
+OR,order set: TEE-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),204.0,306.0,0.0,0
+TX,BUNDLE-TEE3,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,177.0,920.4,920.4,177
+TX,GIFT-01,Branded hang tag with cotton string,25_PF12N,24,client weighed 10 tags on 2027-01-08: 32 g,164.0,524.8,0.0,0
+TX,GIFT-01,"Folding carton 6x4x2 in, 18 pt SBS",25_PF10N,21,"library PKG-096: calculated (approximate, +/-20%)",164.0,7265.2,0.0,0
+TX,GIFT-01,"Tissue paper 20x30 in, 1 sheet",25_PF12N,24,library PKG-081: calculated,164.0,1082.4,0.0,0
+TX,HOOD-01,"Self-seal poly bag 12x15 in, 2.0 mil",25_P16P,53,library PKG-034: calculated,303.0,3454.2,3454.2,303
+TX,TEE-01,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,633.0,3291.6,3291.6,633
+TX,order set: BUNDLE-TEE3,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,47.0,1015.2,1015.2,47
+TX,order set: BUNDLE-TEE3,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),47.0,70.5,0.0,0
+TX,order set: GIFT-01,"Kraft paper void fill, 15 in roll x 3 ft",25_PF1N,18,library PKG-065: calculated,144.0,2448.0,0.0,0
+TX,order set: GIFT-01,"Packing slip 8.5x11 in, 20 lb bond",25_PF11N,4,library PKG-085: calculated,144.0,648.0,0.0,0
+TX,order set: GIFT-01,"Packing tape 2 in, 2.0 mil, 3 ft",25_P22P,55,library PKG-078: calculated,144.0,316.8,316.8,144
+TX,order set: GIFT-01,"Shipping box RSC 10x8x6 in, 32 ECT",25_PF9N,19,library PKG-041: calculated,144.0,26193.6,0.0,0
+TX,order set: GIFT-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),144.0,216.0,0.0,0
+TX,order set: HOOD-01,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,250.0,5400.0,5400.0,250
+TX,order set: HOOD-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),250.0,375.0,0.0,0
+TX,order set: TEE-01,"Poly mailer 10x13 in, 2.5 mil",25_P16P,53,library PKG-011: calculated,500.0,5200.0,5200.0,500
+TX,order set: TEE-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),500.0,750.0,0.0,0
+WA,BUNDLE-TEE3,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,114.0,592.8,592.8,114
+WA,GIFT-01,Branded hang tag with cotton string,25_PF12N,24,client weighed 10 tags on 2027-01-08: 32 g,72.0,230.4,0.0,0
+WA,GIFT-01,"Folding carton 6x4x2 in, 18 pt SBS",25_PF10N,21,"library PKG-096: calculated (approximate, +/-20%)",72.0,3189.6,0.0,0
+WA,GIFT-01,"Tissue paper 20x30 in, 1 sheet",25_PF12N,24,library PKG-081: calculated,72.0,475.2,0.0,0
+WA,HOOD-01,"Self-seal poly bag 12x15 in, 2.0 mil",25_P16P,53,library PKG-034: calculated,157.0,1789.8,1789.8,157
+WA,TEE-01,"Self-seal poly bag 9x12 in, 1.5 mil",25_P16P,53,library PKG-029: calculated,325.0,1690.0,1690.0,325
+WA,order set: BUNDLE-TEE3,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,33.0,712.8,712.8,33
+WA,order set: BUNDLE-TEE3,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),33.0,49.5,0.0,0
+WA,order set: GIFT-01,"Kraft paper void fill, 15 in roll x 3 ft",25_PF1N,18,library PKG-065: calculated,64.0,1088.0,0.0,0
+WA,order set: GIFT-01,"Packing slip 8.5x11 in, 20 lb bond",25_PF11N,4,library PKG-085: calculated,64.0,288.0,0.0,0
+WA,order set: GIFT-01,"Packing tape 2 in, 2.0 mil, 3 ft",25_P22P,55,library PKG-078: calculated,64.0,140.8,140.8,64
+WA,order set: GIFT-01,"Shipping box RSC 10x8x6 in, 32 ECT",25_PF9N,19,library PKG-041: calculated,64.0,11641.6,0.0,0
+WA,order set: GIFT-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),64.0,96.0,0.0,0
+WA,order set: HOOD-01,"Poly mailer 14.5x19 in, 2.5 mil",25_P16P,53,library PKG-017: calculated,122.0,2635.2,2635.2,122
+WA,order set: HOOD-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),122.0,183.0,0.0,0
+WA,order set: TEE-01,"Poly mailer 10x13 in, 2.5 mil",25_P16P,53,library PKG-011: calculated,248.0,2579.2,2579.2,248
+WA,order set: TEE-01,"Shipping label 4x6 in, direct thermal",25_PF12N,24,library PKG-084: calculated (approximate),248.0,372.0,0.0,0

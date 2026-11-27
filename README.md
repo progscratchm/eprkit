@@ -28,3 +28,13 @@ Ready-to-file packaging EPR reports for DTC brands. eprkit.com
 ## Switching on the proof section
 
 `site/index.html` contains a hidden `#proof` section for client quotes and a case study. Only fill it with real quotes used with written permission, then remove the `proof` class.
+
+## Building a client's reports
+
+```
+python3 scripts/make_dryrun.py               # fake messy data in clients/_dryrun
+python3 scripts/build_reports.py clients/_dryrun
+```
+
+Inputs, outputs and the intake checklist are in [docs/client-intake.md](docs/client-intake.md).
+Templates are in `templates/`. Real client folders are git-ignored.

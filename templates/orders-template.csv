@@ -1,0 +1,3 @@
+order_id,sku,quantity,ship_state,country,status
+1001,TEE-01,2,CA,US,paid
+1002,GIFT-01,1,OR,US,paid

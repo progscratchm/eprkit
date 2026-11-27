@@ -1,0 +1,4 @@
+PASS  CA: plastic weight and count present wherever required, absent elsewhere
+PASS  CA: plastic weight never above total weight
+PASS  CA: plastic at or under 50% in non-plastic categories
+PASS  CA: weights at 2 decimals, counts whole numbers

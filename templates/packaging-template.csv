@@ -1,0 +1,5 @@
+sku,level,component,library_id,qty,max_units,weight_g,ca_id,or_co_id,plastic_components,plastic_weight_g,weight_source
+TEE-01,unit,,PKG-029,1,,,,,,,
+TEE-01,order,,PKG-011,1,4,,,,,,
+TEE-01,order,,PKG-084,1,,,,,,,
+GIFT-01,unit,Branded hang tag with cotton string,,1,,3.2,25_PF12N,24,,,client weighed 10 tags: 32 g

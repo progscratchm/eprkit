@@ -1,0 +1,18 @@
+sku,level,component,library_id,qty,max_units,weight_g,ca_id,or_co_id,plastic_components,plastic_weight_g,weight_source
+TEE-01,unit,,PKG-029,1,,,,,,,
+TEE-01,order,,PKG-011,1,4,,,,,,
+TEE-01,order,,PKG-084,1,,,,,,,
+HOOD-01,unit,,PKG-034,1,,,,,,,
+HOOD-01,order,,PKG-017,1,3,,,,,,
+HOOD-01,order,,PKG-084,1,,,,,,,
+GIFT-01,unit,,PKG-096,1,,,,,,,
+GIFT-01,unit,,PKG-081,1,,,,,,,
+GIFT-01,unit,Branded hang tag with cotton string,,1,,3.2,25_PF12N,24,,,client weighed 10 tags on 2027-01-08: 32 g
+GIFT-01,order,,PKG-041,1,2,,,,,,
+GIFT-01,order,,PKG-065,1,2,,,,,,
+GIFT-01,order,,PKG-078,1,2,,,,,,
+GIFT-01,order,,PKG-084,1,,,,,,,
+GIFT-01,order,,PKG-085,1,,,,,,,
+BUNDLE-TEE3,unit,,PKG-029,3,,,,,,,
+BUNDLE-TEE3,order,,PKG-017,1,,,,,,,
+BUNDLE-TEE3,order,,PKG-084,1,,,,,,,

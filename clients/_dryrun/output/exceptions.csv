@@ -1,0 +1,438 @@
+Where,Order,SKU,Units,Reason
+orders-shopify.csv line 3,#1002,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 43,#1038,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 70,#1063,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 76,#1069,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 77,#1070,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 97,#1089,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 141,#1127,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 144,#1130,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 160,#1144,SOCK-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 176,#1159,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 184,#1166,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 197,#1179,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 242,#1218,GIFT-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 271,#1246,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 340,#1312,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 343,#1315,BUNDLE-TEE3,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 346,#1317,HOOD-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 356,#1327,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 378,#1348,HOOD-01,2.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 395,#1364,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 398,#1366,GIFT-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 441,#1405,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 471,#1432,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 472,#1433,SOCK-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 473,#1433,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 531,#1488,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 571,#1526,TEE-01,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 579,#1533,GIFT-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 694,#1637,GIFT-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 698,#1641,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 740,#1680,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 795,#1729,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 803,#1737,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 877,#1804,GIFT-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 878,#1804,SOCK-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 898,#1824,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 933,#1856,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 951,#1873,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 964,#1886,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1011,#1927,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1188,#2089,HOOD-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 1206,#2107,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1237,#2135,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 1262,#2158,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1265,#2161,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 1266,#2161,BUNDLE-TEE3,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 1269,#2164,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1270,#2164,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1281,#2175,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 1287,#2180,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 1347,#2235,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1351,#2239,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1355,#2243,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 1358,#2246,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 1361,#2249,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 1405,#2291,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1415,#2301,BUNDLE-TEE3,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 1417,#2303,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1418,#2304,BUNDLE-TEE3,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 1426,#2311,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 1444,#2328,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1506,#2385,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 1515,#2394,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1534,#2411,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1535,#2412,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 1596,#2468,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1622,#2494,BUNDLE-TEE3,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 1662,#2531,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1670,#2538,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1693,#2560,HOOD-01,2.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 1717,#2582,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1729,#2594,GIFT-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 1730,#2595,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1781,#2640,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1853,#2706,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1908,#2756,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 1953,#2798,BUNDLE-TEE3,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 1975,#2818,BUNDLE-TEE3,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 1976,#2819,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2056,#2893,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2057,#2893,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2072,#2908,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2127,#2960,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2134,#2967,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2136,#2969,GIFT-01,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2137,#2969,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2139,#2971,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2187,#3016,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2214,#3040,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2227,#3053,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2274,#3100,TEE-01,2.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 2283,#3109,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2284,#3109,BUNDLE-TEE3,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2303,#3126,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2330,#3150,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2375,#3192,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2387,#3203,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2388,#3203,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2392,#3207,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 2408,#3222,HOOD-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 2446,#3259,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2458,#3271,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2459,#3272,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2476,#3285,HOOD-01,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2480,#3289,TEE-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 2516,#3322,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2539,#3342,HOOD-01,2.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 2566,#3367,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2626,#3423,GIFT-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2627,#3424,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2673,#3467,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 2676,#3470,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2683,#3477,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2700,#3494,GIFT-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2701,#3494,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2747,#3538,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 2766,#3555,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2789,#3574,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2795,#3580,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2796,#3580,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2823,#3605,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 2849,#3630,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2850,#3630,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2856,#3635,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2858,#3637,TEE-01,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2865,#3644,TEE-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 2877,#3655,GIFT-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 2878,#3656,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 2879,#3656,BUNDLE-TEE3,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2880,#3657,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 2938,#3710,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 2945,#3717,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 2962,#3732,TEE-01,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 2979,#3748,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 3046,#3811,TEE-01,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 3047,#3812,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 3112,#3873,TEE-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 3116,#3877,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 3157,#3916,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 3166,#3924,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3195,#3952,GIFT-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 3299,#4045,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3309,#4055,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3342,#4082,HOOD-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 3351,#4090,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3383,#4121,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3399,#4137,TEE-01,2.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 3443,#4180,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3444,#4180,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3454,#4190,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 3457,#4193,SOCK-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3466,#4201,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3471,#4205,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 3481,#4215,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3486,#4220,BUNDLE-TEE3,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 3492,#4225,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3494,#4227,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 3502,#4235,BUNDLE-TEE3,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 3503,#4235,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 3536,#4267,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 3539,#4270,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3542,#4273,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3543,#4273,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3550,#4279,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3585,#4310,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3595,#4318,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3626,#4347,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 3646,#4363,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3675,#4391,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 3679,#4395,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3700,#4415,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3701,#4415,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3704,#4418,HOOD-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 3730,#4443,HOOD-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 3755,#4466,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3770,#4479,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3776,#4485,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3779,#4488,GIFT-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 3814,#4520,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3820,#4526,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3824,#4530,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3850,#4554,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3851,#4554,BUNDLE-TEE3,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3859,#4561,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3897,#4596,BUNDLE-TEE3,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3922,#4618,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3923,#4618,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3927,#4622,TEE-01,2.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 3940,#4635,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 3962,#4653,HOOD-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 4038,#4722,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4040,#4724,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 4051,#4734,BUNDLE-TEE3,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 4068,#4751,TEE-01,2.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 4076,#4758,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4099,#4779,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4122,#4799,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4126,#4802,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4159,#4831,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4160,#4831,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4286,#4946,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4302,#4962,TEE-01,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 4323,#4981,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4356,#5014,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 4361,#5019,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4384,#5039,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 4393,#5047,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4419,#5071,TEE-01,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 4420,#5072,SOCK-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4430,#5082,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4448,#5099,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 4514,#5158,HOOD-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 4536,#5179,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 4567,#5209,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 4606,#5244,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4607,#5244,BUNDLE-TEE3,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4610,#5247,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4611,#5247,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4681,#5308,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4705,#5331,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 4733,#5357,TEE-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 4749,#5371,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4791,#5410,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 4805,#5423,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4824,#5439,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4855,#5467,HOOD-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 4876,#5488,HOOD-01,2.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 4896,#5504,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4904,#5512,HOOD-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 4915,#5522,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4937,#5543,TEE-01,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 4990,#5588,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 4995,#5593,GIFT-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 5035,#5629,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 5047,#5640,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 5076,#5669,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5084,#5676,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5097,#5689,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 5118,#5709,BUNDLE-TEE3,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5122,#5713,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 5123,#5713,GIFT-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 5176,#5762,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5183,#5767,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5202,#5785,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5204,#5787,GIFT-01,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 5218,#5800,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5219,#5800,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5230,#5810,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5241,#5821,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5324,#5898,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 5327,#5900,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 5330,#5902,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5334,#5906,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5340,#5912,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5380,#5947,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5411,#5977,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5428,#5992,TEE-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 5440,#6003,BUNDLE-TEE3,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5445,#6008,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5541,#6098,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5547,#6103,GIFT-01,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 5582,#6134,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5590,#6142,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5629,#6179,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 5632,#6182,TEE-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 5634,#6184,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5651,#6199,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5654,#6201,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5659,#6206,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5719,#6262,BUNDLE-TEE3,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5726,#6267,TEE-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 5735,#6275,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5747,#6286,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5785,#6319,GIFT-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5802,#6335,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5843,#6373,HOOD-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 5858,#6386,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 5859,#6387,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5861,#6389,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5904,#6428,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5917,#6441,BUNDLE-TEE3,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 5927,#6450,GIFT-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 5928,#6450,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6028,#6541,HOOD-01,2.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 6030,#6543,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6031,#6543,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6044,#6555,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6126,#6631,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 6127,#6631,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6139,#6643,GIFT-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 6171,#6673,TEE-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 6224,#6719,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6261,#6752,GIFT-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 6280,#6771,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6288,#6779,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6289,#6780,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6320,#6807,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 6335,#6820,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6337,#6822,HOOD-01,1.0,needs review: ship-to state missing or unknown ('')
+orders-shopify.csv line 6344,#6828,HOOD-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6357,#6841,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6364,#6847,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 6395,#6873,TEE-01,1.0,excluded: ships outside the US (CA)
+orders-shopify.csv line 6449,#6924,SOCK-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6453,#6927,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6469,#6943,TEE-01,2.0,excluded: cancelled or refunded
+orders-shopify.csv line 6484,#6957,TEE-01,1.0,excluded: cancelled or refunded
+orders-shopify.csv line 6533,#1002,TEE-01,-1.0,excluded: zero or negative quantity (return line?)
+orders-shopify.csv:#1009,#1009,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1016,#1016,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1059,#1059,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1140,#1140,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1216,#1216,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1245,#1245,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1281,#1281,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1283,#1283,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1289,#1289,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1342,#1342,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1349,#1349,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1376,#1376,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1490,#1490,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1638,#1638,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1674,#1674,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1718,#1718,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1749,#1749,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1834,#1834,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1915,#1915,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#1960,#1960,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2122,#2122,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2131,#2131,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2134,#2134,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2179,#2179,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2198,#2198,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2271,#2271,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2367,#2367,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2396,#2396,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2424,#2424,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2467,#2467,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2549,#2549,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2563,#2563,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2712,#2712,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2753,#2753,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2835,#2835,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#2950,#2950,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3031,#3031,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3059,#3059,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3200,#3200,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3216,#3216,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3223,#3223,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3287,#3287,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3315,#3315,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3351,#3351,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3372,#3372,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3527,#3527,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3569,#3569,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3696,#3696,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3730,#3730,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3757,#3757,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3766,#3766,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3801,#3801,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3884,#3884,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3891,#3891,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3953,#3953,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3970,#3970,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3995,#3995,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#3999,#3999,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4096,#4096,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4106,#4106,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4127,#4127,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4140,#4140,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4178,#4178,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4294,#4294,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4301,#4301,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4327,#4327,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4349,#4349,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4355,#4355,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4359,#4359,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4428,#4428,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4441,#4441,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4452,#4452,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4453,#4453,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4512,#4512,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4564,#4564,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4572,#4572,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4600,#4600,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4634,#4634,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4811,#4811,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4824,#4824,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4972,#4972,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#4997,#4997,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5033,#5033,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5105,#5105,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5110,#5110,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5203,#5203,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5348,#5348,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5368,#5368,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5408,#5408,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5422,#5422,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5473,#5473,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5478,#5478,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5549,#5549,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5550,#5550,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5574,#5574,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5596,#5596,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5650,#5650,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5687,#5687,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5700,#5700,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5707,#5707,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5791,#5791,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5798,#5798,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5816,#5816,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5837,#5837,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5873,#5873,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5881,#5881,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5978,#5978,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5980,#5980,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#5989,#5989,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6044,#6044,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6274,#6274,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6276,#6276,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6304,#6304,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6359,#6359,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6382,#6382,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6453,#6453,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6486,#6486,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6613,#6613,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6680,#6680,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6727,#6727,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6729,#6729,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6731,#6731,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6826,#6826,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6852,#6852,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6859,#6859,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6955,#6955,SOCK-01,2.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6956,#6956,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6963,#6963,SOCK-01,1.0,needs review: SKU not in packaging list
+orders-shopify.csv:#6999,#6999,SOCK-01,2.0,needs review: SKU not in packaging list
