@@ -82,3 +82,5 @@
   .stats b{display:block;font-family:var(--serif);font-size:40px;line-height:1.1;color:#bfe3cf}
   .stats span{font-size:14px;color:#d6e2db}
   @media (max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+.explainer{margin:8px 0 32px}.explainer video{width:100%;height:auto;border-radius:14px;border:1px solid #dfe6e1;background:#13241b;display:block}.explainer figcaption{font-size:14px;color:#5a6a61;margin-top:8px}
