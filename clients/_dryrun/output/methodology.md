@@ -10,8 +10,8 @@ Prepared by EPR Kit for the 2027 filing season (calendar year 2026 supply). Ever
 Units are counted by the state in the shipping address. We excluded or set aside:
 
 - Cancelled or refunded: 263 units
-- Sku not in packaging list: 157 units (set aside for review)
-- Ships outside the us: 80 units
+- SKU not in packaging list: 157 units (set aside for review)
+- Ships outside the US: 80 units
 - Ship-to state missing or unknown: 33 units (set aside for review)
 - Zero or negative quantity: 1 units
 

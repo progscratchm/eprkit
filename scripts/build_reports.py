@@ -369,7 +369,7 @@ def write_methodology(outdir, client_dir, files, unit, order_sets, exceptions, u
          "## 1. Data we used", ""]
     L += [f"- `{os.path.basename(p)}`" for p in files]
     L += ["", "Units are counted by the state in the shipping address. We excluded or set aside:", ""]
-    L += [f"- {k.split(': ', 1)[1].capitalize()}: {int(v):,} units"
+    L += [f"- {(lambda t: t[0].upper() + t[1:])(k.split(': ', 1)[1])}: {int(v):,} units"
           + (" (set aside for review)" if k.startswith("needs review") else "") for k, v in excl.most_common()] or ["- nothing"]
     L += ["", "Units marked \"needs review\" were resolved with you before delivery, or are explained in section 6.", "",
           "## 2. Units by state", "", "| State | Units |", "| --- | ---: |"]
