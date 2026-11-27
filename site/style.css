@@ -84,3 +84,4 @@
   @media (max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}}
 
 .explainer{margin:8px 0 32px}.explainer video{width:100%;height:auto;border-radius:14px;border:1px solid #dfe6e1;background:#13241b;display:block}.explainer figcaption{font-size:14px;color:#5a6a61;margin-top:8px}
+.scen{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:20px}.scen .card h3{margin-top:4px}.scen .card p{font-size:15px}.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1d6b47;background:#e6f1ea;border-radius:999px;padding:3px 10px}.pilot{background:#fff7e0;border:1px solid #f0dca0;border-radius:10px;padding:12px 14px;font-size:14px;margin:14px 0}@media(max-width:860px){.scen{grid-template-columns:1fr}}
