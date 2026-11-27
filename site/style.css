@@ -77,3 +77,8 @@
   main.page ol li,main.page ul li{margin-bottom:6px}
   input[type=search]{width:100%;padding:14px 16px;font-size:18px;border:1.5px solid #c9d3cc;border-radius:10px;margin:8px 0 20px;background:#fff}
   .proof{display:none}
+  section.numbers{padding:36px 0;background:#13241b;color:#fff;border-top:0}
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
+  .stats b{display:block;font-family:var(--serif);font-size:40px;line-height:1.1;color:#bfe3cf}
+  .stats span{font-size:14px;color:#d6e2db}
+  @media (max-width:860px){.stats{grid-template-columns:repeat(2,1fr)}}
