@@ -25,9 +25,19 @@ One file per channel, unedited. We clean them. Name each file `orders-<channel>.
 
 - Product export with every SKU sold in 2026, including bundles and discontinued items.
 
-## 4. Packaging (the 20-minute mapping call)
+## 4. Packaging (pre-filled, then a 20-minute check call)
 
-For each SKU we fill `templates/packaging-template.csv` together:
+Before the call, pre-fill the sheet from the product export so the brand checks lines instead of building them:
+
+    python3 scripts/prefill_packaging.py clients/<brand>/input/products_export.csv
+
+This writes `packaging-prefilled.csv`: a guessed primary pack per SKU (from the product name and type, sized from
+"oz"/"ml" in the name), a default shipping set, a `check_this` note per line and a `confidence` grade. Gift cards and
+SKUs that don't ship are skipped. Send it to the brand, they fix lines and set `confirmed=Y`, then save it as
+`packaging.csv`. `build_reports.py` flags every row that isn't confirmed, and every gap row ("Not in our library
+yet") until it has a weight.
+
+The columns follow `templates/packaging-template.csv`:
 
 - **Per unit** (`level=unit`): anything that travels with one unit. Poly bag, product carton, bottle, cap, label,
   hang tag, tissue.

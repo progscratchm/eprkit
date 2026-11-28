@@ -138,6 +138,8 @@ def load_packaging(path, lib, ca, orco, problems):
             problems.append(f"packaging.csv line {i}: OR/CO category {c['or_co_id']} not in the list")
         if not c["weight_source"]:
             problems.append(f"packaging.csv line {i}: {sku} / {c['component']} has no weight source")
+        if "confirmed" in r and (r.get("confirmed") or "").strip().upper() not in ("Y", "YES"):
+            problems.append(f"packaging.csv line {i}: {sku} / {c['component']} is a pre-filled guess the brand hasn't confirmed")
         lvl = (r.get("level") or "unit").strip().lower()
         (order if lvl == "order" else unit)[sku].append(c)
     return unit, order
