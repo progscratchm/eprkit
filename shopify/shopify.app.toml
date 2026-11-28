@@ -1,0 +1,26 @@
+# EPR Kit Shopify app configuration. Pushed to Shopify with:  cd shopify && npx shopify app deploy
+# The Client ID is public; the secret is never stored here (it lives in Cloudflare as SHOPIFY_API_SECRET).
+client_id = "ec8292dcaae33944e356628ef756678c"
+name = "EPR Kit"
+application_url = "https://eprkit.com/intake"
+embedded = false
+
+[access_scopes]
+# Add read_all_orders here once Shopify approves it (and set SHOPIFY_SCOPES in Cloudflare).
+scopes = "read_products,read_orders"
+use_legacy_install_flow = true
+
+[auth]
+redirect_urls = ["https://eprkit.com/api/shopify/callback"]
+
+[webhooks]
+api_version = "2026-10"
+
+  [[webhooks.subscriptions]]
+  topics = ["app/uninstalled"]
+  uri = "https://eprkit.com/api/shopify/webhooks"
+
+  [[webhooks.subscriptions]]
+  compliance_topics = ["customers/data_request", "customers/redact", "shop/redact"]
+  uri = "https://eprkit.com/api/shopify/webhooks"
+

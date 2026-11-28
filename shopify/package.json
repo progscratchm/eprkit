@@ -1,0 +1,1 @@
+{ "name": "eprkit-shopify-config", "private": true, "devDependencies": { "@shopify/cli": "latest" } }

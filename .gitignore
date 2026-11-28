@@ -3,3 +3,4 @@ node_modules/
 .wrangler/
 clients/*
 !clients/_dryrun/
+shopify/node_modules/
