@@ -111,6 +111,35 @@ async function gql(shop, token, query, variables = {}) {
   return j.data;
 }
 
+async function saveConnection(env, slug, shop, tok, connectedAt) {
+  const t = Date.now();
+  const conn = {
+    shop, scope: tok.scope, connected_at: connectedAt,
+    token: tok.access_token,
+    expires_at: tok.expires_in ? t + tok.expires_in * 1000 : null,
+    refresh_token: tok.refresh_token || null,
+    refresh_expires_at: tok.refresh_token_expires_in ? t + tok.refresh_token_expires_in * 1000 : null,
+  };
+  await env.UPLOADS.put(`clients/${slug}/shopify/connection.json`, JSON.stringify(conn));
+  return conn;
+}
+
+// Return a valid access token, refreshing it (and saving the new pair) when it's within 5 minutes of expiry.
+async function freshToken(env, slug, conn) {
+  if (!conn.expires_at || conn.expires_at - Date.now() > 5 * 60 * 1000) return conn.token;
+  if (!conn.refresh_token) throw new Error("token expired and no refresh token: the client must reconnect");
+  const r = await fetch(`https://${conn.shop}/admin/oauth/access_token`, {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded", accept: "application/json" },
+    body: new URLSearchParams({ client_id: sec(env.SHOPIFY_API_KEY), client_secret: sec(env.SHOPIFY_API_SECRET),
+                                grant_type: "refresh_token", refresh_token: conn.refresh_token }),
+  });
+  const tok = await r.json().catch(() => ({}));
+  if (!r.ok || !tok.access_token) throw new Error(`refresh failed ${r.status}: ${JSON.stringify(tok).slice(0, 200)}`);
+  const saved = await saveConnection(env, slug, conn.shop, { ...tok, scope: tok.scope || conn.scope }, conn.connected_at);
+  return saved.token;
+}
+
 async function startBulk(shop, token, query) {
   const data = await gql(shop, token,
     `mutation run($q: String!) { bulkOperationRunQuery(query: $q) { bulkOperation { id status } userErrors { field message } } }`,
@@ -147,17 +176,21 @@ export async function shopifyCallback(request, env, waitUntil) {
   if (!SHOP_RE.test(shop) || !slug || !(await validQueryHmac(env, url))) {
     return page("We couldn't confirm that connection", "<p>The link may have expired. Go back to your upload page and click Connect Shopify again.</p>", 403);
   }
+  // Public apps must use expiring offline tokens (1 hour, with a 90-day refresh token).
   const tr = await fetch(`https://${shop}/admin/oauth/access_token`, {
     method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ client_id: sec(env.SHOPIFY_API_KEY), client_secret: sec(env.SHOPIFY_API_SECRET), code: url.searchParams.get("code") }),
+    headers: { "content-type": "application/x-www-form-urlencoded", accept: "application/json" },
+    body: new URLSearchParams({ client_id: sec(env.SHOPIFY_API_KEY), client_secret: sec(env.SHOPIFY_API_SECRET),
+                                code: url.searchParams.get("code") || "", expiring: "1" }),
   });
   const tok = await tr.json().catch(() => ({}));
-  if (!tr.ok || !tok.access_token) return page("Shopify didn't approve the connection", "<p>Please try again, or send your exports on the upload page.</p>", 502);
+  if (!tr.ok || !tok.access_token) {
+    console.log("token request failed", tr.status, JSON.stringify(tok).slice(0, 300));
+    return page("Shopify didn't approve the connection", "<p>Please try again, or send your exports on the upload page.</p>", 502);
+  }
 
   const now = new Date().toISOString();
-  await env.UPLOADS.put(`clients/${slug}/shopify/connection.json`,
-    JSON.stringify({ shop, token: tok.access_token, scope: tok.scope, connected_at: now }));
+  await saveConnection(env, slug, shop, tok, now);
   await env.UPLOADS.put(`shopify-shops/${shop}.json`, JSON.stringify({ slug }));
 
   let note = "";
@@ -223,7 +256,15 @@ export async function shopifyCron(env) {
     const job = JSON.parse(await (await env.UPLOADS.get(o.key)).text());
     const conn = await env.UPLOADS.get(`clients/${job.slug}/shopify/connection.json`);
     if (!conn) { await env.UPLOADS.delete(o.key); continue; }
-    const { token } = JSON.parse(await conn.text());
+    let token;
+    try {
+      token = await freshToken(env, job.slug, JSON.parse(await conn.text()));
+    } catch (e) {
+      console.log("token refresh failed", job.slug, String(e));
+      await notifyText(env, `Shopify token problem: ${job.slug}`, `${job.shop}: ${String(e)}\nAsk the client to click Connect Shopify again.`);
+      await env.UPLOADS.delete(o.key);
+      continue;
+    }
     const stamp = job.started_at.replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
     const messages = [];
     for (const [kind, id] of Object.entries(job.ops)) {
