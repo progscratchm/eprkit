@@ -239,7 +239,7 @@ ul.check{padding-left:18px;margin:8px 0}
     if (!d.ok) throw new Error(d.error || "Something went wrong.");
     return d;
   }
-  function n(c, w){ return c + " " + w + (c === 1 ? "" : "s"); }
+  function n(c, w){ return Number(c).toLocaleString("en-US") + " " + w + (c === 1 ? "" : "s"); }
   function set(id, cls){ var el=$(id); el.classList.remove("done","now"); if (cls) el.classList.add(cls); }
   async function load(){
     try {
