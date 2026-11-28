@@ -46,7 +46,7 @@ function sameString(a, b) {
   return diff === 0;
 }
 
-async function checkCode(code, secret) {
+export async function checkCode(code, secret) {
   if (!secret || typeof code !== "string") return null;
   const [slug, sig] = code.trim().toLowerCase().split(".");
   if (!slug || !sig || !SLUG.test(slug)) return null;
@@ -64,6 +64,21 @@ function safeName(name) {
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+export async function notifyText(env, subject, text) {
+  if (!env.RESEND_API_KEY || !env.NOTIFY_TO || !env.NOTIFY_FROM) return;
+  try {
+    const r = await fetch(env.RESEND_API_URL || "https://api.resend.com/emails", {
+      method: "POST",
+      headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
+      body: JSON.stringify({ from: env.NOTIFY_FROM, to: env.NOTIFY_TO.split(",").map((s) => s.trim()).filter(Boolean),
+                             subject, text, html: `<pre style="font:14px/1.5 ui-monospace,monospace">${escapeHtml(text)}</pre>` }),
+    });
+    if (!r.ok) console.log("alert failed", r.status, await r.text());
+  } catch (e) {
+    console.log("alert error", String(e));
+  }
 }
 
 async function notify(env, { slug, category, name, size, key }) {

@@ -17,5 +17,7 @@
   },
   // The private upload bucket (created Nov 27, 2026).
   "r2_buckets": [{ "binding": "UPLOADS", "bucket_name": "eprkit-intake" }],
+  // Every 10 minutes: save finished Shopify bulk exports to the bucket (worker/shopify.js).
+  "triggers": { "crons": ["*/10 * * * *"] },
   "observability": { "enabled": true }
 }

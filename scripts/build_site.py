@@ -399,7 +399,7 @@ page("privacy.html", "Privacy policy",
 <h2>How we use it</h2>
 <p>To reply to you, to prepare your reports, and to run our business (billing, records). We don't sell personal information or client data, and we don't use client data to market to anyone.</p>
 <h2>Sharing</h2>
-<p>Only with service providers that help us operate (for example email, file storage and payment processing), under confidentiality obligations, or where the law requires it.</p>\n<p>Files you upload at eprkit.com/intake are stored in a private Cloudflare R2 storage bucket that only the EPR Kit team can access, encrypted at rest, and deleted within 30 days of a written request.</p>\n<p>Payments are processed by Stripe. Card and bank details go directly to Stripe and are never seen or stored by us; Stripe's own privacy policy applies to them.</p>
+<p>Only with service providers that help us operate (for example email, file storage and payment processing), under confidentiality obligations, or where the law requires it.</p>\n<p>Files you upload at eprkit.com/intake are stored in a private Cloudflare R2 storage bucket that only the EPR Kit team can access, encrypted at rest, and deleted within 30 days of a written request.</p>\n<p>If you connect your Shopify store, we get read-only access to your orders and products. We save each order's number, date, SKUs, quantities, ship-to state and country, and status, and nothing about your customers: no names, emails, street addresses or payment details. The access key is stored in the same private bucket and deleted when you remove the app in Shopify.</p>\n<p>Payments are processed by Stripe. Card and bank details go directly to Stripe and are never seen or stored by us; Stripe's own privacy policy applies to them.</p>
 <h2>Retention and deletion</h2>
 <p>Client data is kept while we work together and for as long as needed to support your filings and answer questions about them. Ask us at any time and we'll delete it, unless the law requires us to keep it.</p>
 <h2>Security</h2>
@@ -452,7 +452,17 @@ INTAKE_BODY = """
 </form>
 
 <div id="up" hidden>
-  <p>Uploading for <b id="client"></b>. Drop each file in the box it belongs to; send them as they are, we clean them.</p>
+  <p>Uploading for <b id="client"></b>.</p>
+  <form id="shopform" class="card shop-card" autocomplete="off">
+    <h3 style="margin:0 0 6px">Fastest: connect your Shopify store</h3>
+    <p class="note" style="margin:0 0 10px">We pull your 2026 orders and your product list for you, so you can skip the order and product exports below. Read-only: we see SKUs, quantities and ship-to state, never customer names, emails or payment details. Disconnect any time in Shopify under Settings &gt; Apps.</p>
+    <div class="row">
+      <input id="shop" name="shop" type="text" spellcheck="false" placeholder="your-store.myshopify.com" required style="flex:1;min-width:0">
+      <button class="btn" type="submit">Connect Shopify</button>
+    </div>
+    <p id="shoperr" class="err" role="alert"></p>
+  </form>
+  <p>Sell on Amazon, through a 3PL or wholesale too? Drop those files in the boxes below; send them as they are, we clean them.</p>
   <div class="drops">
     <div class="drop card" data-cat="orders"><h3>Order exports</h3><p class="note">Every channel for January 1 to December 31, 2026: Shopify, Amazon, your 3PL, wholesale.</p></div>
     <div class="drop card" data-cat="products"><h3>Product list</h3><p class="note">Every SKU sold in 2026, including bundles and discontinued items.</p></div>
@@ -469,7 +479,8 @@ INTAKE_BODY = """
 
 <style>
 .intake-card{max-width:560px}.row{display:flex;gap:10px;flex-wrap:wrap}
-#code{font:inherit;padding:12px 14px;border:1px solid #c9d4cd;border-radius:10px}
+#code,#shop{font:inherit;padding:12px 14px;border:1px solid #c9d4cd;border-radius:10px}
+.shop-card{max-width:640px;border:2px solid #1d6b47}
 .err{color:#a5412d;margin:10px 0 0;min-height:1em}
 .drops{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:18px 0}
 .drop{border:2px dashed #b9cbbf;cursor:pointer;transition:background .15s,border-color .15s;margin:0}
@@ -493,6 +504,16 @@ INTAKE_BODY = """
       document.getElementById("received").innerHTML = rows.join("") || '<tr><td colspan="4" class="note">Nothing yet.</td></tr>';
     });
   }
+  document.getElementById("shopform").addEventListener("submit", function(e){
+    e.preventDefault();
+    var shop = document.getElementById("shop").value.trim().toLowerCase().replace(/^https?:\\/\\//, "").replace(/\\/.*$/, "");
+    if (shop && shop.indexOf(".") < 0) shop += ".myshopify.com";
+    if (!/^[a-z0-9][a-z0-9-]*\\.myshopify\\.com$/.test(shop)) {
+      document.getElementById("shoperr").textContent = "Use your Shopify admin address, ending in .myshopify.com (Shopify: Settings > Domains).";
+      return;
+    }
+    location.href = "/api/shopify/install?shop=" + encodeURIComponent(shop) + "&code=" + encodeURIComponent(code);
+  });
   form.addEventListener("submit", function(e){
     e.preventDefault(); err.textContent = ""; code = input.value.trim();
     load().then(function(){ form.hidden = true; document.getElementById("up").hidden = false;

@@ -40,7 +40,17 @@
 </form>
 
 <div id="up" hidden>
-  <p>Uploading for <b id="client"></b>. Drop each file in the box it belongs to; send them as they are, we clean them.</p>
+  <p>Uploading for <b id="client"></b>.</p>
+  <form id="shopform" class="card shop-card" autocomplete="off">
+    <h3 style="margin:0 0 6px">Fastest: connect your Shopify store</h3>
+    <p class="note" style="margin:0 0 10px">We pull your 2026 orders and your product list for you, so you can skip the order and product exports below. Read-only: we see SKUs, quantities and ship-to state, never customer names, emails or payment details. Disconnect any time in Shopify under Settings &gt; Apps.</p>
+    <div class="row">
+      <input id="shop" name="shop" type="text" spellcheck="false" placeholder="your-store.myshopify.com" required style="flex:1;min-width:0">
+      <button class="btn" type="submit">Connect Shopify</button>
+    </div>
+    <p id="shoperr" class="err" role="alert"></p>
+  </form>
+  <p>Sell on Amazon, through a 3PL or wholesale too? Drop those files in the boxes below; send them as they are, we clean them.</p>
   <div class="drops">
     <div class="drop card" data-cat="orders"><h3>Order exports</h3><p class="note">Every channel for January 1 to December 31, 2026: Shopify, Amazon, your 3PL, wholesale.</p></div>
     <div class="drop card" data-cat="products"><h3>Product list</h3><p class="note">Every SKU sold in 2026, including bundles and discontinued items.</p></div>
@@ -57,7 +67,8 @@
 
 <style>
 .intake-card{max-width:560px}.row{display:flex;gap:10px;flex-wrap:wrap}
-#code{font:inherit;padding:12px 14px;border:1px solid #c9d4cd;border-radius:10px}
+#code,#shop{font:inherit;padding:12px 14px;border:1px solid #c9d4cd;border-radius:10px}
+.shop-card{max-width:640px;border:2px solid #1d6b47}
 .err{color:#a5412d;margin:10px 0 0;min-height:1em}
 .drops{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:18px 0}
 .drop{border:2px dashed #b9cbbf;cursor:pointer;transition:background .15s,border-color .15s;margin:0}
@@ -81,6 +92,16 @@
       document.getElementById("received").innerHTML = rows.join("") || '<tr><td colspan="4" class="note">Nothing yet.</td></tr>';
     });
   }
+  document.getElementById("shopform").addEventListener("submit", function(e){
+    e.preventDefault();
+    var shop = document.getElementById("shop").value.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+    if (shop && shop.indexOf(".") < 0) shop += ".myshopify.com";
+    if (!/^[a-z0-9][a-z0-9-]*\.myshopify\.com$/.test(shop)) {
+      document.getElementById("shoperr").textContent = "Use your Shopify admin address, ending in .myshopify.com (Shopify: Settings > Domains).";
+      return;
+    }
+    location.href = "/api/shopify/install?shop=" + encodeURIComponent(shop) + "&code=" + encodeURIComponent(code);
+  });
   form.addEventListener("submit", function(e){
     e.preventDefault(); err.textContent = ""; code = input.value.trim();
     load().then(function(){ form.hidden = true; document.getElementById("up").hidden = false;
