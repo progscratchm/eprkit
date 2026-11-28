@@ -398,7 +398,7 @@ page("privacy.html", "Privacy policy",
 <h2>How we use it</h2>
 <p>To reply to you, to prepare your reports, and to run our business (billing, records). We don't sell personal information or client data, and we don't use client data to market to anyone.</p>
 <h2>Sharing</h2>
-<p>Only with service providers that help us operate (for example email, file storage and payment processing), under confidentiality obligations, or where the law requires it.</p>\n<p>Payments are processed by Stripe. Card and bank details go directly to Stripe and are never seen or stored by us; Stripe's own privacy policy applies to them.</p>
+<p>Only with service providers that help us operate (for example email, file storage and payment processing), under confidentiality obligations, or where the law requires it.</p>\n<p>Files you upload at eprkit.com/intake are stored in a private Cloudflare R2 storage bucket that only the EPR Kit team can access, encrypted at rest, and deleted within 30 days of a written request.</p>\n<p>Payments are processed by Stripe. Card and bank details go directly to Stripe and are never seen or stored by us; Stripe's own privacy policy applies to them.</p>
 <h2>Retention and deletion</h2>
 <p>Client data is kept while we work together and for as long as needed to support your filings and answer questions about them. Ask us at any time and we'll delete it, unless the law requires us to keep it.</p>
 <h2>Security</h2>
@@ -432,6 +432,104 @@ page("terms.html", "Terms of service",
 <p>We may update these terms; the version in effect when you engage us applies to that engagement. Questions: <a href="mailto:support@eprkit.com">support@eprkit.com</a> or by post to EPR Kit, 418 Broadway, Ste N, Albany, NY 12207.</p>
 """)
 
+
+# ---------------------------------------------------------------- client intake (not in sitemap, noindex)
+INTAKE_BODY = """
+<h1>Send us your files</h1>
+<p class="lead">Upload your 2026 data here. Files go to a private storage folder that only the EPR Kit team can open, and are deleted on request.</p>
+
+<form id="codeform" class="card intake-card" autocomplete="off">
+  <label for="code"><b>Your upload code</b></label>
+  <p class="note" style="margin:4px 0 10px">It's in your welcome email, and looks like <code>your-brand.abc123def456</code>.</p>
+  <div class="row">
+    <input id="code" name="code" type="text" spellcheck="false" required style="flex:1;min-width:0">
+    <button class="btn" type="submit">Continue</button>
+  </div>
+  <p id="codeerr" class="err" role="alert"></p>
+</form>
+
+<div id="up" hidden>
+  <p>Uploading for <b id="client"></b>. Drop each file in the box it belongs to; send them as they are, we clean them.</p>
+  <div class="drops">
+    <div class="drop card" data-cat="orders"><h3>Order exports</h3><p class="note">Every channel for January 1 to December 31, 2026: Shopify, Amazon, your 3PL, wholesale.</p></div>
+    <div class="drop card" data-cat="products"><h3>Product list</h3><p class="note">Every SKU sold in 2026, including bundles and discontinued items.</p></div>
+    <div class="drop card" data-cat="packaging"><h3>Packaging</h3><p class="note">Photos, spec sheets or supplier invoices for anything custom.</p></div>
+    <div class="drop card" data-cat="sales"><h3>Revenue and state sales</h3><p class="note">Total 2026 revenue and sales into each EPR state, in any format.</p></div>
+    <div class="drop card" data-cat="other"><h3>Anything else</h3><p class="note">Notes, last year's filing, questions.</p></div>
+  </div>
+  <p class="note">Spreadsheets, CSV, PDF, photos or zip files, up to 95 MB each. Bigger than that? Zip it, or email <a href="mailto:support@eprkit.com">support@eprkit.com</a>.</p>
+  <div id="progress" aria-live="polite"></div>
+  <h2 style="margin-top:32px">Received so far</h2>
+  <table class="tbl"><thead><tr><th>File</th><th>For</th><th class="n">Size</th><th>Received</th></tr></thead><tbody id="received"><tr><td colspan="4" class="note">Nothing yet.</td></tr></tbody></table>
+  <p class="note">We check uploads every business day and email you if anything is missing or unclear.</p>
+</div>
+
+<style>
+.intake-card{max-width:560px}.row{display:flex;gap:10px;flex-wrap:wrap}
+#code{font:inherit;padding:12px 14px;border:1px solid #c9d4cd;border-radius:10px}
+.err{color:#a5412d;margin:10px 0 0;min-height:1em}
+.drops{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:18px 0}
+.drop{border:2px dashed #b9cbbf;cursor:pointer;transition:background .15s,border-color .15s;margin:0}
+.drop h3{margin:0 0 6px;font-size:17px}.drop p{margin:0}
+.drop.over,.drop:focus-visible{background:#eef6f1;border-color:#1d6b47;outline:none}
+.bar{height:6px;background:#e3ebe6;border-radius:4px;overflow:hidden;margin:4px 0 12px}.bar>i{display:block;height:100%;background:#1d6b47;width:0}
+.tbl td.n,.tbl th.n{text-align:right}
+</style>
+<script>
+(function(){
+  var code = "", cats = {orders:"Order exports",products:"Product list",packaging:"Packaging",sales:"Revenue and state sales",other:"Other"};
+  var form = document.getElementById("codeform"), input = document.getElementById("code"), err = document.getElementById("codeerr");
+  var q = new URLSearchParams(location.search).get("code"); if (q) input.value = q;
+  function size(n){ return n > 1048576 ? (n/1048576).toFixed(1)+" MB" : Math.max(1, Math.round(n/1024))+" KB"; }
+  function esc(s){ var d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+  function load(){
+    return fetch("/api/intake?code="+encodeURIComponent(code)).then(function(r){ return r.json(); }).then(function(d){
+      if (!d.ok) throw new Error(d.error || "Something went wrong.");
+      document.getElementById("client").textContent = d.client;
+      var rows = d.files.map(function(f){ return "<tr><td>"+esc(f.name)+"</td><td>"+esc(cats[f.category]||f.category)+"</td><td class=n>"+size(f.size)+"</td><td>"+new Date(f.uploaded).toLocaleString()+"</td></tr>"; });
+      document.getElementById("received").innerHTML = rows.join("") || '<tr><td colspan="4" class="note">Nothing yet.</td></tr>';
+    });
+  }
+  form.addEventListener("submit", function(e){
+    e.preventDefault(); err.textContent = ""; code = input.value.trim();
+    load().then(function(){ form.hidden = true; document.getElementById("up").hidden = false;
+      history.replaceState(null, "", "/intake?code="+encodeURIComponent(code)); }).catch(function(x){ err.textContent = x.message; });
+  });
+  function send(file, cat){
+    var row = document.createElement("div"); row.innerHTML = "<div>"+esc(file.name)+" <span class=note>uploading</span></div><div class=bar><i></i></div>";
+    document.getElementById("progress").appendChild(row);
+    var fd = new FormData(); fd.append("code", code); fd.append("category", cat); fd.append("file", file);
+    var x = new XMLHttpRequest(); x.open("POST", "/api/intake");
+    x.upload.onprogress = function(e){ if (e.lengthComputable) row.querySelector("i").style.width = (100*e.loaded/e.total)+"%"; };
+    x.onload = function(){ var d = {}; try { d = JSON.parse(x.responseText); } catch(_){}
+      row.querySelector(".note").textContent = d.ok ? "received" : (d.error || "failed, please try again");
+      row.querySelector(".note").style.color = d.ok ? "#1d6b47" : "#a5412d"; if (d.ok) load(); };
+    x.onerror = function(){ row.querySelector(".note").textContent = "failed, check your connection and try again"; };
+    x.send(fd);
+  }
+  document.querySelectorAll(".drop").forEach(function(box){
+    var pick = document.createElement("input"); pick.type = "file"; pick.multiple = true; pick.hidden = true;
+    pick.setAttribute("aria-label", "Choose files: " + box.querySelector("h3").textContent);
+    box.appendChild(pick); box.tabIndex = 0; box.setAttribute("role", "button");
+    box.setAttribute("aria-label", "Upload " + box.querySelector("h3").textContent);
+    function files(list){ Array.prototype.forEach.call(list, function(f){ send(f, box.dataset.cat); }); }
+    box.addEventListener("click", function(e){ if (e.target !== pick) pick.click(); });
+    box.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick.click(); } });
+    pick.addEventListener("change", function(){ files(pick.files); pick.value = ""; });
+    box.addEventListener("dragover", function(e){ e.preventDefault(); box.classList.add("over"); });
+    box.addEventListener("dragleave", function(){ box.classList.remove("over"); });
+    box.addEventListener("drop", function(e){ e.preventDefault(); box.classList.remove("over"); files(e.dataTransfer.files); });
+  });
+  if (q) form.requestSubmit();
+})();
+</script>
+"""
+page("intake.html", "Send us your files", "Private upload page for EPR Kit clients.", INTAKE_BODY)
+with open(os.path.join(SITE, "intake.html")) as f:
+    _h = f.read()
+with open(os.path.join(SITE, "intake.html"), "w") as f:
+    f.write(_h.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<meta name="robots" content="noindex, nofollow">', 1))
+
 # ---------------------------------------------------------------- sitemap
 pages = ["", "guides/", "guides/california-sb54-supply-report.html", "guides/oregon-epr-exemptions.html", "lookup.html",
          "methodology.html", "sample-report.html", "changes.html", "privacy.html", "terms.html"]
@@ -441,5 +539,5 @@ with open(os.path.join(SITE, "sitemap.xml"), "w") as f:
         f.write(f"  <url><loc>https://eprkit.com/{p}</loc><lastmod>2026-11-26</lastmod></url>\n")
     f.write("</urlset>\n")
 with open(os.path.join(SITE, "robots.txt"), "w") as f:
-    f.write("User-agent: *\nAllow: /\nSitemap: https://eprkit.com/sitemap.xml\n")
+    f.write("User-agent: *\nDisallow: /intake\nDisallow: /api/\nSitemap: https://eprkit.com/sitemap.xml\n")
 print("built", len(pages) - 1, "pages; CA sample rows:", len(ca_rows), "OR sample rows:", len(or_rows))

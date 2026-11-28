@@ -38,3 +38,8 @@ python3 scripts/build_reports.py clients/_dryrun
 
 Inputs, outputs and the intake checklist are in [docs/client-intake.md](docs/client-intake.md).
 Templates are in `templates/`. Real client folders are git-ignored.
+
+## Client uploads
+
+`site/intake.html` + `functions/api/intake.js` (Cloudflare Pages Function, R2 bucket). Setup and daily use:
+[docs/intake-setup.md](docs/intake-setup.md). Make a client code with `scripts/intake_code.py`.

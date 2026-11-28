@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Send us your files | EPR Kit</title>
+<meta name="description" content="Private upload page for EPR Kit clients.">
+<meta property="og:title" content="Send us your files | EPR Kit">
+<meta property="og:description" content="Private upload page for EPR Kit clients.">
+<meta property="og:image" content="https://eprkit.com/og.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="logo" href="/"><svg viewBox="0 0 64 64" width="28" height="28" aria-hidden="true" style="vertical-align:-7px;margin-right:8px"><rect width="64" height="64" rx="14" fill="#1d6b47"/><path d="M32 11 L51 20.5 L32 30 L13 20.5 Z" fill="#bfe3cf"/><path d="M13 20.5 L32 30 L32 53 L13 43.5 Z" fill="#ffffff"/><path d="M51 20.5 L51 43.5 L32 53 L32 30 Z" fill="#d9ece0"/><path d="M18 36.5 L22.5 41.5 L28.5 32.5" fill="none" stroke="#1d6b47" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>EPR<span> Kit</span></a>
+  <nav>
+    <a href="/guides/">Guides</a>
+    <a href="/lookup.html">Category lookup</a>
+    <a href="/methodology.html">Methodology</a>
+    <a href="/sample-report.html">Sample report</a>
+    <a class="btn small" href="/#pricing">Book your filing</a>
+  </nav>
+</div></header>
+<main class="page"><div class="wrap narrow">
+
+<h1>Send us your files</h1>
+<p class="lead">Upload your 2026 data here. Files go to a private storage folder that only the EPR Kit team can open, and are deleted on request.</p>
+
+<form id="codeform" class="card intake-card" autocomplete="off">
+  <label for="code"><b>Your upload code</b></label>
+  <p class="note" style="margin:4px 0 10px">It's in your welcome email, and looks like <code>your-brand.abc123def456</code>.</p>
+  <div class="row">
+    <input id="code" name="code" type="text" spellcheck="false" required style="flex:1;min-width:0">
+    <button class="btn" type="submit">Continue</button>
+  </div>
+  <p id="codeerr" class="err" role="alert"></p>
+</form>
+
+<div id="up" hidden>
+  <p>Uploading for <b id="client"></b>. Drop each file in the box it belongs to; send them as they are, we clean them.</p>
+  <div class="drops">
+    <div class="drop card" data-cat="orders"><h3>Order exports</h3><p class="note">Every channel for January 1 to December 31, 2026: Shopify, Amazon, your 3PL, wholesale.</p></div>
+    <div class="drop card" data-cat="products"><h3>Product list</h3><p class="note">Every SKU sold in 2026, including bundles and discontinued items.</p></div>
+    <div class="drop card" data-cat="packaging"><h3>Packaging</h3><p class="note">Photos, spec sheets or supplier invoices for anything custom.</p></div>
+    <div class="drop card" data-cat="sales"><h3>Revenue and state sales</h3><p class="note">Total 2026 revenue and sales into each EPR state, in any format.</p></div>
+    <div class="drop card" data-cat="other"><h3>Anything else</h3><p class="note">Notes, last year's filing, questions.</p></div>
+  </div>
+  <p class="note">Spreadsheets, CSV, PDF, photos or zip files, up to 95 MB each. Bigger than that? Zip it, or email <a href="mailto:support@eprkit.com">support@eprkit.com</a>.</p>
+  <div id="progress" aria-live="polite"></div>
+  <h2 style="margin-top:32px">Received so far</h2>
+  <table class="tbl"><thead><tr><th>File</th><th>For</th><th class="n">Size</th><th>Received</th></tr></thead><tbody id="received"><tr><td colspan="4" class="note">Nothing yet.</td></tr></tbody></table>
+  <p class="note">We check uploads every business day and email you if anything is missing or unclear.</p>
+</div>
+
+<style>
+.intake-card{max-width:560px}.row{display:flex;gap:10px;flex-wrap:wrap}
+#code{font:inherit;padding:12px 14px;border:1px solid #c9d4cd;border-radius:10px}
+.err{color:#a5412d;margin:10px 0 0;min-height:1em}
+.drops{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:18px 0}
+.drop{border:2px dashed #b9cbbf;cursor:pointer;transition:background .15s,border-color .15s;margin:0}
+.drop h3{margin:0 0 6px;font-size:17px}.drop p{margin:0}
+.drop.over,.drop:focus-visible{background:#eef6f1;border-color:#1d6b47;outline:none}
+.bar{height:6px;background:#e3ebe6;border-radius:4px;overflow:hidden;margin:4px 0 12px}.bar>i{display:block;height:100%;background:#1d6b47;width:0}
+.tbl td.n,.tbl th.n{text-align:right}
+</style>
+<script>
+(function(){
+  var code = "", cats = {orders:"Order exports",products:"Product list",packaging:"Packaging",sales:"Revenue and state sales",other:"Other"};
+  var form = document.getElementById("codeform"), input = document.getElementById("code"), err = document.getElementById("codeerr");
+  var q = new URLSearchParams(location.search).get("code"); if (q) input.value = q;
+  function size(n){ return n > 1048576 ? (n/1048576).toFixed(1)+" MB" : Math.max(1, Math.round(n/1024))+" KB"; }
+  function esc(s){ var d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+  function load(){
+    return fetch("/api/intake?code="+encodeURIComponent(code)).then(function(r){ return r.json(); }).then(function(d){
+      if (!d.ok) throw new Error(d.error || "Something went wrong.");
+      document.getElementById("client").textContent = d.client;
+      var rows = d.files.map(function(f){ return "<tr><td>"+esc(f.name)+"</td><td>"+esc(cats[f.category]||f.category)+"</td><td class=n>"+size(f.size)+"</td><td>"+new Date(f.uploaded).toLocaleString()+"</td></tr>"; });
+      document.getElementById("received").innerHTML = rows.join("") || '<tr><td colspan="4" class="note">Nothing yet.</td></tr>';
+    });
+  }
+  form.addEventListener("submit", function(e){
+    e.preventDefault(); err.textContent = ""; code = input.value.trim();
+    load().then(function(){ form.hidden = true; document.getElementById("up").hidden = false;
+      history.replaceState(null, "", "/intake?code="+encodeURIComponent(code)); }).catch(function(x){ err.textContent = x.message; });
+  });
+  function send(file, cat){
+    var row = document.createElement("div"); row.innerHTML = "<div>"+esc(file.name)+" <span class=note>uploading</span></div><div class=bar><i></i></div>";
+    document.getElementById("progress").appendChild(row);
+    var fd = new FormData(); fd.append("code", code); fd.append("category", cat); fd.append("file", file);
+    var x = new XMLHttpRequest(); x.open("POST", "/api/intake");
+    x.upload.onprogress = function(e){ if (e.lengthComputable) row.querySelector("i").style.width = (100*e.loaded/e.total)+"%"; };
+    x.onload = function(){ var d = {}; try { d = JSON.parse(x.responseText); } catch(_){}
+      row.querySelector(".note").textContent = d.ok ? "received" : (d.error || "failed, please try again");
+      row.querySelector(".note").style.color = d.ok ? "#1d6b47" : "#a5412d"; if (d.ok) load(); };
+    x.onerror = function(){ row.querySelector(".note").textContent = "failed, check your connection and try again"; };
+    x.send(fd);
+  }
+  document.querySelectorAll(".drop").forEach(function(box){
+    var pick = document.createElement("input"); pick.type = "file"; pick.multiple = true; pick.hidden = true;
+    pick.setAttribute("aria-label", "Choose files: " + box.querySelector("h3").textContent);
+    box.appendChild(pick); box.tabIndex = 0; box.setAttribute("role", "button");
+    box.setAttribute("aria-label", "Upload " + box.querySelector("h3").textContent);
+    function files(list){ Array.prototype.forEach.call(list, function(f){ send(f, box.dataset.cat); }); }
+    box.addEventListener("click", function(e){ if (e.target !== pick) pick.click(); });
+    box.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick.click(); } });
+    pick.addEventListener("change", function(){ files(pick.files); pick.value = ""; });
+    box.addEventListener("dragover", function(e){ e.preventDefault(); box.classList.add("over"); });
+    box.addEventListener("dragleave", function(){ box.classList.remove("over"); });
+    box.addEventListener("drop", function(e){ e.preventDefault(); box.classList.remove("over"); files(e.dataTransfer.files); });
+  });
+  if (q) form.requestSubmit();
+})();
+</script>
+
+</div></main>
+<footer><div class="wrap">
+  <b>EPR Kit</b> &middot; 418 Broadway, Ste N, Albany, NY 12207 &middot; <a href="mailto:support@eprkit.com">support@eprkit.com</a><br>
+  <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="/changes.html">Rule changes log</a> &middot; Regulatory information last checked November 26, 2026.<br>
+  EPR Kit prepares packaging report data and is not a law firm. Each brand submits its own report under its own account.
+</div></footer>
+</body>
+</html>
