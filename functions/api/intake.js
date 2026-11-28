@@ -3,6 +3,10 @@
 // Bindings (Cloudflare Pages project → Settings):
 //   UPLOADS        R2 bucket (private), e.g. "eprkit-intake"
 //   INTAKE_SECRET  encrypted environment variable, a long random string
+// Optional upload alerts (sent through Resend's API; skipped if RESEND_API_KEY is not set):
+//   RESEND_API_KEY encrypted environment variable
+//   NOTIFY_TO      e.g. support@eprkit.com
+//   NOTIFY_FROM    e.g. EPR Kit uploads <uploads@eprkit.com>  (domain verified in Resend)
 //
 // Each client gets an upload code "<slug>.<sig>", where sig is the first 12 characters of
 // base32(HMAC-SHA256(INTAKE_SECRET, slug)), lowercase. scripts/intake_code.py makes codes.
@@ -58,6 +62,41 @@ function safeName(name) {
   return cleaned.replace(/^\.+/, "") || "file";
 }
 
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+async function notify(env, { slug, category, name, size, key }) {
+  if (!env.RESEND_API_KEY || !env.NOTIFY_TO || !env.NOTIFY_FROM) return;
+  const human = size >= 1048576 ? `${(size / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(size / 1024))} KB`;
+  const text = [
+    `New upload from ${slug}`,
+    ``,
+    `File: ${name}`,
+    `For: ${category}`,
+    `Size: ${human}`,
+    `Stored at: ${key}`,
+    ``,
+    `Open it in Cloudflare: R2 > eprkit-intake > clients/${slug}/${category}/`,
+  ].join("\n");
+  try {
+    const r = await fetch(env.RESEND_API_URL || "https://api.resend.com/emails", {
+      method: "POST",
+      headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
+      body: JSON.stringify({
+        from: env.NOTIFY_FROM,
+        to: env.NOTIFY_TO.split(",").map((s) => s.trim()).filter(Boolean),
+        subject: `Upload: ${slug} sent ${name}`,
+        text,
+        html: `<pre style="font:14px/1.5 ui-monospace,monospace">${escapeHtml(text)}</pre>`,
+      }),
+    });
+    if (!r.ok) console.log("upload alert failed", r.status, await r.text());
+  } catch (e) {
+    console.log("upload alert error", String(e));
+  }
+}
+
 export async function onRequestGet({ request, env }) {
   if (!env.UPLOADS || !env.INTAKE_SECRET) return json({ ok: false, error: "Uploads aren't switched on yet. Email your files to support@eprkit.com." }, 503);
   const code = new URL(request.url).searchParams.get("code");
@@ -77,7 +116,7 @@ export async function onRequestGet({ request, env }) {
   return json({ ok: true, client: slug, files });
 }
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, waitUntil }) {
   if (!env.UPLOADS || !env.INTAKE_SECRET) return json({ ok: false, error: "Uploads aren't switched on yet. Email your files to support@eprkit.com." }, 503);
   const length = Number(request.headers.get("content-length") || 0);
   if (length > MAX_BYTES + 1024 * 1024) return json({ ok: false, error: "That file is over 95 MB. Zip it, or email us and we'll send another way to share it." }, 413);
@@ -98,6 +137,8 @@ export async function onRequestPost({ request, env }) {
     httpMetadata: { contentType: file.type || "application/octet-stream", contentDisposition: "attachment" },
     customMetadata: { client: slug, category, original: String(file.name).slice(0, 200) },
   });
+  const alert = notify(env, { slug, category, name, size: file.size, key });
+  if (typeof waitUntil === "function") waitUntil(alert); else await alert;
   return json({ ok: true, name, category });
 }
 
