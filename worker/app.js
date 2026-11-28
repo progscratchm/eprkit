@@ -222,6 +222,7 @@ ul.check{padding-left:18px;margin:8px 0}
  <li>Full refund if your reports aren't delivered by May 15, 2027</li>
 </ul>
 <button id="bookbtn" disabled>Book my 2027 reports</button>
+<p class="muted">Shopify's charge page calls this purchase non-refundable. Our refund promise still applies: if we miss May 15, 2027, EPR Kit refunds you in full through Shopify.</p>
 <p class="muted" id="booknote">Not sure you owe anything? <a href="https://eprkit.com/#check" target="_blank" rel="noopener">Run the free check</a> or email <a href="mailto:support@eprkit.com">support@eprkit.com</a> first.</p>
 <p class="err" id="err" role="alert"></p>
 </div>
@@ -238,12 +239,13 @@ ul.check{padding-left:18px;margin:8px 0}
     if (!d.ok) throw new Error(d.error || "Something went wrong.");
     return d;
   }
+  function n(c, w){ return c + " " + w + (c === 1 ? "" : "s"); }
   function set(id, cls){ var el=$(id); el.classList.remove("done","now"); if (cls) el.classList.add(cls); }
   async function load(){
     try {
       var d = await call("/api/app/status");
       $("sub").textContent = "Packaging EPR reports for " + d.shopName + ", for every US state you owe.";
-      if (d.export.state === "done") { set("s1","done"); $("s1t").textContent = "Connected. " + d.export.orders + " orders and " + d.export.products + " products from 2026 received."; }
+      if (d.export.state === "done") { set("s1","done"); $("s1t").textContent = "Connected. " + n(d.export.orders,"order") + " and " + n(d.export.products,"product") + " from 2026 received."; }
       else { set("s1","now"); $("s1t").textContent = "Connected. We're pulling your 2026 orders and products; large stores can take an hour. You can close this page."; setTimeout(load, 30000); }
       if (d.booked) {
         set("s2","done"); $("s2t").innerHTML = '<span class="ok">Booked on ' + new Date(d.booked.at).toLocaleDateString() + ".</span> We'll email you within one business day.";
