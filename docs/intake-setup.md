@@ -8,7 +8,7 @@ upload page tells clients to email their files instead.
 ## 1. Storage bucket (once)
 1. Cloudflare → **R2 Object Storage** → **Add R2 subscription to my account** ($0; only billed past 10 GB).
 2. **Create bucket** `eprkit-intake`, location Automatic, public access **off**.
-3. In `wrangler.jsonc`, uncomment the `r2_buckets` line, commit and push. The next build connects the bucket.
+3. `wrangler.jsonc` connects it as `UPLOADS` (done).
 
 ## 2. Secrets (once)
 Workers & Pages → `eprkit` → **Settings → Variables and secrets → Add**, type **Secret**:

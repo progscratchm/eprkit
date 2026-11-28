@@ -15,7 +15,7 @@
     "NOTIFY_TO": "support@eprkit.com",
     "NOTIFY_FROM": "EPR Kit uploads <uploads@updates.eprkit.com>"
   },
-  // The private upload bucket. Uncomment once the bucket exists in R2, or deploys will fail:
-  // "r2_buckets": [{ "binding": "UPLOADS", "bucket_name": "eprkit-intake" }],
+  // The private upload bucket (created Nov 27, 2026).
+  "r2_buckets": [{ "binding": "UPLOADS", "bucket_name": "eprkit-intake" }],
   "observability": { "enabled": true }
 }
