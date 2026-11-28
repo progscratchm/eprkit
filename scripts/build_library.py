@@ -16,7 +16,7 @@ TISSUE_GSM = 10 * 453.592 / (2880 * 0.092903)   # 10 lb tissue, 24x36x480 ream
 
 rows = []
 def add(name, ctype, role, dims, spec, mclass, material, ric, form, grams, method, basis,
-        ca, ca_pc, or_id, sep, note=""):
+        ca, ca_pc, or_id, sep, note="", plastic_g=None):
     plastic = mclass.startswith("Plastic")
     rows.append({
         "id": f"PKG-{len(rows)+1:03d}", "name": name, "component_type": ctype, "role": role,
@@ -25,7 +25,7 @@ def add(name, ctype, role, dims, spec, mclass, material, ric, form, grams, metho
         "weight_g": round(grams, 1), "weight_lb": round(grams / 453.592, 4),
         "weight_method": method, "weight_basis": basis,
         "ca_calrecycle_id": ca, "ca_plastic_components": ca_pc,
-        "ca_plastic_weight_g": round(grams, 1) if plastic and ca_pc != "" else 0,
+        "ca_plastic_weight_g": round(plastic_g, 1) if plastic_g is not None else (round(grams, 1) if plastic and ca_pc != "" else 0),
         "or_co_category_id": or_id, "separability": sep, "mapping_note": note})
 
 def film_g(area_in2, mil, density):
@@ -160,6 +160,113 @@ for lb in (30, 50):
     add(f"Kraft wrapping sheet 24x36 in, {lb} lb", "wrap", "fill", "24 x 36", f"{lb} lb kraft",
         "Paper/Fiber", "Kraft paper", "", "", 24 * 36 * IN2 * lb * REAM_3000_TO_GSM, "calculated",
         f"{lb} lb/3000 sq ft ({lb*REAM_3000_TO_GSM:.1f} g/m2)", "25_PF1N", 0, 18, "standalone")
+
+
+# ================================================================ PRIMARY PACKAGING (added Nov 2026)
+# Rigid containers can't be calculated from dimensions (wall thickness varies), so weights are published
+# supplier gram weights for a specific stock item. Treat them as typical and weigh a sample when a brand's
+# supplier differs. California "small" categories apply when two or more sides are 2 in or less; Oregon and
+# Colorado have matching small-format categories for plastic (58), metal (15) and paper (25).
+PUB = "published"
+GLASS_NOTE = ("Glass with a paper label or no label. A plastic label or shrink band makes it 'w/ plastic component' "
+              "(25_G1P / 25_G3P) and the label counts as a plastic component. The cap is a separate item.")
+
+# 17. Amber glass Boston round bottles (Uline gram weights; 1-4 oz are 2 in diameter or less: small format)
+for oz, g, dia, ht, src in [(1, 44, 1.25, 3.2, "Uline S-20888 spec sheet, 44 +/- 3 g"),
+                            (4, 108, 1.9, 4.5, "Uline S-15649 spec sheet, 108 +/- 7 g"),
+                            (8, 165, 2.4, 5.4, "Uline S-23396 spec sheet, 165 +/- 5 g"),
+                            (16, 250, 2.9, 6.6, "Uline S-15651 spec sheet, 250 +/- 10 g")]:
+    small = dia <= 2
+    add(f"Glass Boston round bottle {oz} oz, amber", "bottle", "primary", f"{dia} dia x {ht}",
+        "Type III soda-lime glass, narrow neck", "Glass", "Glass", "", "", g, PUB, src,
+        "25_G3N" if small else "25_G1N", "", 6, "separate from cap", GLASS_NOTE)
+
+# 18. Clear glass straight-sided jars
+for oz, finish, g, dia, src in [(4, "58-400", 114, 2.6, "TricorBraun 052087, 114 g"),
+                                (8, "58-400", 184, 2.9, "TricorBraun 012092, 184 g"),
+                                (8, "70-400", 200, 2.9, "TricorBraun 052093 200.2 g; Uline S-17983 7.06 oz (200 g)")]:
+    add(f"Glass straight-sided jar {oz} oz, {finish}", "jar", "primary", f"{dia} dia",
+        f"Clear soda-lime glass, {finish} neck", "Glass", "Glass", "", "", g, PUB, src,
+        "25_G1N", "", 6, "separate from lid", GLASS_NOTE)
+
+# 19. PET bottles
+for name, g, ca, orid, src in [
+        ("PET squat Boston round bottle 100 ml (3.4 oz), white", 16, "25_P2P", 27, "Supplier datasheet 119-188, 16 g"),
+        ("PET Boston round bottle 16 oz, clear", 37.3, "25_P1P", 26, "Uline S-21697 spec sheet, 37.3 +/- 3 g"),
+        ("PET squat Boston round bottle 16 oz, clear", 41.3, "25_P1P", 26, "The Cary Company 16 oz squat, 0.091 lb")]:
+    add(name, "bottle", "primary", "", "PET #1", "Plastic - Rigid", "PET", "1", "rigid", g, PUB, src,
+        ca, 1, orid, "separate from cap", "The cap or pump is a separate plastic component")
+
+# 20. HDPE bottles and supplement packers
+for name, g, ca, orid, src in [
+        ("HDPE Boston round bottle 16 oz, natural", 33, "25_P6P", 32, "Uline S-17977 spec sheet, 33 g"),
+        ("HDPE cylinder bottle 16 oz, white", 34, "25_P7P", 33, "The Cary Company 30W15W, 34 g"),
+        ("HDPE cylinder bottle 32 oz, white", 58, "25_P7P", 33, "The Cary Company 30WQW3, 58 g"),
+        ("HDPE packer bottle 150 cc, white, 38-400", 16.5, "25_P7P", 33, "TricorBraun SET-104-150XC, 16.5 g"),
+        ("HDPE packer bottle 250 cc, white, 45-400", 27.5, "25_P7P", 33, "TricorBraun 305520, 27.5 g"),
+        ("HDPE packer bottle 250 cc, natural, 48-400", 19.0, "25_P6P", 32, "TricorBraun 025952, 19.0 g")]:
+    add(name, "bottle", "primary", "", "HDPE #2", "Plastic - Rigid", "HDPE", "2", "rigid", g, PUB, src,
+        ca, 1, orid, "separate from cap",
+        "Supplement bottles often add an induction seal liner, cotton or a desiccant: list those separately")
+
+# 21. Closures and dispensers (all small format: two sides 2 in or less)
+for name, g, src, note in [
+        ("Snap-top cap 28-410, PP", 6.35, "The Cary Company 28-410 smooth snap top, 6.35 g", ""),
+        ("Lotion pump 24-410, PP, 2 cc", 11.4, "O.Berk 28810075, 11.4 g",
+         "Most pumps have a steel spring; it stays with the pump in this category"),
+        ("Lotion pump 24-410, mono-material PP, 1.5 cc", 10.5, "O.Berk 1012639, 10.5 g", "Metal-free spring"),
+        ("Lotion pump 28-410, e-commerce lock, 4 cc", 16.4, "O.Berk 10122275, 16.4 g",
+         "Most pumps have a steel spring; it stays with the pump in this category")]:
+    add(name, "closure", "closure", "", "Polypropylene", "Plastic - Other", "PP", "5", "rigid", g, PUB, src,
+        "25_P47P", 1, 58, "separate from bottle", note)
+
+# 22. LDPE squeeze tubes with PP flip cap (weight is tube + cap; 2 plastic components)
+for oz, g, dia, ht, src in [(1, 7.4, 1.0, 3.5, "Container & Packaging M1300WH, 0.26 oz"),
+                            (2, 10.8, 1.4, 4.7, "Container & Packaging M1306WH, 0.38 oz"),
+                            (6, 29.2, 1.5, 7.5, "Container & Packaging M1303WH, 1.03 oz")]:
+    small = oz == 1  # flattened crimp end of 2 oz and larger tubes is wider than 2 in
+    add(f"LDPE squeeze tube {oz} oz with flip cap", "tube", "primary", f"{dia} dia x {ht}",
+        "LDPE 5-layer tube, PP flip cap", "Plastic - Other" if small else "Plastic - Rigid", "LDPE", "4", "rigid",
+        g, PUB, src, "25_P47P" if small else "25_P14P", 2, 58 if small else 41, "cap attached in use",
+        "Tube body and flip cap are 2 plastic components. Split the cap (about 2-3 g, PP) out if your supplier "
+        "lists it separately")
+
+# 23. Stand-up pouches (weights are case weight / 1000 incl. the carton: an upper bound)
+for name, g, mclass, ca, orid, src, plastic_g, note in [
+        ("Stand-up pouch 4 oz, kraft/foil/LLDPE, zipper", 10.9, "Paper/Fiber", "25_PF7P", 23,
+         "International Plastics SU-1.7-KRAFT, 24.1 lb per 1000", 4.4,
+         "Kraft is the majority material. Plastic share (LLDPE layer + zipper) estimated at 40%: confirm with supplier"),
+        ("Stand-up pouch 8 oz, kraft/foil/LLDPE, zipper", 13.8, "Paper/Fiber", "25_PF7P", 23,
+         "International Plastics SU-1.9-KRAFT, 30.4 lb per 1000", 5.5,
+         "Kraft is the majority material. Plastic share (LLDPE layer + zipper) estimated at 40%: confirm with supplier"),
+        ("Stand-up pouch 8 oz, PET/LLDPE with window, zipper", 15.9, "Plastic - Flexible", "25_P46P", 57,
+         "International Plastics SU-9.4, 35 lb per 1000", None, "All-plastic laminate")]:
+    add(name, "pouch", "primary", "", "Laminate", mclass, "Multi-material laminate", "", "flexible", g, PUB, src,
+        ca, 1, orid, "standalone", note, plastic_g)
+
+# 24. Tinplate steel tins (calculated: 0.22 mm tinplate, 7.85 g/cm3; body + base + lid top + 0.3 in lid skirt)
+def tin_g(dia_in, h_in):
+    r = dia_in / 2
+    area_in2 = 3.14159 * dia_in * h_in + 2 * 3.14159 * r * r + 3.14159 * dia_in * 0.3
+    return area_in2 * 6.4516 * 0.022 * 7.85
+for name, d, h in [("Candle tin 4 oz with lid, steel", 2.5625, 1.8125), ("Candle tin 8 oz with lid, steel", 3.125, 2.0),
+                   ("Screw-top tin 2 oz, shallow, steel", 2.5, 0.875), ("Screw-top tin 4 oz, deep, steel", 2.5, 1.75),
+                   ("Screw-top tin 8 oz, deep, steel", 3.125, 2.0)]:
+    add(name, "tin", "primary", f"{d} dia x {h}", "Tinplate steel, ~0.22 mm", "Metal", "Tinplate steel", "", "",
+        tin_g(d, h), "calculated", f"Body {d} x {h} in + base + lid, 0.22 mm tinplate at 7.85 g/cm3 (gauge assumed)",
+        "25_M6N", "", 12, "lid stays with tin",
+        "Height is 2 in or less but the diameter is over 2 in, so only one side qualifies: not small format")
+
+# 25. Rigid two-piece gift boxes (1.5 mm grey chipboard ~900 g/m2 + 120 g/m2 wrap paper, calculated)
+for L, W, H in [(6, 6, 3), (10, 8, 3)]:
+    base = L * W + 2 * (L + W) * H
+    lid = L * W + 2 * (L + W) * 1.0
+    gsm = 900 + 120 * 1.25
+    add(f"Rigid two-piece gift box {L}x{W}x{H} in", "box", "primary", f"{L} x {W} x {H}",
+        "1.5 mm chipboard, paper wrapped", "Paper/Fiber", "Paperboard", "", "", (base + lid) * IN2 * gsm,
+        "calculated", "Base + 1 in deep lid; 900 g/m2 board + wrap paper with 25% turn-in",
+        "25_PF10N", 0, 21, "standalone",
+        "Magnetic closures or a plastic insert make it 'w/ plastic component' or add separate items")
 
 here = os.path.dirname(os.path.abspath(__file__))
 out = os.path.join(here, "..", "data", "packaging-library.csv")

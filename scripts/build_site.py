@@ -191,13 +191,13 @@ page("methodology.html", "Methodology",
 <p>Each product is mapped to every packaging component it ships with: primary packaging (bottle, pouch, carton), shipping packaging (mailer or box), fill, tape, labels and inserts. Items used once per order, such as a shipping label, are counted per order rather than per unit.</p>
 
 <h2>3. Weights</h2>
-<p>Stock packaging comes from our library of {len(LIB)} common items. Weights are calculated from dimensions and material specifications, then checked against weights suppliers publish:</p>
+<p>Stock packaging comes from our library of {len(LIB)} common items. Shipping packaging (mailers, boxes, fill, tape) is calculated from dimensions and material specifications, then checked against weights suppliers publish:</p>
 <table>
   <tr><th>Check</th><th class="num">Calculated</th><th class="num">Published</th></tr>
   <tr><td>Poly mailer 10 x 13 in, 2.5 mil</td><td class="num">10.4 g</td><td class="num">about 11.8 g each, including carton share</td></tr>
   <tr><td>Reference C-flute box 575 x 385 x 225 mm</td><td class="num">658 g</td><td class="num">650 g</td></tr>
 </table>
-<p>Main assumptions: LDPE film at 0.92 g/cm&sup3;; 32 ECT C-flute board at 110 lb per 1,000 sq ft; kraft paper by basis weight (30 lb = 48.8 g/m&sup2;). Items whose blank size is estimated, such as mailer boxes and folding cartons, are marked approximate (around &plusmn;20%). Custom packaging is weighed by you or taken from your supplier's specification, and every weight in your report says which.</p>
+<p>Main assumptions: LDPE film at 0.92 g/cm&sup3;; 32 ECT C-flute board at 110 lb per 1,000 sq ft; kraft paper by basis weight (30 lb = 48.8 g/m&sup2;). Items whose blank size is estimated, such as mailer boxes and folding cartons, are marked approximate (around &plusmn;20%). Bottles, jars, closures, pumps, tubes and pouches can't be calculated from dimensions, so their weights are the gram weights suppliers publish for a specific stock item, with the source named on every row. If your supplier's item differs, we use your supplier's spec or ask you to weigh a sample. Custom packaging is weighed by you or taken from your supplier's specification, and every weight in your report says which.</p>
 
 <h2>4. Categories</h2>
 <p>California reports use CalRecycle's 2026 list of 95 covered material categories. Oregon and Colorado use CAA's list of about 60 categories. Our data follows the Sustainable Packaging Data Council's attribute standard, so it can be reused for other programs. You can <a href="/lookup.html">look up any category</a>.</p>
@@ -374,6 +374,7 @@ page("changes.html", "Rule changes log",
   <tr><th>Date</th><th>Change</th></tr>
   <tr><td>Nov 26, 2026</td><td>California 2026 covered material categories confirmed at 95 (IDs run to MAT-US-CA-0096; 0049 is unused), from CAA's 2026 Annual Supply Report Preparation Workbook.</td></tr>
   <tr><td>Nov 26, 2026</td><td>Sustainable Packaging Data Council template v2 adopted as our data standard: 47 attributes across product, component and sales levels, covering California, Colorado and Oregon.</td></tr>
+  <tr><td>Nov 28, 2026</td><td>Packaging library extended to 133 items: glass and plastic bottles, jars, caps, pumps, tubes, pouches, tins and rigid gift boxes, with published supplier weights.</td></tr>
   <tr><td>Nov 26, 2026</td><td>Packaging library published: 100 stock items with calculated weights, checked against published supplier weights.</td></tr>
   <tr><td>Aug 12, 2026</td><td>EU Packaging and Packaging Waste Regulation (PPWR) applies; national small-seller thresholds removed.</td></tr>
   <tr><td>Jun 1, 2026</td><td>California producer registration with CAA and 2023 baseline data due.</td></tr>

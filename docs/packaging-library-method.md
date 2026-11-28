@@ -1,8 +1,8 @@
 # Packaging library: method
 
-`data/packaging-library.csv` holds 100 common stock packaging components used by DTC brands, each with a weight, SPDC-style material fields and the California (CalRecycle ID) and Oregon/Colorado category it reports under. Regenerate with `python3 scripts/build_library.py`.
+`data/packaging-library.csv` holds 133 common stock packaging components used by DTC brands, each with a weight, SPDC-style material fields and the California (CalRecycle ID) and Oregon/Colorado category it reports under. Regenerate with `python3 scripts/build_library.py`.
 
-## Coverage (100 entries)
+## Coverage (133 entries)
 
 | Group | Entries |
 | --- | --- |
@@ -14,8 +14,26 @@
 | Tape (BOPP and water-activated kraft) | 6 |
 | Tissue, label, packing slip, glassine bags | 8 |
 | Kraft paper mailers, folding cartons, corrugated pads, wrapping sheets | 12 |
+| Glass Boston rounds (1, 4, 8, 16 oz amber) and straight-sided jars | 7 |
+| PET and HDPE bottles, supplement packers | 9 |
+| Snap-top cap, lotion pumps | 4 |
+| LDPE squeeze tubes with flip cap | 3 |
+| Stand-up pouches (kraft/foil/LLDPE, PET/LLDPE) | 3 |
+| Tinplate candle and screw-top tins | 5 |
+| Rigid two-piece gift boxes | 2 |
 
-Primary containers (glass and plastic bottles, jars, closures, pumps) are not included yet: their weights vary too much by mould to calculate, so they need published supplier specs.
+## Primary packaging (added Nov 28, 2026)
+
+Rigid containers can't be calculated from dimensions because wall thickness varies by mould. Their weights are the gram weight a supplier publishes for one stock item (`weight_method = published`), with the supplier and part number in `weight_basis`. Two exceptions are calculated: tins (0.22 mm tinplate, gauge assumed) and rigid gift boxes (1.5 mm chipboard). Pouch weights are case weight / 1,000 and include the carton share, so they run slightly high.
+
+Rules applied:
+
+- **Small format.** CalRecycle's "Small" categories apply when two or more sides are 2 in or less. A round bottle of 2 in diameter or less qualifies (width and depth). Caps and pumps are small format (25_P47P; OR/CO 58). Tins are wider than 2 in, so they are not.
+- **Glass** is "w/o plastic component" only with a paper label or no label. A plastic label or shrink band moves it to the "w/ plastic" category. The cap is always a separate row.
+- **Kraft pouches** report under paper (25_PF7P / OR/CO 23) because kraft is the majority material. The plastic share is estimated at 40% and must be confirmed with the supplier.
+- **Pumps** usually have a steel spring. It stays with the pump.
+
+Gaps not yet covered: PP screw caps without a published weight (20-410 to 89-400), metal jar lids, droppers, fine-mist sprayers, shrink bands, aluminum bottles and aerosol cans. Map these from the brand's supplier spec or a weighed sample.
 
 ## How weights are calculated
 
