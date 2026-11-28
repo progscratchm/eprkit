@@ -268,6 +268,98 @@ for L, W, H in [(6, 6, 3), (10, 8, 3)]:
         "25_PF10N", 0, 21, "standalone",
         "Magnetic closures or a plastic insert make it 'w/ plastic component' or add separate items")
 
+# ================================================================ GAPS FOR WAVE-1 BRANDS (added Nov 28, 2026)
+# Serum droppers, coffee bags, ceramic candle vessels, aerosol cans, stick packs and bar wrappers.
+# "case weight / count" figures include the shipping carton, so they are an upper bound.
+
+# 26. Glass dropper assembly for 1 oz Boston round (20-400), split into its three parts.
+# Whole assembly: Container & Packaging M652BK-L25, 230.72 oz per case of 1,080 = 6.06 g each.
+# The split between parts is our estimate (glass tube 7 x 76 mm, ~0.8 mm wall): ask the supplier or weigh one.
+DROP_SRC = "Container & Packaging M652BK-L25: 230.72 oz / 1,080 per case = 6.06 g per assembly; split estimated"
+for name, g, mclass, mat, ric, form, ca, ca_pc, orid, note in [
+        ("Dropper pipette, glass 7 x 76 mm (1 oz dropper)", 2.5, "Glass", "Glass", "", "", "25_G3N", "", 6,
+         "Part of a dropper assembly: report it alongside the collar and bulb"),
+        ("Dropper collar, PP ribbed skirt 20-400 (1 oz dropper)", 2.3, "Plastic - Other", "PP", "5", "rigid",
+         "25_P47P", 1, 58, "Part of a dropper assembly"),
+        ("Dropper bulb, rubber (1 oz dropper)", 1.3, "Plastic - Other", "Rubber/elastomer", "7", "rigid",
+         "25_P47P", 1, 58,
+         "Synthetic rubber, silicone or TPE bulbs are treated as plastic here (the cautious reading). A natural "
+         "rubber bulb may fall outside the plastic categories: confirm with CAA")]:
+    add(name, "closure", "closure", "", "Dropper assembly part", mclass, mat, ric, form, g,
+        "estimated (from published assembly weight)", DROP_SRC, ca, ca_pc, orid, "separate from bottle", note)
+
+# 27. Coffee bags with one-way degassing valve (block bottom). Layer spec from NFC Bags ABV12K:
+# 25 lb kraft / 5 lb LDPE / 48 ga met PET / 2 mil LLDPE -> plastic layers are ~64% of the weight,
+# so plastic is the majority material: Multi-Material Laminate - Pouches (CA 25_P46P, OR/CO 57).
+kraft = 25 * REAM_3000_TO_GSM; ldpe5 = 5 * REAM_3000_TO_GSM
+pet48 = 12.2e-6 * 1390 * 1000; lldpe2 = 2 * MIL * LDPE * 1000
+plastic_share = (ldpe5 + pet48 + lldpe2) / (kraft + ldpe5 + pet48 + lldpe2)
+bag1lb = 16 * 453.592 / 500   # Mr Takeout Bags XFSASUBBZ-075-VALVE: 16 lb per case of 500
+area = lambda w, h, d: 2 * w * h + 2 * d * h + w * d
+for size, g, dims, method, basis in [
+        ("1 lb", bag1lb, "5 x 9.5 x 3.125", "published (case weight / count)",
+         "Mr Takeout Bags XFSASUBBZ-075-VALVE, 16 lb per case of 500 incl. carton"),
+        ("12 oz", bag1lb * area(5, 7.875, 3.125) / area(5, 9.5, 3.125), "5 x 7.875 x 3.125", "calculated",
+         "1 lb bag weight scaled by panel area to a 5 x 7.875 x 3.125 in 12 oz bag")]:
+    add(f"Coffee bag {size}, kraft laminate, one-way valve", "pouch", "primary", dims,
+        "Kraft / LDPE / met PET / LLDPE, degassing valve, tin tie or zipper", "Plastic - Flexible",
+        "Multi-material laminate", "", "flexible", g, method, basis, "25_P46P", 2, 57, "standalone",
+        f"Plastic layers are ~{plastic_share*100:.0f}% of the weight (layer spec NFC Bags ABV12K), so the bag is "
+        "plastic-majority even though it looks like paper. Valve counts as a second plastic component. "
+        "A foil (ALU) layer instead of met PET changes the split: check the supplier spec. A metal tin tie is a separate item",
+        g)
+
+# 28. Ceramic candle vessels (calculated from published dimensions; stoneware 2.3 g/cm3, 6 mm base: +/-25%)
+import math
+def ceramic_g(od_cm, id_cm, h_cm, base_cm=0.6, rho=2.3):
+    wall = math.pi / 4 * (od_cm**2 - id_cm**2) * h_cm
+    base = math.pi / 4 * id_cm**2 * base_cm
+    return (wall + base) * rho
+for name, od, idm, h, src in [
+        ("Ceramic candle tumbler 8.5 oz wax", 7.62, 6.78, 10.29, "CandleScience White Dream Ceramic Tumbler: 3.00 in OD, 2.67 in ID, 4.05 in tall"),
+        ("Ceramic candle tumbler mini 5 oz wax", 8.26, 7.62, 5.41, "CandleScience Mini Modern Ceramic Tumbler: 3.25 in OD, 3.00 in ID, 2.13 in tall")]:
+    add(name, "jar", "primary", f"{od/2.54:.2f} dia x {h/2.54:.2f}", "Glazed ceramic/stoneware", "Ceramic", "Ceramic",
+        "", "", ceramic_g(od, idm, h), "calculated (approximate, +/-25%)",
+        f"{src}; wall volume + 6 mm base at 2.3 g/cm3", "25_C1N", "", 7, "separate from lid",
+        "Wood, cork or bamboo lids are separate items (Wood/Organics). A refill vessel sold once and refilled "
+        "is reported when sold, not at each refill. Weigh one empty vessel to replace this estimate")
+
+# 29. Aluminium aerosol can (cosmetics, 150 ml fill)
+add("Aluminium aerosol can 45 x 150 mm (150 ml fill)", "can", "primary", "1.77 dia x 5.9",
+    "Impact-extruded aluminium, 1 in opening", "Metal", "Aluminium", "", "", 22.9, PUB,
+    "Fidel-Fillaud ref 26224, 45 x 150 mm coated aluminium aerosol can, 0.02289 kg", "25_M4P", 2, 10,
+    "valve stays with can",
+    "California only has a 'w/ plastic component' aerosol category: the valve and actuator are the plastic "
+    "components (count 2). Add the actuator and valve weight from the filler or supplier; an overcap is a separate "
+    "plastic item. One side is under 2 in, the other is not: not small format", 0)
+
+# 30. Twist-up stick containers (deodorant, sunscreen and balm sticks)
+add("Stick container 2.5 oz oval, PP, twist-up with cap", "tube", "primary", "2.25 x 1.24 x 4.58",
+    "PP body, elevator, dial and cap", "Plastic - Rigid", "PP", "5", "rigid", 464 * 28.3495 / 450,
+    "published (case weight / count)", "Container & Packaging M17375WH: 464 oz per case of 450 incl. carton",
+    "25_P41P", 3, 43, "cap attached in use",
+    "Body with dial, elevator and cap counted as 3 plastic components. Only one side is 2 in or less, so it is "
+    "not small format")
+
+# 31. Bar and chocolate wrappers (calculated; +/-30%)
+OPP_LAM_GSM = 16.4 * 2 + 2   # two 18 um OPP films (Jindal: 16.4 g/m2 each) + adhesive
+for name, w, h, L in [("Snack bar flow wrap, met OPP laminate (40-50 g bar)", 1.4, 0.6, 5.5)]:
+    blank = (2 * (w + h) + 0.6) * (L + h + 1.0)
+    add(name, "wrapper", "primary", f"{L} x {w} x {h} bar", "OPP / met OPP laminate, fin seal", "Plastic - Flexible",
+        "PP", "5", "flexible", blank * IN2 * OPP_LAM_GSM, "calculated (approximate, +/-30%)",
+        f"Blank (2x({w}+{h}) + 0.6 fin) x ({L}+{h}+1.0 end seals) in at ~35 g/m2 (2 x 18 um OPP, Jindal Films datasheet)",
+        "25_P22P", 1, 55, "standalone",
+        "Mono-PP laminate. A PET/PE or paper-based wrapper maps to a different category")
+foil_gsm = 9e-6 * 2700 * 1000
+add("Chocolate bar inner foil, aluminium 9 um (2.5-3 oz bar)", "wrapper", "primary", "8 x 7 sheet",
+    "Plain aluminium foil", "Metal", "Aluminium", "", "", 8 * 7 * IN2 * foil_gsm, "calculated",
+    "8 x 7 in sheet of 9 um aluminium at 2.7 g/cm3", "25_M2N", "", 9, "standalone",
+    "Paper-backed or lacquered foil may count as 'w/ plastic component': check the supplier spec")
+add("Chocolate bar sleeve, paperboard ~16 pt (2.5-3 oz bar)", "carton", "secondary", "6.5 x 3.25 x 0.4",
+    "Folding paperboard sleeve", "Paper/Fiber", "Paperboard", "", "", (2 * (3.25 + 0.4) + 0.5) * 6.5 * IN2 * 250,
+    "calculated", "Blank (2x(3.25+0.4) + 0.5 glue) x 6.5 in at ~250 g/m2", "25_PF10N", 0, 21, "standalone",
+    "A paper wrapper instead of a board sleeve maps to White Paper (25_PF11N)")
+
 here = os.path.dirname(os.path.abspath(__file__))
 out = os.path.join(here, "..", "data", "packaging-library.csv")
 with open(out, "w", newline="") as f:

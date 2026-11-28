@@ -1,8 +1,8 @@
 # Packaging library: method
 
-`data/packaging-library.csv` holds 133 common stock packaging components used by DTC brands, each with a weight, SPDC-style material fields and the California (CalRecycle ID) and Oregon/Colorado category it reports under. Regenerate with `python3 scripts/build_library.py`.
+`data/packaging-library.csv` holds 145 common stock packaging components used by DTC brands, each with a weight, SPDC-style material fields and the California (CalRecycle ID) and Oregon/Colorado category it reports under. Regenerate with `python3 scripts/build_library.py`.
 
-## Coverage (133 entries)
+## Coverage (145 entries)
 
 | Group | Entries |
 | --- | --- |
@@ -68,3 +68,10 @@ Constants: 32 ECT combined board weight from a corrugated grade table ([Richbox]
 - Plastic items carry `ca_plastic_components` (count per entry) and `ca_plastic_weight_g`.
 - Open questions flagged in `mapping_note`: whether plastic tape and labels make a box "w/ plastic component" in California, and whether a packing slip counts as packaging in California.
 - A brand should confirm weights for its own SKUs on a scale before filing; the library is a starting point that removes most data entry.
+
+## Added Nov 28, 2026 (PKG-134 to PKG-145): gaps for the first outreach brands
+- **Dropper assemblies** are split into three lines (glass pipette, PP collar, rubber bulb). The total (6.06 g) is a published case weight per unit; the split between parts is our estimate. Bulbs are treated as plastic, the cautious reading.
+- **Coffee bags with a valve** are plastic-majority by weight (~64% from a published kraft/LDPE/met PET/LLDPE layer spec), so they map to Multi-Material Laminate - Pouches, not paper. Note this differs from the kraft stand-up pouches (PKG-121/122), which assume kraft is the majority: check each brand's layer spec.
+- **Ceramic candle vessels** are calculated from published dimensions (+/-25%): weigh one empty vessel.
+- **Aluminium aerosol can** (22.9 g, published). The valve and actuator are its plastic components; their weight must come from the filler.
+- **Stick container** (2.5 oz PP twist-up), **snack bar flow wrap**, **chocolate bar foil and sleeve**: published or calculated as noted on each line.
