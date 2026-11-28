@@ -11,7 +11,7 @@ import base64, hashlib, hmac, os, re, sys
 
 if len(sys.argv) != 2 or not re.fullmatch(r"[a-z0-9][a-z0-9-]{1,39}", sys.argv[1]):
     sys.exit(__doc__)
-secret = os.environ.get("INTAKE_SECRET")
+secret = (os.environ.get("INTAKE_SECRET") or "").strip()
 if not secret:
     sys.exit("Set INTAKE_SECRET first (same value as in Cloudflare).")
 slug = sys.argv[1]

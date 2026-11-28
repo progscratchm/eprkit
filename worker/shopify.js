@@ -51,6 +51,8 @@ const PRODUCTS_QUERY = `{
 }`;
 
 const enc = new TextEncoder();
+// Secrets pasted into the Cloudflare dashboard can carry a trailing newline: always trim.
+const sec = (v) => (typeof v === "string" ? v.trim() : "");
 
 async function hmac(secret, message) {
   const key = await crypto.subtle.importKey("raw", enc.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
@@ -78,13 +80,13 @@ async function makeState(env, slug) {
   const exp = Math.floor(Date.now() / 1000) + 1800;
   const nonce = hex(crypto.getRandomValues(new Uint8Array(8)));
   const body = `${slug}.${nonce}.${exp}`;
-  return `${body}.${hex(await hmac(env.INTAKE_SECRET, "shopify-state:" + body)).slice(0, 32)}`;
+  return `${body}.${hex(await hmac(sec(env.INTAKE_SECRET), "shopify-state:" + body)).slice(0, 32)}`;
 }
 async function readState(env, state) {
   const parts = String(state || "").split(".");
   if (parts.length !== 4) return null;
   const [slug, nonce, exp, sig] = parts;
-  const want = hex(await hmac(env.INTAKE_SECRET, `shopify-state:${slug}.${nonce}.${exp}`)).slice(0, 32);
+  const want = hex(await hmac(sec(env.INTAKE_SECRET), `shopify-state:${slug}.${nonce}.${exp}`)).slice(0, 32);
   if (!same(sig, want) || Number(exp) < Date.now() / 1000) return null;
   return slug;
 }
@@ -94,7 +96,7 @@ async function validQueryHmac(env, url) {
   const params = [...url.searchParams.entries()].filter(([k]) => k !== "hmac" && k !== "signature");
   params.sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
   const message = params.map(([k, v]) => `${k}=${v}`).join("&");
-  const want = hex(await hmac(env.SHOPIFY_API_SECRET, message));
+  const want = hex(await hmac(sec(env.SHOPIFY_API_SECRET), message));
   return same(url.searchParams.get("hmac") || "", want);
 }
 
@@ -119,18 +121,18 @@ async function startBulk(shop, token, query) {
 }
 
 function ready(env) {
-  return env.UPLOADS && env.INTAKE_SECRET && env.SHOPIFY_API_KEY && env.SHOPIFY_API_SECRET;
+  return env.UPLOADS && sec(env.INTAKE_SECRET) && sec(env.SHOPIFY_API_KEY) && sec(env.SHOPIFY_API_SECRET);
 }
 
 export async function shopifyInstall(request, env) {
   if (!ready(env)) return page("Shopify connection isn't switched on yet", "<p>Please send your exports on the upload page instead, or email support@eprkit.com.</p>", 503);
   const url = new URL(request.url);
   const shop = (url.searchParams.get("shop") || "").trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/.*$/, "");
-  const slug = await checkCode(url.searchParams.get("code"), env.INTAKE_SECRET);
+  const slug = await checkCode(url.searchParams.get("code"), sec(env.INTAKE_SECRET));
   if (!slug) return page("That upload code didn't work", "<p>Check the code in your welcome email and try again.</p>", 403);
   if (!SHOP_RE.test(shop)) return page("That store address didn't work", "<p>Use your Shopify admin address, which ends in <code>.myshopify.com</code>. You'll find it in Shopify under Settings &gt; Domains.</p>", 400);
   const auth = new URL(`https://${shop}/admin/oauth/authorize`);
-  auth.searchParams.set("client_id", env.SHOPIFY_API_KEY);
+  auth.searchParams.set("client_id", sec(env.SHOPIFY_API_KEY));
   auth.searchParams.set("scope", env.SHOPIFY_SCOPES || DEFAULT_SCOPES);
   auth.searchParams.set("redirect_uri", `${url.origin}/api/shopify/callback`);
   auth.searchParams.set("state", await makeState(env, slug));
@@ -148,7 +150,7 @@ export async function shopifyCallback(request, env, waitUntil) {
   const tr = await fetch(`https://${shop}/admin/oauth/access_token`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ client_id: env.SHOPIFY_API_KEY, client_secret: env.SHOPIFY_API_SECRET, code: url.searchParams.get("code") }),
+    body: JSON.stringify({ client_id: sec(env.SHOPIFY_API_KEY), client_secret: sec(env.SHOPIFY_API_SECRET), code: url.searchParams.get("code") }),
   });
   const tok = await tr.json().catch(() => ({}));
   if (!tr.ok || !tok.access_token) return page("Shopify didn't approve the connection", "<p>Please try again, or send your exports on the upload page.</p>", 502);
@@ -178,9 +180,9 @@ export async function shopifyCallback(request, env, waitUntil) {
 
 // Webhooks: app/uninstalled, customers/data_request, customers/redact, shop/redact.
 export async function shopifyWebhook(request, env) {
-  if (!env.SHOPIFY_API_SECRET) return new Response("not configured", { status: 503 });
+  if (!sec(env.SHOPIFY_API_SECRET)) return new Response("not configured", { status: 503 });
   const raw = await request.text();
-  const want = b64(await hmac(env.SHOPIFY_API_SECRET, raw));
+  const want = b64(await hmac(sec(env.SHOPIFY_API_SECRET), raw));
   if (!same(request.headers.get("x-shopify-hmac-sha256") || "", want)) return new Response("bad hmac", { status: 401 });
   const topic = request.headers.get("x-shopify-topic") || "";
   const shop = (request.headers.get("x-shopify-shop-domain") || "").toLowerCase();

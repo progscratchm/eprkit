@@ -47,6 +47,7 @@ function sameString(a, b) {
 }
 
 export async function checkCode(code, secret) {
+  secret = typeof secret === "string" ? secret.trim() : secret;   // dashboard pastes can carry a trailing newline
   if (!secret || typeof code !== "string") return null;
   const [slug, sig] = code.trim().toLowerCase().split(".");
   if (!slug || !sig || !SLUG.test(slug)) return null;
