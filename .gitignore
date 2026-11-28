@@ -4,3 +4,7 @@ node_modules/
 clients/*
 !clients/_dryrun/
 shopify/node_modules/
+!clients/_practice/
+clients/_practice/raw/
+clients/_practice/input/
+clients/_practice/output/
