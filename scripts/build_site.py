@@ -398,7 +398,7 @@ page("privacy.html", "Privacy policy",
 <h2>How we use it</h2>
 <p>To reply to you, to prepare your reports, and to run our business (billing, records). We don't sell personal information or client data, and we don't use client data to market to anyone.</p>
 <h2>Sharing</h2>
-<p>Only with service providers that help us operate (for example email, file storage and payment processing), under confidentiality obligations, or where the law requires it.</p>
+<p>Only with service providers that help us operate (for example email, file storage and payment processing), under confidentiality obligations, or where the law requires it.</p>\n<p>Payments are processed by Stripe. Card and bank details go directly to Stripe and are never seen or stored by us; Stripe's own privacy policy applies to them.</p>
 <h2>Retention and deletion</h2>
 <p>Client data is kept while we work together and for as long as needed to support your filings and answer questions about them. Ask us at any time and we'll delete it, unless the law requires us to keep it.</p>
 <h2>Security</h2>
@@ -423,7 +423,7 @@ page("terms.html", "Terms of service",
 <h2>Not legal advice</h2>
 <p>We're not a law firm and don't give legal advice, including on whether you are the producer of a product. Regulatory information on this site is provided for general guidance and may change.</p>
 <h2>Fees, deposit and refund</h2>
-<p>Clients pay a deposit to book their filing and the balance on delivery. If we don't deliver your reports by the delivery date in your order (May 15, 2027 for the 2027 filing season), we refund your deposit in full. Fees owed to producer responsibility organizations are separate and paid by you.</p>
+<p>Clients pay a $750 deposit to book their filing and the balance on delivery, both through Stripe's secure checkout. If we don't deliver your reports by the delivery date in your order (May 15, 2027 for the 2027 filing season), we refund your deposit in full. Fees owed to producer responsibility organizations are separate and paid by you.</p>
 <h2>Confidentiality</h2>
 <p>We keep your data confidential and use it only to provide the service, as described in our <a href="/privacy.html">privacy policy</a>.</p>
 <h2>Liability</h2>
