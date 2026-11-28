@@ -465,10 +465,10 @@ INTAKE_BODY = """
   </form>
   <p>Sell on Amazon, through a 3PL or wholesale too? Drop those files in the boxes below; send them as they are, we clean them.</p>
   <div class="drops">
-    <div class="drop card" data-cat="orders"><h3>Order exports</h3><p class="note">Every channel for January 1 to December 31, 2026: Shopify, Amazon, your 3PL, wholesale.</p></div>
+    <div class="drop card" data-cat="orders"><h3>Order exports</h3><p class="note">Every channel for January 1 to December 31, 2026: Amazon, your 3PL, wholesale, any other store. Send the export exactly as your system gives it, CSV or Excel. We map the columns.</p></div>
     <div class="drop card" data-cat="products"><h3>Product list</h3><p class="note">Every SKU sold in 2026, including bundles and discontinued items.</p></div>
     <div class="drop card" data-cat="packaging"><h3>Packaging</h3><p class="note">Photos, spec sheets or supplier invoices for anything custom.</p></div>
-    <div class="drop card" data-cat="sales"><h3>Revenue and state sales</h3><p class="note">Total 2026 revenue and sales into each EPR state, in any format.</p></div>
+    <div class="drop card" data-cat="sales"><h3>Retail and distributor sales</h3><p class="note">Distributor or retailer reports (UNFI, KeHE, Faire, store sell-through), plus your total 2026 revenue. By state if you have it. If not, we allocate and tell you how.</p></div>
     <div class="drop card" data-cat="other"><h3>Anything else</h3><p class="note">Notes, last year's filing, questions.</p></div>
   </div>
   <p class="note">Spreadsheets, CSV, PDF, photos or zip files, up to 95 MB each. Bigger than that? Zip it, or email <a href="mailto:support@eprkit.com">support@eprkit.com</a>.</p>

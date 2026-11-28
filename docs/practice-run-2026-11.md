@@ -52,3 +52,9 @@ At $1,500 that is roughly $330-$430 an hour before costs. Capacity of 10-15 clie
 - Amazon and retail sell-through by state (see the connections research doc).
 - Brands with more than one shipping location.
 - A client-facing summary shorter than the full methodology (the packaging table runs to 300+ rows here).
+
+## Added Nov 28: any-file import, retail sales, client one-pager
+
+- `scripts/import_sales.py <file> clients/<brand>` reads any CSV, TSV or Excel export (title rows above the header are fine), finds SKU, quantity, state, order and retailer columns by name or by content, and writes `input/orders-<name>.csv` or `input/retail-<name>.csv`. Tested on an Amazon flat file and a distributor workbook with a title block and a grand-total row.
+- `build_reports.py` reads `input/retail*.csv` (sku, units, state optional, retailer, source). Rows with a state count there. Rows without one are split by Census Vintage 2025 population share (`data/state-population.csv`) and explained in the methodology. Retail units get unit packaging plus `_WHOLESALE` case packs.
+- `build_reports.py` now writes `summary-for-client.md` and a one-page print-ready `summary-for-client.html`: what they report by state, the top 5 packaging drivers, what we assumed, what to confirm (unweighed top items, unknown SKUs, missing states, PLA/PHA), next steps. Shows a DRAFT banner if any check fails. Set `brand_name` in client.json.

@@ -287,6 +287,60 @@ def build(client_dir):
             w = work[(st, f"order set: {ship_sku}", c["component"], c["ca_id"], c["or_co_id"], c["weight_source"], c["compostable"])]
             w[0] += n; w[1] += n * c["weight_g"]; w[2] += n * c["plastic_weight_g"]; w[3] += n * c["plastic_components"]
 
+    # Retail and distributor sales (input/retail*.csv): sku, units, state (optional), retailer, source.
+    # Rows with a state count there. Rows without one are national units, split by state population
+    # (U.S. Census Vintage 2025): a documented fallback when the brand has no sell-through by state.
+    pop = {r["state"]: num(r["population_2025"]) for r in read_csv(os.path.join(ROOT, "data", "state-population.csv"))}
+    retail = {"direct": collections.Counter(), "allocated": collections.Counter(), "files": [], "retailers": set()}
+    def add_line(st, sku, q, label):
+        for c in unit.get(sku, []):
+            n = q * c["qty"]
+            w = work[(st, label, c["component"], c["ca_id"], c["or_co_id"], c["weight_source"], c["compostable"])]
+            w[0] += n; w[1] += n * c["weight_g"]; w[2] += n * c["plastic_weight_g"]; w[3] += n * c["plastic_components"]
+    for path in sorted(glob.glob(os.path.join(indir, "retail*.csv"))):
+        retail["files"].append(os.path.basename(path))
+        for i, r in enumerate(read_csv(path), start=2):
+            low = {k.strip().lower(): (v or "").strip() for k, v in r.items() if k}
+            sku = low.get("sku", "")
+            q = num(low.get("units") or low.get("qty") or low.get("quantity"), 0)
+            if not sku or q <= 0:
+                continue
+            if low.get("retailer"):
+                retail["retailers"].add(low["retailer"])
+            if sku not in unit and sku not in bundles:
+                exceptions.append([f"{os.path.basename(path)} line {i}", "retail", sku, q, "needs review: SKU not in packaging list"])
+                unknown[sku] += q
+                continue
+            raw_state = low.get("state", "")
+            if raw_state:
+                st = norm_state(raw_state)
+                if not st:
+                    exceptions.append([f"{os.path.basename(path)} line {i}", "retail", sku, q,
+                                       f"needs review: retail state unknown ({raw_state!r})"]); continue
+                shares = {st: 1.0}
+                retail["direct"][st] += q
+            else:
+                shares = {st: pop[st] / pop["US"] for st in REPORT_STATES + FLAG_STATES}
+                for st, sh in shares.items():
+                    retail["allocated"][st] += q * sh
+            cases = order_sets.get("_WHOLESALE", [])
+            for st, sh in shares.items():
+                qs = q * sh
+                if st not in REPORT_STATES + FLAG_STATES:
+                    continue
+                units_by_state[st] += qs
+                add_line(st, sku, qs, f"retail: {sku}")
+                for inner, iq in bundles.get(sku, []):
+                    add_line(st, inner, qs * iq, f"retail: {sku} > {inner}")
+                caps = [c["max_units"] for c in cases if c["max_units"]]
+                packs = qs / min(caps) if caps else 0
+                for c in cases:
+                    n = packs * c["qty"]
+                    w = work[(st, "retail: case packs", c["component"], c["ca_id"], c["or_co_id"], c["weight_source"], c["compostable"])]
+                    w[0] += n; w[1] += n * c["weight_g"]; w[2] += n * c["plastic_weight_g"]; w[3] += n * c["plastic_components"]
+    if retail["files"] and "_WHOLESALE" not in order_sets:
+        problems.append("Retail sales given but packaging.csv has no _WHOLESALE case set: shipping cases to retailers are not counted")
+
     with open(os.path.join(outdir, "working.csv"), "w", newline="") as f:
         wr = csv.writer(f)
         wr.writerow(["State", "SKU", "Component", "CA category", "OR/CO category", "Weight source", "Compostable", "Components counted",
@@ -417,15 +471,157 @@ def build(client_dir):
     lines.append(f"- {int(review_units):,} units need review ({share:.1%} of units). Resolve or explain them in the methodology."
                  if review_units else "- No units need review.")
     write_methodology(outdir, client_dir, files, unit, order_sets, exceptions, units_by_state, ca_total, orco_totals,
-                      simple, orders=orders, cfg=cfg, bundles=bundles)
+                      simple, orders=orders, cfg=cfg, bundles=bundles, retail=retail, pop=pop)
+    write_client_summary(outdir, client_dir, cfg or {}, work, units_by_state, ca_total, orco_totals, simple,
+                         exceptions, unknown, review_units, total_units, retail, checks, len(orders))
     with open(os.path.join(outdir, "summary.md"), "w") as f:
         f.write("\n".join(lines) + "\n")
     print("\n".join(lines))
     return not fails
 
 
+STATE_NAMES = {"CA": "California", "OR": "Oregon", "CO": "Colorado", "MN": "Minnesota", "MD": "Maryland", "WA": "Washington"}
+FILES = {"CA": "california-supply-report.csv", "OR": "oregon-supply-report.csv", "CO": "colorado-supply-report.csv",
+         "MN": "minnesota-simplified-report.csv", "MD": "maryland-simplified-report.csv", "WA": "washington-simplified-report.csv"}
+
+
+def write_client_summary(outdir, client_dir, cfg, work, units_by_state, ca_total, orco_totals, simple, exceptions,
+                         unknown, review_units, total_units, retail, checks, n_orders):
+    """One page for the brand's founder or ops lead: what they report, what drives it, what we assumed, what to confirm.
+    Written as summary-for-client.md and a print-ready summary-for-client.html (Letter, one page)."""
+    import html as H
+    brand = cfg.get("brand_name") or os.path.basename(os.path.abspath(client_dir)).replace("_", " ").strip().title()
+    lbs = {"CA": ca_total, "OR": orco_totals.get("OR", 0), "CO": orco_totals.get("CO", 0)}
+    for st in FLAG_STATES:
+        lbs[st] = sum(simple[st].values()) / G_PER_LB if simple[st] else 0
+    states = [s for s in REPORT_STATES + FLAG_STATES if lbs.get(s, 0) > 0]
+    total_lbs = sum(lbs[s] for s in states)
+
+    # Drivers: components by weight across all report states. Estimated = library weight, not weighed by the brand.
+    comp_g, comp_est = collections.Counter(), {}
+    est_g = 0.0
+    for (st, _, comp, _, _, src, _), v in work.items():
+        if st not in states:
+            continue
+        comp_g[comp] += v[1]
+        est = src.startswith("library")
+        comp_est[comp] = comp_est.get(comp, False) or est
+        if est:
+            est_g += v[1]
+    all_g = sum(comp_g.values()) or 1
+    top = comp_g.most_common(5)
+    top_share = sum(g for _, g in top) / all_g
+
+    assumptions = []
+    if est_g:
+        assumptions.append(f"{est_g / all_g:.0%} of the weight uses our packaging library's typical weights for items "
+                           "you didn't weigh. The rest uses your own weights.")
+    else:
+        assumptions.append("Every weight comes from your own measurements.")
+    if retail and retail.get("allocated"):
+        n = sum(retail["allocated"].values())
+        assumptions.append(f"Retail units with no state were split by state population (U.S. Census 2025): {int(round(n)):,} "
+                           "of them land in these states. Retailer sales by state would replace this.")
+    if retail and retail.get("direct"):
+        assumptions.append("Retail units your retailers reported by state are counted in that state.")
+    if cfg.get("pickup_state"):
+        assumptions.append(f"Local pickup orders count in {STATE_NAMES.get(cfg['pickup_state'], cfg['pickup_state'])}, "
+                           "with product packaging only (no shipping box).")
+    if cfg.get("wholesale_tags"):
+        assumptions.append("Wholesale orders use your case-pack shipping set, not the consumer mailer.")
+    if any(e[4].startswith("included: refunded after it shipped") for e in exceptions):
+        assumptions.append("Orders refunded after they shipped are counted: the packaging still reached the customer.")
+
+    confirm = []
+    est_top = [c for c, _ in top if comp_est.get(c)]
+    if est_top:
+        confirm.append("Weigh these on a kitchen scale and send us the grams: " + "; ".join(est_top[:3]) +
+                       ". They are your biggest items and we used typical weights.")
+    if unknown:
+        confirm.append(f"Tell us what packaging these SKUs use: {', '.join(s for s, _ in unknown.most_common(6))}"
+                       f" ({int(sum(unknown.values())):,} units).")
+    no_state = sum(num(e[3]) for e in exceptions if "state missing or unknown" in e[4])
+    if no_state:
+        confirm.append(f"{int(no_state):,} units have no usable ship-to state. We left them out; tell us if you know where they went.")
+    if any(c[0] == "REVIEW" and "PLA/PHA" in c[1] for c in checks):
+        confirm.append("Some packaging is PLA or PHA. Is it certified compostable? It changes the category in MN, MD and WA.")
+    if not confirm:
+        confirm.append("Nothing open. Check the state table once and reply \"approved\".")
+
+    fails = [c for c in checks if c[0] == "FAIL"]
+    steps = ["Reply with the answers above (or \"approved\"). We update the files the same day.",
+             "We send the final files for each state, ready to upload or copy into the portal.",
+             "You submit, or we walk you through the portal on a call. If anything is questioned, we fix it free."]
+
+    # Markdown
+    md = [f"# {brand}: your 2026 packaging report, on one page", "",
+          f"Based on {n_orders:,} orders and {int(total_units):,} units shipped in the US in 2026, "
+          f"{int(sum(units_by_state[s] for s in states)):,} of them into states with packaging laws.", "",
+          "## What you report", "", "| State | Units | Packaging (lbs) | File |", "|---|---:|---:|---|"]
+    md += [f"| {STATE_NAMES[s]} | {int(units_by_state[s]):,} | {lbs[s]:,.0f} | {FILES[s]} |" for s in states]
+    md += [f"| **Total** | **{int(sum(units_by_state[s] for s in states)):,}** | **{total_lbs:,.0f}** | |", "",
+           "Fees are invoiced separately by Circular Action Alliance (or the state) from these weights.", "",
+           f"## What drives it", "", f"Your top {len(top)} packaging items are {top_share:.0%} of the weight:", ""]
+    md += [f"{i}. {c}: {g / G_PER_LB:,.0f} lbs ({g / all_g:.0%}){' · typical weight' if comp_est.get(c) else ''}"
+           for i, (c, g) in enumerate(top, 1)]
+    md += ["", "## What we assumed", ""] + [f"- {a}" for a in assumptions]
+    md += ["", "## What we need you to confirm", ""] + [f"- {c}" for c in confirm]
+    md += ["", "## Next steps", ""] + [f"{i}. {t}" for i, t in enumerate(steps, 1)]
+    md += ["", "Full detail: methodology.md. Questions: support@eprkit.com", ""]
+    if fails:
+        md.insert(2, f"> DRAFT: {len(fails)} check(s) still failing. Not for the client yet.\n")
+    with open(os.path.join(outdir, "summary-for-client.md"), "w") as f:
+        f.write("\n".join(md))
+
+    # HTML, one Letter page
+    e = H.escape
+    rows = "".join(f"<tr><td>{STATE_NAMES[s]}</td><td>{int(units_by_state[s]):,}</td><td>{lbs[s]:,.0f}</td>"
+                   f"<td class=f>{FILES[s]}</td></tr>" for s in states)
+    drv = "".join(f"<li><b>{e(c)}</b> <span>{g / G_PER_LB:,.0f} lbs · {g / all_g:.0%}"
+                  f"{' · typical weight' if comp_est.get(c) else ''}</span>"
+                  f"<i style='width:{g / top[0][1] * 100:.0f}%'></i></li>" for c, g in top)
+    li = lambda xs: "".join(f"<li>{e(x)}</li>" for x in xs)
+    draft = f"<p class=draft>DRAFT: {len(fails)} check(s) still failing. Not for the client yet.</p>" if fails else ""
+    page = f"""<!doctype html><html lang=en><meta charset=utf-8><title>{e(brand)}: 2026 packaging report summary</title>
+<style>
+@page{{size:Letter;margin:.55in}}*{{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+body{{font:10.5pt/1.4 -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;color:#1d2a24;max-width:7.4in;margin:24px auto}}
+header{{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #1f6f50;padding-bottom:6px}}
+h1{{font-size:16pt;margin:0}}header span{{color:#1f6f50;font-weight:600}}
+h2{{font-size:10.5pt;text-transform:uppercase;letter-spacing:.06em;color:#1f6f50;margin:14px 0 6px}}
+.lead{{margin:8px 0 0;color:#4a5a52}}table{{width:100%;border-collapse:collapse}}
+th,td{{text-align:left;padding:4px 6px;border-bottom:1px solid #dfe7e2}}th{{font-size:9pt;color:#4a5a52}}
+td:nth-child(2),td:nth-child(3),th:nth-child(2),th:nth-child(3){{text-align:right}}
+td.f{{font:8.5pt ui-monospace,Menlo,monospace;color:#4a5a52}}tfoot td{{font-weight:700;border-bottom:0}}
+.note{{font-size:9pt;color:#4a5a52;margin:4px 0 0}}
+.grid{{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}}
+ol.d{{list-style:none;padding:0;margin:0}}ol.d li{{padding:2px 0 5px}}ol.d b{{display:block;font-weight:600}}
+ol.d span{{display:block;color:#4a5a52;font-size:9pt}}
+ol.d i{{display:block;height:4px;background:#1f6f50;border-radius:2px;margin-top:3px}}
+ul,ol.s{{margin:0;padding-left:18px}}li{{margin:2px 0}}
+.confirm{{background:#fff7e0;border-left:3px solid #d49b00;padding:6px 10px 6px 4px}}
+.draft{{background:#fde2e1;padding:6px 10px;font-weight:600}}
+@media print{{body{{margin:0;font-size:10pt}}h2{{margin:10px 0 4px}}th,td{{padding:3px 6px}}footer{{margin-top:10px}}}}
+footer{{margin-top:14px;font-size:8.5pt;color:#4a5a52;border-top:1px solid #dfe7e2;padding-top:6px}}
+</style>
+<header><h1>{e(brand)}</h1><span>2026 packaging report · summary</span></header>{draft}
+<p class=lead>Based on {n_orders:,} orders and {int(total_units):,} units shipped in the US in 2026, {int(sum(units_by_state[s] for s in states)):,} of them into states with packaging laws.
+<b>{total_lbs:,.0f} lbs</b> of packaging to report across {len(states)} states.</p>
+<h2>What you report</h2>
+<table><thead><tr><th>State</th><th>Units</th><th>Packaging (lbs)</th><th>File</th></tr></thead><tbody>{rows}</tbody>
+<tfoot><tr><td>Total</td><td>{int(sum(units_by_state[s] for s in states)):,}</td><td>{total_lbs:,.0f}</td><td></td></tr></tfoot></table>
+<p class=note>Fees are invoiced separately by Circular Action Alliance (or the state) from these weights.</p>
+<div class=grid><div><h2>What drives it</h2><p class=note style="margin:0 0 4px">Top {len(top)} items: {top_share:.0%} of the weight</p><ol class=d>{drv}</ol></div>
+<div><h2>What we assumed</h2><ul>{li(assumptions)}</ul></div></div>
+<h2>What we need you to confirm</h2><div class=confirm><ul>{li(confirm)}</ul></div>
+<h2>Next steps</h2><ol class=s>{li(steps)}</ol>
+<footer>EPR Kit · support@eprkit.com · Full detail in methodology.md, sent with your files.</footer></html>"""
+    with open(os.path.join(outdir, "summary-for-client.html"), "w") as f:
+        f.write(page)
+
+
 def write_methodology(outdir, client_dir, files, unit, order_sets, exceptions, units_by_state, ca_total, orco_totals,
-                      simple, orders=None, cfg=None, bundles=None):
+                      simple, orders=None, cfg=None, bundles=None, retail=None, pop=None):
     """Client-facing methodology: how every number in the delivered files was produced."""
     name = os.path.basename(os.path.abspath(client_dir))
     excl = collections.Counter()
@@ -457,6 +653,23 @@ def write_methodology(outdir, client_dir, files, unit, order_sets, exceptions, u
                      "product inside them.")
     if rules:
         L += ["", "How we handled special orders:", ""] + [f"- {r}" for r in rules]
+    if retail and retail["files"]:
+        L += ["", "Retail and distributor sales:", ""]
+        L += [f"- Files: {', '.join('`' + f + '`' for f in retail['files'])}"
+              + (f" ({len(retail['retailers'])} retailers or distributors)" if retail["retailers"] else "")]
+        if retail["direct"]:
+            L += ["- Units reported by state (sell-through or ship-to): "
+                  + ", ".join(f"{s} {int(round(v)):,}" for s, v in sorted(retail["direct"].items()) if s in REPORT_STATES + FLAG_STATES)]
+        if retail["allocated"]:
+            us = pop["US"]
+            L += ["- Units without a state were split by each state's share of the US population (U.S. Census Bureau, "
+                  "Vintage 2025 estimates, July 1, 2025): "
+                  + ", ".join(f"{s} {pop[s]/us*100:.2f}% = {int(round(retail['allocated'][s])):,} units"
+                              for s in REPORT_STATES + FLAG_STATES) + ".",
+                  "- This is an allocation, not a measurement. We used it because sell-through by state was not "
+                  "available for these units. Ask your retailers or distributors for sales by state; we will replace "
+                  "the allocation with their figures next year."]
+        L += ["- Retail units carry their product packaging plus a share of the case boxes used to ship to retailers."]
     L += ["", "Units marked \"needs review\" were resolved with you before delivery, or are explained in section 6.", "",
           "## 2. Units by state", "", "| State | Units |", "| --- | ---: |"]
     L += [f"| {s} | {int(units_by_state[s]):,} |" for s in REPORT_STATES + FLAG_STATES if units_by_state[s]]
