@@ -25,7 +25,9 @@
 import { checkCode, notifyText } from "./intake.js";
 
 const API_VERSION = "2026-10";
-const SCOPES = "read_products,read_orders,read_all_orders";
+// read_all_orders (orders older than 60 days) is granted separately by Shopify. Until it is, request only
+// the two base scopes; add it with the SHOPIFY_SCOPES variable once approved.
+const DEFAULT_SCOPES = "read_products,read_orders";
 const SHOP_RE = /^[a-z0-9][a-z0-9-]*\.myshopify\.com$/;
 const YEAR = 2026;
 
@@ -129,7 +131,7 @@ export async function shopifyInstall(request, env) {
   if (!SHOP_RE.test(shop)) return page("That store address didn't work", "<p>Use your Shopify admin address, which ends in <code>.myshopify.com</code>. You'll find it in Shopify under Settings &gt; Domains.</p>", 400);
   const auth = new URL(`https://${shop}/admin/oauth/authorize`);
   auth.searchParams.set("client_id", env.SHOPIFY_API_KEY);
-  auth.searchParams.set("scope", SCOPES);
+  auth.searchParams.set("scope", env.SHOPIFY_SCOPES || DEFAULT_SCOPES);
   auth.searchParams.set("redirect_uri", `${url.origin}/api/shopify/callback`);
   auth.searchParams.set("state", await makeState(env, slug));
   return Response.redirect(auth.toString(), 302);

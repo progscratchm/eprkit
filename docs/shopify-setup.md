@@ -8,7 +8,9 @@ bucket. Code: `worker/shopify.js`. Converter: `scripts/shopify_to_csv.py`.
 
 1. **Create the app.** Sign in to Shopify's Dev Dashboard (dev.shopify.com) with a Partner account, then
    Apps > Create app. Name it "EPR Kit". You create the account and accept Shopify's terms yourself.
-2. **Distribution: custom.** Choose custom distribution, so the app isn't listed in the App Store.
+2. **Distribution: public (chosen Nov 27, 2026, permanent).** One app for every brand, installed by link,
+   listable in the App Store later. Requires the one-time App Store registration ($19) and Shopify's review
+   before stores outside our own dev stores can install it. (Earlier draft, kept for reference:) **custom.** Choose custom distribution, so the app isn't listed in the App Store.
    Shopify ties a custom-distribution app to the stores you generate install links for, so add each
    client's `*.myshopify.com` store when they book. **Check on the development store which install path
    works:** our Connect button (which runs the OAuth flow through `/api/shopify/install`) or Shopify's
@@ -17,7 +19,10 @@ bucket. Code: `worker/shopify.js`. Converter: `scripts/shopify_to_csv.py`.
 3. **URLs.**
    - App URL: `https://eprkit.com/intake`
    - Allowed redirection URL: `https://eprkit.com/api/shopify/callback`
-4. **Access scopes:** `read_products`, `read_orders`, `read_all_orders`.
+4. **Access scopes:** `read_products`, `read_orders` in the app version. `read_all_orders` can't be added at
+   creation; request it under Settings > Access requests (after choosing distribution). Once approved, add
+   it to the app version's scopes and set the Cloudflare variable
+   `SHOPIFY_SCOPES=read_products,read_orders,read_all_orders`.
    - `read_all_orders` lets us see orders older than 60 days. It has to be requested in the app's
      settings with a reason. Suggested reason: *"Packaging EPR reports cover a full calendar year of
      orders shipped into each state. We read SKU, quantity, ship-to state and order status for January
