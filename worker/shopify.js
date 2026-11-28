@@ -31,7 +31,7 @@ const DEFAULT_SCOPES = "read_products,read_orders";
 const SHOP_RE = /^[a-z0-9][a-z0-9-]*\.myshopify\.com$/;
 const YEAR = 2026;
 
-const ORDERS_QUERY = `{
+export const ORDERS_QUERY = `{
   orders(query: "created_at:>=${YEAR}-01-01 AND created_at:<${YEAR + 1}-01-01") {
     edges { node {
       id name createdAt cancelledAt displayFinancialStatus test
@@ -41,7 +41,7 @@ const ORDERS_QUERY = `{
   }
 }`;
 
-const PRODUCTS_QUERY = `{
+export const PRODUCTS_QUERY = `{
   products {
     edges { node {
       id handle title productType vendor tags status
@@ -52,7 +52,7 @@ const PRODUCTS_QUERY = `{
 
 const enc = new TextEncoder();
 // Secrets pasted into the Cloudflare dashboard can carry a trailing newline: always trim.
-const sec = (v) => (typeof v === "string" ? v.trim() : "");
+export const sec = (v) => (typeof v === "string" ? v.trim() : "");
 
 async function hmac(secret, message) {
   const key = await crypto.subtle.importKey("raw", enc.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
@@ -100,7 +100,7 @@ async function validQueryHmac(env, url) {
   return same(url.searchParams.get("hmac") || "", want);
 }
 
-async function gql(shop, token, query, variables = {}) {
+export async function gql(shop, token, query, variables = {}) {
   const r = await fetch(`https://${shop}/admin/api/${API_VERSION}/graphql.json`, {
     method: "POST",
     headers: { "content-type": "application/json", "x-shopify-access-token": token },
@@ -111,7 +111,7 @@ async function gql(shop, token, query, variables = {}) {
   return j.data;
 }
 
-async function saveConnection(env, slug, shop, tok, connectedAt) {
+export async function saveConnection(env, slug, shop, tok, connectedAt) {
   const t = Date.now();
   const conn = {
     shop, scope: tok.scope, connected_at: connectedAt,
@@ -125,7 +125,7 @@ async function saveConnection(env, slug, shop, tok, connectedAt) {
 }
 
 // Return a valid access token, refreshing it (and saving the new pair) when it's within 5 minutes of expiry.
-async function freshToken(env, slug, conn) {
+export async function freshToken(env, slug, conn) {
   if (!conn.expires_at || conn.expires_at - Date.now() > 5 * 60 * 1000) return conn.token;
   if (!conn.refresh_token) throw new Error("token expired and no refresh token: the client must reconnect");
   const r = await fetch(`https://${conn.shop}/admin/oauth/access_token`, {
@@ -140,7 +140,7 @@ async function freshToken(env, slug, conn) {
   return saved.token;
 }
 
-async function startBulk(shop, token, query) {
+export async function startBulk(shop, token, query) {
   const data = await gql(shop, token,
     `mutation run($q: String!) { bulkOperationRunQuery(query: $q) { bulkOperation { id status } userErrors { field message } } }`,
     { q: query });
@@ -269,11 +269,12 @@ export async function shopifyCron(env) {
     const messages = [];
     for (const [kind, id] of Object.entries(job.ops)) {
       try {
-        const d = await gql(job.shop, token, `query($id: ID!) { node(id: $id) { ... on BulkOperation { status errorCode objectCount url } } }`, { id });
+        const d = await gql(job.shop, token, `query($id: ID!) { node(id: $id) { ... on BulkOperation { status errorCode objectCount rootObjectCount url } } }`, { id });
         const op = d.node || {};
         if (op.status === "COMPLETED") {
           if (op.url) await saveExport(env, `clients/${job.slug}/shopify/${stamp}-${kind}.jsonl`, op.url);
-          messages.push(`${kind}: ${op.objectCount} objects saved${op.url ? "" : " (empty)"}`);
+          messages.push(`${kind}: ${op.rootObjectCount ?? op.objectCount} ${kind} saved${op.url ? "" : " (empty)"}`);
+          job.counts = Object.assign(job.counts || {}, { [kind]: Number(op.rootObjectCount ?? op.objectCount ?? 0) });
           delete job.ops[kind];
         } else if (["FAILED", "CANCELED", "EXPIRED"].includes(op.status)) {
           messages.push(`${kind}: ${op.status} ${op.errorCode || ""}`.trim());
@@ -284,7 +285,13 @@ export async function shopifyCron(env) {
       }
     }
     if (Object.keys(job.ops).length) await env.UPLOADS.put(o.key, JSON.stringify(job));
-    else await env.UPLOADS.delete(o.key);
+    else {
+      await env.UPLOADS.delete(o.key);
+      const prev = await env.UPLOADS.get(`clients/${job.slug}/shopify/status.json`);
+      const st = prev ? JSON.parse(await prev.text()) : {};
+      Object.assign(st, { exported_at: new Date().toISOString(), orders: (job.counts || {}).orders ?? 0, products: (job.counts || {}).products ?? 0 });
+      await env.UPLOADS.put(`clients/${job.slug}/shopify/status.json`, JSON.stringify(st));
+    }
     if (messages.length) {
       await notifyText(env, `Shopify export: ${job.slug}`, [`${job.shop}`, ...messages, ``,
         `Convert: python3 scripts/shopify_to_csv.py clients/${job.slug}/shopify/`].join("\n"));

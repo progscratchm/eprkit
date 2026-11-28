@@ -2,8 +2,8 @@
 # The Client ID is public; the secret is never stored here (it lives in Cloudflare as SHOPIFY_API_SECRET).
 client_id = "ec8292dcaae33944e356628ef756678c"
 name = "EPR Kit"
-application_url = "https://eprkit.com/intake"
-embedded = false
+application_url = "https://eprkit.com/app"
+embedded = true
 
 [access_scopes]
 # Add read_all_orders here once Shopify approves it (and set SHOPIFY_SCOPES in Cloudflare).

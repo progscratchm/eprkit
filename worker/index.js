@@ -3,6 +3,7 @@
 // Static files are served without running this code (assets.run_worker_first is only "/api/*").
 import { onRequestGet, onRequestPost, onRequest } from "./intake.js";
 import { shopifyInstall, shopifyCallback, shopifyWebhook, shopifyCron } from "./shopify.js";
+import { appPage, appStatus, appBook } from "./app.js";
 
 export default {
   async scheduled(event, env, ctx) {
@@ -16,6 +17,9 @@ export default {
       if (request.method === "POST") return onRequestPost(context);
       return onRequest(context);
     }
+    if (url.pathname === "/app" || url.pathname === "/app/") return appPage(env);
+    if (url.pathname === "/api/app/status" && request.method === "GET") return appStatus(request, env, (p) => ctx.waitUntil(p));
+    if (url.pathname === "/api/app/book" && request.method === "POST") return appBook(request, env, (p) => ctx.waitUntil(p));
     if (url.pathname === "/api/shopify/install" && request.method === "GET") return shopifyInstall(request, env);
     if (url.pathname === "/api/shopify/callback" && request.method === "GET") return shopifyCallback(request, env, (p) => ctx.waitUntil(p));
     if (url.pathname === "/api/shopify/webhooks" && request.method === "POST") return shopifyWebhook(request, env);
