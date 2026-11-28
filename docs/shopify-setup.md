@@ -66,3 +66,12 @@ bucket. Code: `worker/shopify.js`. Converter: `scripts/shopify_to_csv.py`.
   customer privacy webhooks have nothing to return or erase.
 - Later: submitting to the App Store needs Shopify's review, the full privacy webhooks, and embedded-app
   requirements. Worth it once a few clients have used the custom app.
+
+## Install flow (Nov 28, 2026)
+
+The app uses Shopify-managed installation, because app-wide webhooks (including the mandatory privacy
+webhooks) aren't allowed with the legacy install flow. Scopes come from `shopify/shopify.app.toml`, pushed
+with `npx @shopify/cli@latest app deploy --allow-updates` from a folder holding that file. Our Connect
+button still sends the brand to `/admin/oauth/authorize`; for a non-embedded app that's the standard way to
+get the access token, and the scopes requested must match the ones in the config. Test this on the
+development store before any client uses it.
