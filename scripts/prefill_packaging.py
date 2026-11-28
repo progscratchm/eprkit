@@ -38,7 +38,18 @@ def r_unit(lib_id, note="", qty=1):
 def r_gap(component, note):
     return {"level": "unit", "component": component, "check_this": note}
 
+PET_BOTTLE = [(3.4, "PKG-108"), (16, "PKG-109")]
+
 RULES = [
+    ("gift set / kit", r"\b(gift set|set|kit|bundle|trio|duo|collection)\b",
+     lambda oz: [r_unit("PKG-132", "Rigid gift box assumed. List what's inside in bundles.csv so each product's own packaging counts")]),
+    ("refill pouch", r"\b(refill|pouch)\b",
+     lambda oz: [r_unit("PKG-126", "Plastic stand-up pouch assumed. Kraft or a different size? Change it")]),
+    ("lip balm", r"\b(lip balm|lip|chapstick)\b",
+     lambda oz: [r_unit("PKG-148", "0.15 oz PP lip balm tube assumed. Paper tube or tin? Change it")]),
+    ("cleanser", r"\b(cleanser|face wash|cleansing|foaming wash)\b",
+     lambda oz: [r_unit(nearest(PET_BOTTLE, oz)[0], "PET bottle assumed. Tube or pump? Change it"),
+                 r_unit("PKG-117", "Snap-top cap assumed. Pump? Change it")]),
     ("serum / oil / dropper", r"\b(serum|face oil|hair oil|body oil|oil|tincture|dropper|elixir|essence)\b",
      lambda oz: [r_unit(nearest(GLASS_ROUND, oz)[0], "Amber glass bottle assumed. Clear or plastic? Change it"),
                  r_unit("PKG-134", "Glass dropper pipette assumed (1 oz size). Weigh one if yours is longer"),
@@ -50,12 +61,12 @@ RULES = [
      lambda oz: [r_unit("PKG-096", "Paperboard carton assumed. Paper wrap or no wrap? Change it")]),
     ("cream / balm / mask jar", r"\b(cream|balm|butter|mask|salve|pomade|scrub|polish|moisturi[sz]er)\b",
      lambda oz: [r_unit(nearest(GLASS_JAR, oz)[0], "Glass jar assumed. Plastic or tin jar? Change it"),
-                 r_gap("Jar lid", "Not in our library yet: plastic or metal lid? Give the gram weight or weigh 10")]),
+                 r_unit("PKG-146", "58 mm PP lid assumed. Metal or bamboo lid? Change it")]),
     ("spray can", r"\b(aerosol|spray can|dry shampoo|sunscreen spray|continuous spray)\b",
      lambda oz: [r_unit("PKG-141", "Aluminium aerosol can assumed. Add the actuator and cap weights")]),
     ("stick", r"\b(deodorant|stick)\b",
      lambda oz: [r_unit("PKG-142", "2.5 oz PP twist-up stick assumed. Paper tube? Change it")]),
-    ("sunscreen / tube", r"\b(sunscreen|spf|hand cream|lip|tube|toothpaste|gel)\b",
+    ("sunscreen / tube", r"\b(sunscreen|spf|hand cream|tube|toothpaste)\b",
      lambda oz: [r_unit(nearest(TUBE, oz)[0], "Squeeze tube with flip cap assumed")]),
     ("shampoo / wash / lotion", r"\b(shampoo|conditioner|wash|cleanser|lotion|soap(?! bar)|liquid soap|toner|mist|spray)\b",
      lambda oz: [r_unit(nearest(HDPE_BOTTLE, oz)[0], "White HDPE bottle assumed. PET, glass or a different size? Change it"),

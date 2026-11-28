@@ -1,8 +1,8 @@
 # Packaging library: method
 
-`data/packaging-library.csv` holds 145 common stock packaging components used by DTC brands, each with a weight, SPDC-style material fields and the California (CalRecycle ID) and Oregon/Colorado category it reports under. Regenerate with `python3 scripts/build_library.py`.
+`data/packaging-library.csv` holds 149 common stock packaging components used by DTC brands, each with a weight, SPDC-style material fields and the California (CalRecycle ID) and Oregon/Colorado category it reports under. Regenerate with `python3 scripts/build_library.py`.
 
-## Coverage (145 entries)
+## Coverage (149 entries)
 
 | Group | Entries |
 | --- | --- |

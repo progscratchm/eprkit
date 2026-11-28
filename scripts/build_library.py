@@ -360,6 +360,22 @@ add("Chocolate bar sleeve, paperboard ~16 pt (2.5-3 oz bar)", "carton", "seconda
     "calculated", "Blank (2x(3.25+0.4) + 0.5 glue) x 6.5 in at ~250 g/m2", "25_PF10N", 0, 21, "standalone",
     "A paper wrapper instead of a board sleeve maps to White Paper (25_PF11N)")
 
+# 32. Jar lids, lip balm tube and sample sachets (added Nov 28, 2026, from the practice run)
+for name, g, src in [
+        ("Jar lid 58-400, PP smooth, lined", 5.8, "Supplier drawing DWG32006, 58-400 PP smooth cap with PS22 liner: part weight 5.80 +/- 1.5 g"),
+        ("Jar lid 70-400, PP smooth, PS liner", 0.37 * 28.3495, "Container & Packaging L461WHP1, 0.37 oz")]:
+    add(name, "closure", "closure", "", "Polypropylene", "Plastic - Rigid", "PP", "5", "rigid", g, PUB, src,
+        "25_P41P", 1, 43, "separate from jar",
+        "Over 2 in across, so not small format. A foam or paper liner stays with the lid")
+add("Lip balm tube 0.15 oz with cap, PP", "tube", "primary", "0.6 dia x 2.7", "PP tube, elevator and cap",
+    "Plastic - Other", "PP", "5", "rigid", 0.016 * 453.592, PUB, "US Plastic 102841 (Federal Package), 0.016 lb",
+    "25_P47P", 3, 58, "cap attached in use", "Tube, elevator and cap counted as 3 plastic components. Small format")
+SACHET_GSM = 12 * 1.39 + 7 * 2.7 + 50 * 0.92    # 12 um PET / 7 um ALU / 50 um PE
+add("Sample sachet 2 x 3 in, PET/foil/PE", "pouch", "primary", "2 x 3", "Laminate sachet, heat sealed",
+    "Plastic - Flexible", "Multi-material laminate", "", "flexible", 2 * 2 * 3 * IN2 * SACHET_GSM,
+    "calculated", "2 plies of 2 x 3 in, 12 um PET / 7 um ALU / 50 um PE (~81 g/m2)", "25_P46P", 1, 57, "standalone",
+    "Free samples count too: they are packaging shipped into the state")
+
 here = os.path.dirname(os.path.abspath(__file__))
 out = os.path.join(here, "..", "data", "packaging-library.csv")
 with open(out, "w", newline="") as f:

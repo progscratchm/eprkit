@@ -36,6 +36,7 @@ SIMPLE_NAMES = {"MN": "minnesota", "MD": "maryland", "WA": "washington"}
 SIMPLE_MAP = {"Printing and Writing Paper": "Printing and Writing Paper", "Glass and Ceramics": "Glass and Ceramics",
               "Metal": "Metal", "Paper/Fiber": "Paper/Fiber", "Plastic - Rigid": "Rigid Plastic",
               "Plastic - Flexible": "Flexible Plastic",
+              "Plastic - Other": "Rigid Plastic",   # OR/CO #58 small-format plastic (caps, pumps, droppers): rigid
               "Wood and Other Organic Materials": "Wood and Other Organic Materials"}
 SIMPLE_ORDER = ["Printing and Writing Paper", "Glass and Ceramics", "Metal", "Paper/Fiber", "Rigid Plastic",
                 "Flexible Plastic", "Wood and Other Organic Materials", "Compostable Materials"]
@@ -47,7 +48,11 @@ ALIASES = {
     "state": ["state", "ship_state", "shipping province", "ship-state", "shipping state", "ship to state",
               "shipping province code", "province"],
     "country": ["country", "shipping country", "ship-country", "ship to country"],
-    "status": ["status", "financial status", "order status", "fulfillment status"],
+    "status": ["status", "financial status", "order status"],
+    "fulfillment": ["fulfillment status", "fulfillment-status"],
+    "tags": ["tags", "order tags"],
+    "requires_shipping": ["lineitem requires shipping", "requires shipping", "requires_shipping"],
+    "method": ["shipping method", "ship method", "ship-service-level", "shipping service"],
     "cancelled": ["cancelled at", "cancelled_at"],
 }
 EXCLUDE_STATUS = {"refunded", "voided", "cancelled", "canceled"}
@@ -145,7 +150,28 @@ def load_packaging(path, lib, ca, orco, problems):
     return unit, order
 
 
-def load_orders(indir, exceptions):
+def load_config(client_dir):
+    """Optional clients/<c>/client.json: pickup_state, wholesale_tags, include_refunded_if_fulfilled."""
+    import json
+    cfg = {"pickup_state": None, "wholesale_tags": ["wholesale"], "include_refunded_if_fulfilled": True}
+    p = os.path.join(client_dir, "client.json")
+    if os.path.exists(p):
+        cfg.update(json.load(open(p)))
+    return cfg
+
+
+def load_bundles(indir):
+    """input/bundles.csv: bundle_sku, contains_sku, qty. A bundle's units also count its contents' unit packaging."""
+    b = collections.defaultdict(list)
+    p = os.path.join(indir, "bundles.csv")
+    if os.path.exists(p):
+        for r in read_csv(p):
+            if r.get("bundle_sku") and r.get("contains_sku"):
+                b[r["bundle_sku"].strip()].append((r["contains_sku"].strip(), num(r.get("qty") or 1, 1)))
+    return b
+
+
+def load_orders(indir, exceptions, cfg=None):
     """Return {order_key: {"state":, "lines": {sku: units}}}. Forward-fills order-level fields (Shopify style)."""
     orders = {}
     files = sorted(glob.glob(os.path.join(indir, "orders*.csv")))
@@ -155,30 +181,48 @@ def load_orders(indir, exceptions):
         for i, r in enumerate(read_csv(path), start=2):
             oid = pick(r, "order_id") or f"{src}:{i}"
             if last.get("order_id") == oid:   # Shopify: order fields only on first line item
-                for k in ("state", "country", "status", "cancelled"):
+                for k in ("state", "country", "status", "cancelled", "fulfillment", "tags", "method"):
                     if not pick(r, k):
                         r = dict(r); r["__" + k] = last.get(k, "")
             st_raw = pick(r, "state") or r.get("__state", "")
             country = (pick(r, "country") or r.get("__country", "") or "US").upper()
             status = (pick(r, "status") or r.get("__status", "")).lower()
             cancelled = pick(r, "cancelled") or r.get("__cancelled", "")
-            last = {"order_id": oid, "state": st_raw, "country": country, "status": status, "cancelled": cancelled}
+            fulfil = (pick(r, "fulfillment") or r.get("__fulfillment", "")).lower()
+            tags = (pick(r, "tags") or r.get("__tags", "")).lower()
+            method = (pick(r, "method") or r.get("__method", "")).lower()
+            last = {"order_id": oid, "state": st_raw, "country": country, "status": status, "cancelled": cancelled,
+                    "fulfillment": fulfil, "tags": tags, "method": method}
             sku = pick(r, "sku")
             qty = num(pick(r, "qty"), 0)
             where = f"{src} line {i}"
-            if cancelled or status in EXCLUDE_STATUS:
+            cfg = cfg or {}
+            refunded_shipped = (status in ("refunded",) and fulfil in ("fulfilled", "shipped")
+                                and cfg.get("include_refunded_if_fulfilled", True) and not cancelled)
+            if (cancelled or status in EXCLUDE_STATUS) and not refunded_shipped:
                 exceptions.append([where, oid, sku, qty, "excluded: cancelled or refunded"]); continue
+            pickup = "pickup" in method or "pick up" in method
+            if pickup and not st_raw and cfg.get("pickup_state"):
+                st_raw, country = cfg["pickup_state"], "US"
+            if country in ("", "NONE") and pickup:
+                country = "US"
             if country not in ("US", "USA", "UNITED STATES"):
                 exceptions.append([where, oid, sku, qty, f"excluded: ships outside the US ({country})"]); continue
             if qty <= 0:
                 exceptions.append([where, oid, sku, qty, "excluded: zero or negative quantity (return line?)"]); continue
+            if pick(r, "requires_shipping").lower() in ("false", "no", "0"):
+                exceptions.append([where, oid, sku, qty, "excluded: doesn't ship (gift card or digital)"]); continue
             if not sku:
                 exceptions.append([where, oid, sku, qty, "needs review: no SKU"]); continue
             state = norm_state(st_raw)
             if not state:
                 exceptions.append([where, oid, sku, qty, f"needs review: ship-to state missing or unknown ({st_raw!r})"]); continue
             key = f"{src}:{oid}"
-            o = orders.setdefault(key, {"state": state, "lines": collections.Counter()})
+            if refunded_shipped:
+                exceptions.append([where, oid, sku, qty, "included: refunded after it shipped (the packaging still went out)"])
+            wholesale = any(t.strip() in [w.lower() for w in cfg.get("wholesale_tags", [])] for t in tags.split(","))
+            o = orders.setdefault(key, {"state": state, "lines": collections.Counter(), "pickup": pickup,
+                                        "wholesale": wholesale})
             o["lines"][sku] += qty
     return orders, files
 
@@ -189,27 +233,49 @@ def build(client_dir):
     lib, ca, orco = load_reference()
     problems, exceptions = [], []
     unit, order_sets = load_packaging(os.path.join(indir, "packaging.csv"), lib, ca, orco, problems)
-    orders, files = load_orders(indir, exceptions)
+    cfg = load_config(client_dir)
+    bundles = load_bundles(indir)
+    orders, files = load_orders(indir, exceptions, cfg)
+    if any(o["wholesale"] for o in orders.values()) and "_WHOLESALE" not in order_sets:
+        problems.append("Wholesale orders found but packaging.csv has no _WHOLESALE shipping set (case boxes): they "
+                        "would get consumer mailers. Add rows with sku _WHOLESALE, level order")
 
     work = collections.defaultdict(lambda: [0.0, 0.0, 0.0, 0.0])  # (state,sku,component,ca,orco,src) -> units, g, plastic g, plastic n
     units_by_state = collections.Counter()
     unknown = collections.Counter()
     for key, o in orders.items():
         st, lines = o["state"], o["lines"]
-        known = {s: q for s, q in lines.items() if s in unit or s in order_sets}
+        known = {s: q for s, q in lines.items() if s in unit or s in order_sets or s in bundles}
         for s, q in lines.items():
             if s not in known:
                 unknown[s] += q
                 exceptions.append([key, key.split(":", 1)[1], s, q, "needs review: SKU not in packaging list"])
         if not known:
             continue
+        expanded = collections.Counter()
         for s, q in known.items():
             units_by_state[st] += q
+            expanded[s] += q
+            for inner, iq in bundles.get(s, []):     # a bundle's contents carry their own unit packaging
+                if inner in unit:
+                    expanded[(inner, s)] += q * iq
+                else:
+                    problems.append(f"bundle {s} contains {inner}, which has no packaging rows")
+        for s2, q in expanded.items():
+            s, label = (s2[0], f"{s2[1]} > {s2[0]}") if isinstance(s2, tuple) else (s2, s2)
             for c in unit.get(s, []):
                 n = q * c["qty"]
-                w = work[(st, s, c["component"], c["ca_id"], c["or_co_id"], c["weight_source"], c["compostable"])]
+                w = work[(st, label, c["component"], c["ca_id"], c["or_co_id"], c["weight_source"], c["compostable"])]
                 w[0] += n; w[1] += n * c["weight_g"]; w[2] += n * c["plastic_weight_g"]; w[3] += n * c["plastic_components"]
-        cands = [s for s in known if order_sets.get(s)]
+        if o.get("pickup"):
+            continue    # collected in person: no shipping packaging
+        if o.get("wholesale") and "_WHOLESALE" in order_sets:
+            cands = ["_WHOLESALE"]
+        else:
+            cands = [s for s in known if order_sets.get(s)]
+            for s in known:                    # a bundle without its own shipping set uses its contents' sets
+                if s in bundles and not order_sets.get(s):
+                    cands += [i for i, _ in bundles[s] if order_sets.get(i)]
         if not cands:
             continue
         ship_sku = max(cands, key=lambda s: sum(c["weight_g"] * c["qty"] for c in order_sets[s]))
@@ -351,7 +417,7 @@ def build(client_dir):
     lines.append(f"- {int(review_units):,} units need review ({share:.1%} of units). Resolve or explain them in the methodology."
                  if review_units else "- No units need review.")
     write_methodology(outdir, client_dir, files, unit, order_sets, exceptions, units_by_state, ca_total, orco_totals,
-                      simple)
+                      simple, orders=orders, cfg=cfg, bundles=bundles)
     with open(os.path.join(outdir, "summary.md"), "w") as f:
         f.write("\n".join(lines) + "\n")
     print("\n".join(lines))
@@ -359,7 +425,7 @@ def build(client_dir):
 
 
 def write_methodology(outdir, client_dir, files, unit, order_sets, exceptions, units_by_state, ca_total, orco_totals,
-                      simple):
+                      simple, orders=None, cfg=None, bundles=None):
     """Client-facing methodology: how every number in the delivered files was produced."""
     name = os.path.basename(os.path.abspath(client_dir))
     excl = collections.Counter()
@@ -372,7 +438,25 @@ def write_methodology(outdir, client_dir, files, unit, order_sets, exceptions, u
     L += [f"- `{os.path.basename(p)}`" for p in files]
     L += ["", "Units are counted by the state in the shipping address. We excluded or set aside:", ""]
     L += [f"- {(lambda t: t[0].upper() + t[1:])(k.split(': ', 1)[1])}: {int(v):,} units"
-          + (" (set aside for review)" if k.startswith("needs review") else "") for k, v in excl.most_common()] or ["- nothing"]
+          + (" (set aside for review)" if k.startswith("needs review") else "") for k, v in excl.most_common()
+          if not k.startswith("included")] or ["- nothing"]
+    rules = []
+    if any(e[4].startswith("included: refunded") for e in exceptions):
+        rules.append("Orders refunded after they shipped are included: the packaging still reached the customer.")
+    orders, cfg, bundles = orders or {}, cfg or {}, bundles or {}
+    n_pick = sum(1 for o in orders.values() if o.get("pickup"))
+    if n_pick:
+        rules.append(f"{n_pick:,} local pickup orders are counted in {cfg.get('pickup_state')}, where they were collected, "
+                     "with product packaging only (no shipping box).")
+    n_whole = sum(1 for o in orders.values() if o.get("wholesale"))
+    if n_whole:
+        rules.append(f"{n_whole:,} wholesale orders are counted in the state they shipped to (usually the retailer's "
+                     "warehouse), packed in the case boxes you described rather than consumer mailers.")
+    if bundles:
+        rules.append(f"{len(bundles)} sets or kits are counted with their own packaging plus the packaging of every "
+                     "product inside them.")
+    if rules:
+        L += ["", "How we handled special orders:", ""] + [f"- {r}" for r in rules]
     L += ["", "Units marked \"needs review\" were resolved with you before delivery, or are explained in section 6.", "",
           "## 2. Units by state", "", "| State | Units |", "| --- | ---: |"]
     L += [f"| {s} | {int(units_by_state[s]):,} |" for s in REPORT_STATES + FLAG_STATES if units_by_state[s]]
