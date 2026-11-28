@@ -1,37 +1,27 @@
 # Turning on the upload page (eprkit.com/intake)
 
-The page and its function are deployed with the site. Until the two settings below exist, the page tells
-clients to email their files instead. About 10 minutes, all in the Cloudflare dashboard.
+eprkit.com is a Cloudflare **Worker** with static assets (Workers & Pages → `eprkit`), built from this repo on
+every push with `npx wrangler deploy`. `wrangler.jsonc` serves `site/` and sends only `/api/*` to
+`worker/index.js`, which handles uploads in `worker/intake.js`. Until the bucket and secret below exist, the
+upload page tells clients to email their files instead.
 
-## 1. Create the storage bucket
-1. Cloudflare dashboard → **R2 Object Storage**. If asked, turn R2 on. The free tier covers 10 GB, far more
-   than a season of client exports.
-2. **Create bucket** → name `eprkit-intake`, location Automatic. Leave public access **off**.
+## 1. Storage bucket (once)
+1. Cloudflare → **R2 Object Storage** → **Add R2 subscription to my account** ($0; only billed past 10 GB).
+2. **Create bucket** `eprkit-intake`, location Automatic, public access **off**.
+3. In `wrangler.jsonc`, uncomment the `r2_buckets` line, commit and push. The next build connects the bucket.
 
-## 2. Connect it to the site
-1. **Workers & Pages** → the eprkit project → **Settings** → **Bindings** → **Add** → **R2 bucket**.
-   Variable name `UPLOADS`, bucket `eprkit-intake`. Save.
-2. Same page → **Variables and secrets** → **Add** → type **Secret**, name `INTAKE_SECRET`, value: a long
-   random string. On a Mac: `openssl rand -base64 32`. Save it in your password manager too; you need it to
-   make client codes.
-3. **Deployments** → latest → **Retry deployment**, so the new settings take effect.
+## 2. Secrets (once)
+Workers & Pages → `eprkit` → **Settings → Variables and secrets → Add**, type **Secret**:
+- `INTAKE_SECRET`: a long random string (`openssl rand -base64 32`). Keep a copy in your password manager.
+- `RESEND_API_KEY`: from resend.com → API keys (sending access, domain updates.eprkit.com).
 
-## 3. Upload alerts by email (optional, about 10 minutes)
-Without this, check the bucket each business day. With it, support@eprkit.com gets an email for every upload.
-Cloudflare can't send the email itself because eprkit.com's mail runs on Microsoft 365, so the alert goes
-through Resend (free up to 100 emails a day). Its DNS records sit beside Microsoft's and don't change your mailbox.
-1. Sign up at resend.com with support@eprkit.com. **Domains → Add domain** → `eprkit.com`.
-2. Resend lists 3–4 DNS records (a DKIM TXT record at `resend._domainkey`, and an MX and SPF TXT record on
-   the `send` subdomain). Add each in Cloudflare DNS exactly as shown, proxy off (grey cloud). Don't touch
-   the existing Microsoft records. Wait for Resend to show **Verified**.
-3. **API keys → Create** → permission "Sending access", domain eprkit.com. Copy the key (`re_...`).
-4. In the eprkit Pages project → **Settings → Variables and secrets**, add:
-   - `RESEND_API_KEY` (type Secret): the key
-   - `NOTIFY_TO`: `support@eprkit.com`
-   - `NOTIFY_FROM`: `EPR Kit uploads <uploads@eprkit.com>`
-5. Retry the latest deployment. Upload a test file with your own code to check an alert arrives.
+`NOTIFY_TO` and `NOTIFY_FROM` are already in `wrangler.jsonc`. Secrets survive later deploys.
 
-If Resend is down or a setting is missing, uploads still work; only the alert is skipped.
+## 3. Upload alerts (Resend)
+Sending domain `updates.eprkit.com` is added in Resend, with its three DNS records (DKIM TXT
+`resend._domainkey.updates`, CNAMEs `rsend.updates` and `send.updates`, DNS only) in Cloudflare.
+Alerts go from `uploads@updates.eprkit.com` to support@eprkit.com. If Resend is down or the key is
+missing, uploads still work; only the alert is skipped.
 
 ## 4. Make a client's upload code
 ```
@@ -42,11 +32,14 @@ into email 1. The slug (`acme-apparel`) becomes the client's folder in the bucke
 
 ## 5. Getting the files
 R2 → `eprkit-intake` → `clients/<slug>/` → `orders/`, `products/`, `packaging/`, `sales/`, `other/`.
-Download them into `clients/<slug>/input/` in this repo (that folder is git-ignored) and run the report builder.
-If alerts aren't set up, check the bucket each business day while clients are sending data.
+Download them into `clients/<slug>/input/` in this repo (git-ignored) and run the report builder.
 
 ## Deleting a client's files
 Select `clients/<slug>/` in R2 and delete it. The privacy policy promises this within 30 days of a request.
+
+## Local testing
+`npx wrangler dev` runs the site and the upload API locally with a simulated bucket. Pass test secrets with
+`--var INTAKE_SECRET:test`.
 
 ## Safety notes
 - Codes can't be guessed: each is signed with INTAKE_SECRET. Changing the secret invalidates every code.

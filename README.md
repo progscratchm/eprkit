@@ -41,5 +41,5 @@ Templates are in `templates/`. Real client folders are git-ignored.
 
 ## Client uploads
 
-`site/intake.html` + `functions/api/intake.js` (Cloudflare Pages Function, R2 bucket). Setup and daily use:
+`site/intake.html` + `worker/intake.js` (Cloudflare Worker with static assets, see `wrangler.jsonc`; R2 bucket). Setup and daily use:
 [docs/intake-setup.md](docs/intake-setup.md). Make a client code with `scripts/intake_code.py`.

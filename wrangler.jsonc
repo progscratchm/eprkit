@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "eprkit",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-11-27",
+  "routes": [{ "pattern": "eprkit.com", "custom_domain": true }],
+  "assets": {
+    "directory": "./site",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  // Plain settings for upload alerts. Secrets (INTAKE_SECRET, RESEND_API_KEY) are set in the
+  // Cloudflare dashboard: Workers & Pages > eprkit > Settings > Variables and secrets.
+  "vars": {
+    "NOTIFY_TO": "support@eprkit.com",
+    "NOTIFY_FROM": "EPR Kit uploads <uploads@updates.eprkit.com>"
+  },
+  // The private upload bucket. Uncomment once the bucket exists in R2, or deploys will fail:
+  // "r2_buckets": [{ "binding": "UPLOADS", "bucket_name": "eprkit-intake" }],
+  "observability": { "enabled": true }
+}

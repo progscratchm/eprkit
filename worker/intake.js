@@ -1,6 +1,6 @@
-// Client file intake for eprkit.com/intake (Cloudflare Pages Function).
+// Client file intake for eprkit.com/intake (called from worker/index.js).
 //
-// Bindings (Cloudflare Pages project → Settings):
+// Bindings (wrangler.jsonc, and secrets in the dashboard):
 //   UPLOADS        R2 bucket (private), e.g. "eprkit-intake"
 //   INTAKE_SECRET  encrypted environment variable, a long random string
 // Optional upload alerts (sent through Resend's API; skipped if RESEND_API_KEY is not set):
